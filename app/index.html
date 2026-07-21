@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ZKTeco Report Builder</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>ZKTeco Report Builder</h1>
+  <p>Runs entirely in your browser — no internet required, no data leaves your computer.</p>
+</header>
+
+<main>
+
+  <div class="card no-print">
+    <h2><span class="step-label">1</span>Load device files</h2>
+    <p class="hint">Upload the raw punch file (e.g. <code>attlog.dat</code>). Optionally upload <code>user.dat</code> now or later to automatically fill staff names from the device export.</p>
+    <label for="fileInput">Attendance log (attlog.dat)</label>
+    <input type="file" id="fileInput" accept=".dat,.txt">
+    <label for="userFileInput">Staff names (user.dat) <span class="hint">— optional but recommended</span></label>
+    <input type="file" id="userFileInput" accept=".dat">
+    <div id="fileStatus" class="hint"></div>
+    <div id="userFileStatus" class="hint"></div>
+  </div>
+
+  <div class="card no-print" id="pinSection" style="display:none">
+    <h2><span class="step-label">2</span>Name your staff &amp; mark security guards</h2>
+    <p class="hint">Names from <code>user.dat</code> are filled automatically when available. You can still change any name here. Names and Guard choices are remembered on this computer.</p>
+    <div id="pinList"></div>
+  </div>
+
+  <div class="card no-print" id="settingsSection" style="display:none">
+    <h2><span class="step-label">3</span>Settings</h2>
+    <div class="settings-row">
+      <div>
+        <label>Required check-in interval (minutes)</label>
+        <input type="number" id="mandateMin" value="60">
+      </div>
+      <div>
+        <label>Off-duty gap threshold (minutes)</label>
+        <input type="number" id="offdutyMin" value="240">
+        <div class="hint" style="margin:4px 0 0;max-width:260px">Gaps longer than this are treated as "off duty" (e.g. between shifts), not a missed check.</div>
+      </div>
+      <div>
+        <button id="analyzeBtn">Analyze Attendance ▶</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="resultsSection">
+
+    <div class="card">
+      <h2>Security Guard — Hourly Check Compliance</h2>
+      <p class="hint">Mandate: a check-in at least every <span id="mandateEcho">60</span> minutes while on duty.</p>
+      <div class="table-scroll"><table id="guardSummaryTable"></table></div>
+      <div class="no-print" style="margin-top:12px">
+        <button class="secondary" onclick="exportCSV('guardSummaryTable','guard_compliance_summary.csv')">Export CSV</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Security Guard — Daily Check Log</h2>
+      <p class="hint">🟩 within the required interval &nbsp; 🟥 over the interval (missed check) &nbsp; unshaded = start of a new duty period</p>
+      <div id="guardDailyLogs"></div>
+      <div class="no-print" style="margin-top:12px">
+        <button class="secondary" onclick="window.print()">Print / Save as PDF</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>All-Staff Attendance Summary</h2>
+      <div class="table-scroll"><table id="allSummaryTable"></table></div>
+      <div class="no-print" style="margin-top:12px">
+        <button class="secondary" onclick="exportCSV('allSummaryTable','all_staff_summary.csv')">Export CSV</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Weekly Clock In / Clock Out Timetable</h2>
+      <div id="weeklyTimetable"></div>
+    </div>
+
+    <div class="card">
+      <h2>Full Daily Punch Log</h2>
+      <div class="table-scroll"><table id="detailTable"></table></div>
+      <div class="no-print" style="margin-top:12px">
+        <button class="secondary" onclick="exportCSV('detailTable','full_daily_log.csv')">Export CSV</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card no-print" id="reportBuilderCard" style="display:none">
+    <h2><span class="step-label">4</span>Build a Polished Report</h2>
+    <p class="hint">Generates a branded, print-ready report — the same style as the Word document — either for one week or a full calendar month.</p>
+    <div class="settings-row">
+      <div>
+        <label>Report type</label>
+        <select id="reportType">
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+        </select>
+      </div>
+      <div>
+        <label>Period</label>
+        <select id="reportPeriodSelect" style="min-width:260px;padding:8px;border:1px solid #ccc;border-radius:4px;font-size:13px;"></select>
+      </div>
+      <div>
+        <button id="generateReportBtn">Generate Report ▶</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="reportPreviewWrapper" style="display:none">
+    <div class="no-print" style="max-width:850px;margin:0 auto 12px;">
+      <button onclick="printReport()">🖨️ Print / Save as PDF</button>
+      <button class="secondary" onclick="downloadReportHTML()">⬇️ Download as HTML report</button>
+    </div>
+    <div id="reportPreview"></div>
+  </div>
+
+</main>
+
+<script src="script.js"></script>
+
+</body>
+</html>
