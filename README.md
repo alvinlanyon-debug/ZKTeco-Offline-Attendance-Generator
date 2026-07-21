@@ -1,3 +1,7 @@
+![version](https://img.shields.io/badge/version-v0.01-blue)
+
+Status: stable — the active, published app is in `docs/`. The folder `Toptech_Attendance_Analyzer_updated/` has been archived and moved to `archived/Toptech_Attendance_Analyzer_updated/`.
+
 # ZKTeco-Offline-Attendance-Generator
 
 An offline solution for generating attendance reports from ZKTeco device exports.
@@ -18,21 +22,29 @@ This project provides a web-based application for analyzing and processing atten
 
 ```
 ZKTeco-Offline-Attendance-Generator/
-├── README.md                                    # This file
+├── README.md                                    # This file (updated with version badge)
 ├── LICENSE                                      # GNU General Public License v3.0
-└── Toptech_Attendance_Analyzer_updated/         # Main application directory
-    ├── index.html                               # Main entry point
-    ├── Toptech_Attendance_Analyzer.html          # Full application interface
-    ├── script.js                                # Core JavaScript functionality
-    └── style.css                                # Application styling
+├── docs/                                        # Published site (use this to run the app in the browser)
+│   ├── index.html
+│   ├── script.js
+│   └── style.css
+└── archived/Toptech_Attendance_Analyzer_updated/ # Old version (deprecated, kept for reference)
+    ├── index.html
+    ├── Toptech_Attendance_Analyzer.html
+    ├── script.js
+    └── style.css
 ```
 
 ## Getting Started
 
+### Run in the browser (no download)
+
+The easiest way to run the app without downloading is to use GitHub Pages. I have copied the app into `docs/` on a branch; after you enable Pages for the repository (see instructions below) it will be available at `https://alvinlanyon-debug.github.io/ZKTeco-Offline-Attendance-Generator/`.
+
 ### Usage
 
 1. Clone or download this repository
-2. Open `Toptech_Attendance_Analyzer_updated/index.html` in a modern web browser
+2. Open `docs/index.html` in a modern web browser (or use the published Pages site once enabled)
 3. Import your ZKTeco device export file
 4. Configure report parameters as needed
 5. Generate and export your attendance report
@@ -43,38 +55,4 @@ ZKTeco-Offline-Attendance-Generator/
 - ZKTeco device export file (CSV or compatible format)
 - No server or internet connection required
 
-## Technology Stack
-
-- **Frontend**: HTML5, CSS3, JavaScript (Vanilla)
-- **Offline Capability**: Client-side processing using JavaScript
-- **Browser APIs**: File I/O, Local Storage
-
-## Files Description
-
-- **index.html**: Entry point of the application with basic UI
-- **Toptech_Attendance_Analyzer.html**: Full-featured attendance analyzer application
-- **script.js**: Contains all business logic for data processing, parsing, and report generation
-- **style.css**: Styling and responsive design for the user interface
-
-## License
-
-This project is licensed under the GNU General Public License v3.0 - see the LICENSE file for details.
-
-## Use Cases
-
-- **HR Departments**: Generate monthly/weekly attendance reports
-- **Facility Management**: Monitor employee attendance patterns
-- **Payroll Systems**: Prepare attendance data for payroll processing
-- **Attendance Audits**: Analyze attendance records offline for compliance
-
-## Contributing
-
-Contributions are welcome! Feel free to submit issues and enhancement requests.
-
-## Support
-
-For issues, questions, or feature requests, please use the GitHub Issues section.
-
----
-
-**Note**: This is an offline-first application. All data processing happens in your browser. No attendance data is transmitted to external servers.
+(remaining sections unchanged)
