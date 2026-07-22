@@ -2,6 +2,7 @@
 
 `offline/` contains a complete, shareable snapshot of the browser application at the current release version.
 
+
 ## Refreshing the snapshot
 
 After changing `app/`, run the following from the repository root before releasing a new version:
