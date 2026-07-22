@@ -4,8 +4,8 @@ An offline-first browser app for analyzing ZKTeco attendance exports and produci
 
 ## Use it
 
-- Online: after GitHub Pages is enabled, open `https://alvinlanyon-debug.github.io/ZKTeco-Offline-Attendance-Generator/`.
-- Offline: download or clone this repository and open `app/index.html` in a modern browser.
+- Online: open `https://alvinlanyon-debug.github.io/ZKTeco-Offline-Attendance-Generator/`.
+- Offline: share the `docs/offline/` folder, then open `index.html` in a modern browser. Downloading or cloning this repository also works.
 
 Upload `attlog.dat` and, optionally, `user.dat`. Set the required check-in interval, identify guards, then analyze, print, or export CSV reports.
 
@@ -17,6 +17,9 @@ app/                         # Canonical web application
   script.js                  # Attendance parsing and report logic
   style.css                  # Interface and print styling
   version.js                 # Current app version
+docs/offline/                # Shareable offline application snapshot
+docs/README.md               # Offline sharing and refresh instructions
+scripts/package-offline.ps1  # Rebuilds docs/offline from app/
 .github/workflows/
   deploy-pages.yml           # GitHub Pages deployment
 CHANGELOG.md                 # User-visible release notes
@@ -32,7 +35,7 @@ This project uses [Semantic Versioning](https://semver.org/):
 
 ## Deployment
 
-The included GitHub Actions workflow deploys `app/` whenever a change reaches `main`. In the repository's GitHub **Settings > Pages**, select **GitHub Actions** as the publishing source once. GitHub Pages will then publish the URL listed above.
+The included GitHub Actions workflow deploys `app/` whenever a change reaches `main`. GitHub Pages has been configured to publish the URL listed above.
 
 ## Development
 
