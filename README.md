@@ -1,80 +1,43 @@
-# ZKTeco-Offline-Attendance-Generator
+# ZKTeco Offline Attendance Generator
 
-An offline solution for generating attendance reports from ZKTeco device exports.
+An offline-first browser app for analyzing ZKTeco attendance exports and producing weekly or monthly reports. Attendance data is processed locally in the browser; uploaded files are not sent to a server.
 
-## Overview
+## Use it
 
-This project provides a web-based application for analyzing and processing attendance data exported from ZKTeco biometric devices. It allows users to generate comprehensive attendance reports without requiring internet connectivity.
+- Online: after GitHub Pages is enabled, open `https://alvinlanyon-debug.github.io/ZKTeco-Offline-Attendance-Generator/`.
+- Offline: download or clone this repository and open `app/index.html` in a modern browser.
 
-## Features
+Upload `attlog.dat` and, optionally, `user.dat`. Set the required check-in interval, identify guards, then analyze, print, or export CSV reports.
 
-- **Offline Processing**: Works completely offline - no internet connection required
-- **ZKTeco Device Support**: Compatible with attendance data exported from ZKTeco biometric systems
-- **Report Generation**: Create detailed attendance reports from device exports
-- **Web-Based Interface**: User-friendly HTML/CSS/JavaScript interface
-- **Data Analysis**: Process and analyze attendance patterns and records
+## Project structure
 
-## Project Structure
-
-```
-ZKTeco-Offline-Attendance-Generator/
-├── README.md                                    # This file
-├── LICENSE                                      # GNU General Public License v3.0
-└── Toptech_Attendance_Analyzer_updated/         # Main application directory
-    ├── index.html                               # Main entry point
-    ├── Toptech_Attendance_Analyzer.html          # Full application interface
-    ├── script.js                                # Core JavaScript functionality
-    └── style.css                                # Application styling
+```text
+app/                         # Canonical web application
+  index.html                 # Entry point
+  script.js                  # Attendance parsing and report logic
+  style.css                  # Interface and print styling
+  version.js                 # Current app version
+.github/workflows/
+  deploy-pages.yml           # GitHub Pages deployment
+CHANGELOG.md                 # User-visible release notes
 ```
 
-## Getting Started
+## Releases and versioning
 
-### Usage
+This project uses [Semantic Versioning](https://semver.org/):
 
-1. Clone or download this repository
-2. Open `Toptech_Attendance_Analyzer_updated/index.html` in a modern web browser
-3. Import your ZKTeco device export file
-4. Configure report parameters as needed
-5. Generate and export your attendance report
+- `MAJOR.MINOR.PATCH`, for example `1.0.0`.
+- Increment `PATCH` for compatible fixes, `MINOR` for compatible features, and `MAJOR` for breaking changes.
+- Update `app/version.js` and `CHANGELOG.md` together, then create a matching Git tag such as `v1.0.1` and a GitHub Release.
 
-### Requirements
+## Deployment
 
-- Modern web browser (Chrome, Firefox, Safari, Edge)
-- ZKTeco device export file (CSV or compatible format)
-- No server or internet connection required
+The included GitHub Actions workflow deploys `app/` whenever a change reaches `main`. In the repository's GitHub **Settings > Pages**, select **GitHub Actions** as the publishing source once. GitHub Pages will then publish the URL listed above.
 
-## Technology Stack
+## Development
 
-- **Frontend**: HTML5, CSS3, JavaScript (Vanilla)
-- **Offline Capability**: Client-side processing using JavaScript
-- **Browser APIs**: File I/O, Local Storage
-
-## Files Description
-
-- **index.html**: Entry point of the application with basic UI
-- **Toptech_Attendance_Analyzer.html**: Full-featured attendance analyzer application
-- **script.js**: Contains all business logic for data processing, parsing, and report generation
-- **style.css**: Styling and responsive design for the user interface
+This is intentionally a dependency-free static application. A local web server is optional; opening `app/index.html` directly works for the current browser APIs.
 
 ## License
 
-This project is licensed under the GNU General Public License v3.0 - see the LICENSE file for details.
-
-## Use Cases
-
-- **HR Departments**: Generate monthly/weekly attendance reports
-- **Facility Management**: Monitor employee attendance patterns
-- **Payroll Systems**: Prepare attendance data for payroll processing
-- **Attendance Audits**: Analyze attendance records offline for compliance
-
-## Contributing
-
-Contributions are welcome! Feel free to submit issues and enhancement requests.
-
-## Support
-
-For issues, questions, or feature requests, please use the GitHub Issues section.
-
----
-
-**Note**: This is an offline-first application. All data processing happens in your browser. No attendance data is transmitted to external servers.
+GPL-3.0. See [LICENSE](LICENSE).
