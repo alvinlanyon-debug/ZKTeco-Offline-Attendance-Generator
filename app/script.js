@@ -5,6 +5,7 @@ let importedNames = {}; // canonical PIN -> name, read from optional user.dat
 
 const STORAGE_KEY = 'toptech_pin_map_v1';
 
+document.getElementById('appVersion').textContent = window.APP_VERSION || 'development';
 document.getElementById('fileInput').addEventListener('change', handleFile);
 document.getElementById('userFileInput').addEventListener('change', handleUserFile);
 document.getElementById('analyzeBtn').addEventListener('click', runAnalysis);

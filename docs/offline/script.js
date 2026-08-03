@@ -5,6 +5,7 @@ let importedNames = {}; // canonical PIN -> name, read from optional user.dat
 
 const STORAGE_KEY = 'toptech_pin_map_v1';
 
+document.getElementById('appVersion').textContent = window.APP_VERSION || 'development';
 document.getElementById('fileInput').addEventListener('change', handleFile);
 document.getElementById('userFileInput').addEventListener('change', handleUserFile);
 document.getElementById('analyzeBtn').addEventListener('click', runAnalysis);
@@ -572,9 +573,9 @@ function buildReportHTML(opts){
   const generatedOn = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
 
   let html = `<div class="report-page rpt-page">
-    <div class="rpt-header">Toptech Admin</div>
+    <div class="rpt-header">ZKTeco Report Builder</div>
     <h1 class="rpt-title">Staff Attendance Report</h1>
-    <p class="rpt-subtitle">Biometric Device AF6E221760074 &nbsp;•&nbsp; ${typeLabel} &nbsp;•&nbsp; Period: ${label}</p>
+    <p class="rpt-subtitle">Biometric Device Export &nbsp;•&nbsp; ${typeLabel} &nbsp;•&nbsp; Period: ${label}</p>
 
     <h2 class="rpt-section">Overview</h2>
     <ul>
@@ -597,7 +598,7 @@ function buildReportHTML(opts){
     <h2 class="rpt-section">Clock In / Clock Out Timetable</h2>
     ${weeksForTimetable.map(w=>weekTableHTML(w, opts.filteredByPinDate)).join('')}
 
-    <div class="rpt-footer">Toptech Admin — Staff Attendance Report — ${label} — Generated ${generatedOn}</div>
+    <div class="rpt-footer">ZKTeco Report Builder — Staff Attendance Report — ${label} — Generated ${generatedOn}</div>
   </div>`;
   return html;
 }

@@ -3,20 +3,18 @@
 Status: stable — the active, published app is in `docs/`. The folder `Toptech_Attendance_Analyzer_updated/` has been archived and moved to `archived/Toptech_Attendance_Analyzer_updated/`.
 
 # ZKTeco-Offline-Attendance-Generator
+# ZKTeco Offline Attendance Generator
 
-An offline solution for generating attendance reports from ZKTeco device exports.
+An offline-first browser app for analyzing ZKTeco attendance exports and producing weekly or monthly reports. Attendance data is processed locally in the browser; uploaded files are not sent to a server.
 
-## Overview
+## Use it
 
-This project provides a web-based application for analyzing and processing attendance data exported from ZKTeco biometric devices. It allows users to generate comprehensive attendance reports without requiring internet connectivity.
+- Online: open `https://alvinlanyon-debug.github.io/ZKTeco-Offline-Attendance-Generator/`.
+- Offline: share the `docs/offline/` folder, then open `index.html` in a modern browser. Downloading or cloning this repository also works.
 
-## Features
+Upload `attlog.dat` and, optionally, `user.dat`. Set the required check-in interval, identify guards, then analyze, print, or export CSV reports.
 
-- **Offline Processing**: Works completely offline - no internet connection required
-- **ZKTeco Device Support**: Compatible with attendance data exported from ZKTeco biometric systems
-- **Report Generation**: Create detailed attendance reports from device exports
-- **Web-Based Interface**: User-friendly HTML/CSS/JavaScript interface
-- **Data Analysis**: Process and analyze attendance patterns and records
+## Project structure
 
 ## Project Structure
 
@@ -48,11 +46,37 @@ The easiest way to run the app without downloading is to use GitHub Pages. I hav
 3. Import your ZKTeco device export file
 4. Configure report parameters as needed
 5. Generate and export your attendance report
+```text
+app/                         # Canonical web application
+  index.html                 # Entry point
+  script.js                  # Attendance parsing and report logic
+  style.css                  # Interface and print styling
+  version.js                 # Current app version
+docs/offline/                # Shareable offline application snapshot
+docs/README.md               # Offline sharing and refresh instructions
+scripts/package-offline.ps1  # Rebuilds docs/offline from app/
+.github/workflows/
+  deploy-pages.yml           # GitHub Pages deployment
+CHANGELOG.md                 # User-visible release notes
+```
 
-### Requirements
+## Releases and versioning
 
-- Modern web browser (Chrome, Firefox, Safari, Edge)
-- ZKTeco device export file (CSV or compatible format)
-- No server or internet connection required
+This project uses [Semantic Versioning](https://semver.org/):
+
+- `MAJOR.MINOR.PATCH`, for example `1.0.0`.
+- Increment `PATCH` for compatible fixes, `MINOR` for compatible features, and `MAJOR` for breaking changes.
+- Update `app/version.js` and `CHANGELOG.md` together, then create a matching Git tag such as `v1.0.1` and a GitHub Release.
+
+## Deployment
 
 (remaining sections unchanged)
+The included GitHub Actions workflow deploys `app/` whenever a change reaches `main`. GitHub Pages has been configured to publish the URL listed above.
+
+## Development
+
+This is intentionally a dependency-free static application. A local web server is optional; opening `app/index.html` directly works for the current browser APIs.
+
+## License
+
+GPL-3.0. See [LICENSE](LICENSE).
