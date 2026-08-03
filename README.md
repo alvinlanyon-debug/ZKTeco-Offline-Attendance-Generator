@@ -2,7 +2,6 @@
 
 Status: stable — the active, published app is in `docs/`. The folder `Toptech_Attendance_Analyzer_updated/` has been archived and moved to `archived/Toptech_Attendance_Analyzer_updated/`.
 
-# ZKTeco-Offline-Attendance-Generator
 # ZKTeco Offline Attendance Generator
 
 An offline-first browser app for analyzing ZKTeco attendance exports and producing weekly or monthly reports. Attendance data is processed locally in the browser; uploaded files are not sent to a server.
@@ -14,7 +13,6 @@ An offline-first browser app for analyzing ZKTeco attendance exports and produci
 
 Upload `attlog.dat` and, optionally, `user.dat`. Set the required check-in interval, identify guards, then analyze, print, or export CSV reports.
 
-## Project structure
 
 ## Project Structure
 
