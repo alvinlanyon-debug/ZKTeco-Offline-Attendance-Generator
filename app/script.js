@@ -1,5 +1,5 @@
 let punches = []; // {pin, dt, dateKey}
-let pinMap = {};  // pin -> {name, guard}
+let pinMap = {};  // pin -> {name, guard, workGroup: 'guard'|'general'|'unclassified'}
 let byPinDate = {}; // pin -> dateKey -> [Date,...]  (built once from all punches)
 let importedNames = {}; // canonical PIN -> name, read from optional user.dat
 
@@ -132,11 +132,14 @@ function parseLog(text){
   const stored = loadStoredMap();
   pinMap = {};
   [...seenPins].sort((a,b)=>Number(a)-Number(b)).forEach(pin=>{
-    const saved = stored[pin] || {name:'PIN '+pin, guard:false};
+    const saved = stored[pin] || {name:'PIN '+pin, guard:false, workGroup:'unclassified'};
     const importedName = importedNameFor(pin);
+    // Preserve workGroup classification, falling back to deriving from guard flag if needed
+    const workGroup = saved.workGroup || (saved.guard ? 'guard' : 'unclassified');
     pinMap[pin] = {
       name: importedName && isDefaultName(pin, saved.name) ? importedName : saved.name,
-      guard: !!saved.guard
+      guard: !!saved.guard,
+      workGroup: workGroup
     };
   });
   saveStoredMap();
@@ -162,18 +165,30 @@ function renderPinList(){
   Object.keys(pinMap).sort((a,b)=>Number(a)-Number(b)).forEach(pin=>{
     const row = document.createElement('div');
     row.className = 'pin-row';
+    const workGroup = pinMap[pin].workGroup;
     row.innerHTML = `
       <span class="pin">#${pin}</span>
       <input type="text" data-pin="${pin}" class="nameInput" value="${pinMap[pin].name}">
-      <label class="guard"><input type="checkbox" data-pin="${pin}" class="guardCheck" ${pinMap[pin].guard?'checked':''}> Guard</label>
+      <div class="work-group-selector">
+        <label class="work-group"><input type="radio" data-pin="${pin}" name="group_${pin}" value="guard" class="groupRadio" ${workGroup==='guard'?'checked':''}> Security Guard</label>
+        <label class="work-group"><input type="radio" data-pin="${pin}" name="group_${pin}" value="general" class="groupRadio" ${workGroup==='general'?'checked':''}> General Worker</label>
+        <label class="work-group"><input type="radio" data-pin="${pin}" name="group_${pin}" value="unclassified" class="groupRadio" ${workGroup==='unclassified'?'checked':''}> Unclassified</label>
+      </div>
     `;
     container.appendChild(row);
   });
   container.querySelectorAll('.nameInput').forEach(inp=>{
     inp.addEventListener('input', ()=>{ pinMap[inp.dataset.pin].name = inp.value; saveStoredMap(); });
   });
-  container.querySelectorAll('.guardCheck').forEach(chk=>{
-    chk.addEventListener('change', ()=>{ pinMap[chk.dataset.pin].guard = chk.checked; saveStoredMap(); });
+  container.querySelectorAll('.groupRadio').forEach(radio=>{
+    radio.addEventListener('change', ()=>{
+      const pin = radio.dataset.pin;
+      const group = radio.value;
+      pinMap[pin].workGroup = group;
+      // Maintain guard flag for backward compatibility
+      pinMap[pin].guard = (group === 'guard');
+      saveStoredMap();
+    });
   });
 }
 
@@ -196,7 +211,8 @@ function summarizeAll(byPinDateSubset){
         name, pin, date: dateKey,
         first: fmtTime(first),
         last: times.length>1 ? fmtTime(last) : '—',
-        punches: times.length
+        punches: times.length,
+        singlePunch: times.length === 1
       });
     });
     allRows.push({
@@ -211,7 +227,7 @@ function summarizeAll(byPinDateSubset){
 }
 
 function summarizeGuards(byPinDateSubset, mandateMin, offdutyMin){
-  const guardPins = Object.keys(pinMap).filter(p=>pinMap[p].guard);
+  const guardPins = Object.keys(pinMap).filter(p=>pinMap[p].workGroup === 'guard');
   const summary = [];
   const daily = {};
 
@@ -257,6 +273,14 @@ function summarizeGuards(byPinDateSubset, mandateMin, offdutyMin){
   return {summary, daily};
 }
 
+function getSinglePunchRecords(detailRows){
+  return detailRows.filter(r => r.singlePunch);
+}
+
+function getUnclassifiedEmployees(byPinDateSubset){
+  return Object.keys(byPinDateSubset).filter(pin => pinMap[pin].workGroup === 'unclassified');
+}
+
 function runAnalysis(){
   const mandateMin = Number(document.getElementById('mandateMin').value) || 60;
   const offdutyMin = Number(document.getElementById('offdutyMin').value) || 240;
@@ -299,9 +323,10 @@ function renderAllSummary(rows){
 
 function renderDetail(rows){
   const t = document.getElementById('detailTable');
-  let html = '<tr><th>Name</th><th>PIN</th><th>Date</th><th>Clock-In</th><th>Clock-Out</th><th>Punches</th></tr>';
+  let html = '<tr><th>Name</th><th>PIN</th><th>Date</th><th>Clock-In</th><th>Clock-Out</th><th>Punches</th><th>Note</th></tr>';
   rows.forEach(r=>{
-    html += `<tr><td style="text-align:left;font-weight:bold">${r.name}</td><td>${r.pin}</td><td>${fmtDateLabel(r.date)}</td><td>${r.first}</td><td>${r.last}</td><td>${r.punches}</td></tr>`;
+    const note = r.singlePunch ? '⚠ Single punch — verify direction' : '';
+    html += `<tr><td style="text-align:left;font-weight:bold">${r.name}</td><td>${r.pin}</td><td>${fmtDateLabel(r.date)}</td><td>${r.first}</td><td>${r.last}</td><td>${r.punches}</td><td>${note}</td></tr>`;
   });
   t.innerHTML = html;
 }
@@ -313,7 +338,7 @@ function renderGuardSummary(rows, mandateMin){
     const cls = r.compliance<25?'compliance-low':(r.compliance<60?'compliance-mid':'compliance-high');
     html += `<tr><td style="text-align:left;font-weight:bold">${r.name}</td><td>${r.daysOnDuty}</td><td>${r.totalChecks}</td><td>${r.okCount}</td><td>${r.violCount}</td><td class="${cls}">${r.compliance}%</td></tr>`;
   });
-  if(!rows.length) html += '<tr><td colspan="6">No staff marked as Guard yet — tick "Guard" next to their name in Step 2.</td></tr>';
+  if(!rows.length) html += '<tr><td colspan="6">No staff marked as Security Guard.</td></tr>';
   t.innerHTML = html;
 }
 
@@ -322,6 +347,10 @@ function renderGuardDaily(summaryRows, guardDaily){
   container.innerHTML = '';
   summaryRows.forEach(g=>{
     const days = guardDaily[g.pin];
+    if(!days.length){
+      container.innerHTML += `<h3>${g.name}</h3><p style="color:#888">No attendance records this period.</p>`;
+      return;
+    }
     const maxChecks = Math.max(...days.map(d=>d.times.length));
     let html = `<h3>${g.name}</h3><div class="table-scroll"><table><tr><th>Date</th>`;
     for(let i=1;i<=maxChecks;i++) html += `<th>Check ${i}</th>`;
@@ -402,7 +431,7 @@ function dateKeyOf(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStar
 
 // ================= Report Builder =================
 
-document.getElementById('reportType').addEventListener('change', populatePeriodOptions);
+document.getElementById('reportPeriodType').addEventListener('change', populatePeriodOptions);
 document.getElementById('generateReportBtn').addEventListener('click', generateReport);
 
 function computeAvailableWeeks(){
@@ -433,7 +462,7 @@ function computeAvailableMonths(){
 }
 
 function populatePeriodOptions(){
-  const type = document.getElementById('reportType').value;
+  const type = document.getElementById('reportPeriodType').value;
   const sel = document.getElementById('reportPeriodSelect');
   sel.innerHTML = '';
   const items = type==='weekly' ? computeAvailableWeeks() : computeAvailableMonths();
@@ -446,17 +475,30 @@ function populatePeriodOptions(){
   if(sel.options.length) sel.selectedIndex = sel.options.length - 1;
 }
 
-function filterByPinDateRange(startKey, endKey){
+function filterByPinDateRange(startKey, endKey, pins){
   const filtered = {};
-  Object.keys(byPinDate).forEach(pin=>{
-    Object.keys(byPinDate[pin]).forEach(dateKey=>{
-      if(dateKey >= startKey && dateKey <= endKey){
-        filtered[pin] = filtered[pin] || {};
-        filtered[pin][dateKey] = byPinDate[pin][dateKey];
-      }
-    });
+  pins.forEach(pin=>{
+    if(byPinDate[pin]){
+      Object.keys(byPinDate[pin]).forEach(dateKey=>{
+        if(dateKey >= startKey && dateKey <= endKey){
+          filtered[pin] = filtered[pin] || {};
+          filtered[pin][dateKey] = byPinDate[pin][dateKey];
+        }
+      });
+    }
   });
   return filtered;
+}
+
+function getFilteredPinsByReportType(reportType){
+  const allPins = Object.keys(pinMap);
+  if(reportType === 'security'){
+    return allPins.filter(p => pinMap[p].workGroup === 'guard');
+  } else if(reportType === 'general'){
+    return allPins.filter(p => pinMap[p].workGroup === 'general');
+  } else {
+    return allPins; // all-staff: include all including unclassified
+  }
 }
 
 function guardTableHTML(guardSummary, mandateMin){
@@ -465,7 +507,7 @@ function guardTableHTML(guardSummary, mandateMin){
     const cls = r.compliance<25?'compliance-low':(r.compliance<60?'compliance-mid':'compliance-high');
     html += `<tr><td class="rpt-left rpt-bold">${r.name}</td><td>${r.daysOnDuty}</td><td>${r.totalChecks}</td><td>${r.okCount}</td><td>${r.violCount}</td><td class="${cls}">${r.compliance}%</td></tr>`;
   });
-  if(!guardSummary.length) html += '<tr><td colspan="6">No guards marked, or no guard punches fall within this period.</td></tr>';
+  if(!guardSummary.length) html += '<tr><td colspan="6">No security guards marked, or no guard punches fall within this period.</td></tr>';
   html += '</tbody></table>';
   return html;
 }
@@ -507,8 +549,7 @@ function allSummaryHTML(allRows){
   return html;
 }
 
-function weekTableHTML(week, byPinDateFiltered){
-  const pins = Object.keys(pinMap).sort((a,b)=>Number(a)-Number(b));
+function weekTableHTML(week, byPinDateFiltered, pins){
   let html = `<div class="rpt-week-title">${week.label}</div><table class="rpt-table"><thead><tr><th rowspan="2">Name</th>`;
   week.days.forEach(d=> html += `<th colspan="2">${d.toLocaleDateString('en-GB',{weekday:'long'})}</th>`);
   html += '</tr><tr>';
@@ -553,6 +594,7 @@ const REPORT_STYLE = `
   .rpt-bold{font-weight:bold;}
   .rpt-page h3{color:#085395;font-size:14px;margin:16px 0 6px;}
   .rpt-week-title{font-weight:bold;color:#085395;margin:14px 0 4px;font-size:13px;}
+  .rpt-note{background:#FFF9E6;border-left:3px solid #FF9800;padding:8px 12px;margin:8px 0;font-size:12px;color:#333;}
   td.ok{background:#D4EDDA !important;color:#1E7B34;font-weight:bold;}
   td.violation{background:#F8D7DA !important;color:#A4262C;font-weight:bold;}
   td.compliance-low{background:#F8D7DA;color:#A4262C;font-weight:bold;}
@@ -566,45 +608,90 @@ const REPORT_STYLE = `
 `;
 
 function buildReportHTML(opts){
-  const {type, label, startKey, endKey, allRows, detailRows, guardSummary, guardDaily, weeksForTimetable, mandateMin} = opts;
+  const {reportType, typeLabel, label, startKey, endKey, allRows, detailRows, guardSummary, guardDaily, weeksForTimetable, mandateMin, filteredPins} = opts;
   const totalPunches = detailRows.reduce((a,d)=>a+d.punches,0);
   const staffPresent = allRows.length;
-  const typeLabel = type==='weekly' ? 'Weekly Report' : 'Monthly Report';
   const generatedOn = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  
+  // Find single punch records and unclassified employees
+  const singlePunchRecords = getSinglePunchRecords(detailRows);
+  const unclassifiedPins = getUnclassifiedEmployees(opts.filteredByPinDate);
 
   let html = `<div class="report-page rpt-page">
     <div class="rpt-header">ZKTeco Report Builder</div>
-    <h1 class="rpt-title">Staff Attendance Report</h1>
-    <p class="rpt-subtitle">Biometric Device Export &nbsp;•&nbsp; ${typeLabel} &nbsp;•&nbsp; Period: ${label}</p>
+    <h1 class="rpt-title">${typeLabel}</h1>
+    <p class="rpt-subtitle">Biometric Device Export &nbsp;•&nbsp; Period: ${label}</p>
 
     <h2 class="rpt-section">Overview</h2>
     <ul>
+      <li>Report Type: ${typeLabel}</li>
       <li>Period covered: ${label}</li>
       <li>Total punch records: ${totalPunches}</li>
       <li>Staff with activity this period: ${staffPresent}</li>
-    </ul>
+    </ul>`;
 
+  if(reportType === 'security'){
+    html += `
     <h2 class="rpt-section">Security Guard — Hourly Check Compliance</h2>
     <p class="rpt-italic">Mandate: a check-in at least every ${mandateMin} minutes while on duty.</p>
     ${guardTableHTML(guardSummary, mandateMin)}
 
     <h2 class="rpt-section">Security Guard — Daily Check Log</h2>
     <p>Green = within the required interval. Red = over the interval (missed check). Unshaded = start of a new duty period.</p>
-    ${guardDailyHTML(guardSummary, guardDaily)}
+    ${guardDailyHTML(guardSummary, guardDaily)}`;
+  }
 
-    <h2 class="rpt-section">All-Staff Attendance Summary</h2>
+  html += `
+    <h2 class="rpt-section">Staff Attendance Summary</h2>
     ${allSummaryHTML(allRows)}
 
     <h2 class="rpt-section">Clock In / Clock Out Timetable</h2>
-    ${weeksForTimetable.map(w=>weekTableHTML(w, opts.filteredByPinDate)).join('')}
+    ${weeksForTimetable.map(w=>weekTableHTML(w, opts.filteredByPinDate, filteredPins)).join('')}`;
 
-    <div class="rpt-footer">ZKTeco Report Builder — Staff Attendance Report — ${label} — Generated ${generatedOn}</div>
+  // Add notes section if there are single punch records
+  if(singlePunchRecords.length > 0){
+    html += `<h2 class="rpt-section">Attendance Notes & Exceptions</h2>
+    <div class="rpt-note"><strong>⚠ Single Punch Records:</strong> The following dates have only one recorded punch. Unable to determine if this is a clock-in or clock-out without additional information. Please verify manually.</div>
+    <table class="rpt-table"><thead><tr><th>Employee</th><th>Date</th><th>Time</th><th>Action</th></tr></thead><tbody>`;
+    singlePunchRecords.forEach(r=>{
+      html += `<tr><td class="rpt-left rpt-bold">${r.name}</td><td>${fmtDateLabel(r.date)}</td><td>${r.first}</td><td>Verify direction</td></tr>`;
+    });
+    html += `</tbody></table>`;
+  }
+
+  // Add unclassified employees warning
+  if(unclassifiedPins.length > 0 && reportType === 'all'){
+    html += `<h2 class="rpt-section">Unclassified Employees</h2>
+    <div class="rpt-note"><strong>⚠ Unclassified Records:</strong> The following employees have not been classified as Security Guards or General Workers. They are included in this all-staff report but should be properly classified for supervisor-specific reports.</div>
+    <ul>`;
+    unclassifiedPins.forEach(pin=>{
+      html += `<li>${pinMap[pin].name} (PIN #${pin})</li>`;
+    });
+    html += `</ul>`;
+  }
+
+  // Final summary
+  html += `<h2 class="rpt-section">Report Summary</h2>
+    <ul>
+      <li><strong>Report Type:</strong> ${typeLabel}</li>
+      <li><strong>Period:</strong> ${label}</li>
+      <li><strong>Employees Included:</strong> ${staffPresent}</li>
+      <li><strong>Total Punch Events:</strong> ${totalPunches}</li>
+      <li><strong>Records Requiring Attention:</strong> ${singlePunchRecords.length} (single punch)</li>`;
+  
+  if(reportType === 'security' && guardSummary.length > 0){
+    html += `<li><strong>Security Guards Covered:</strong> ${guardSummary.length}</li>`;
+  }
+  
+  html += `</ul>
+    <div class="rpt-footer">ZKTeco Report Builder — ${typeLabel} — ${label} — Generated ${generatedOn}</div>
   </div>`;
   return html;
 }
 
 function generateReport(){
-  const type = document.getElementById('reportType').value;
+  const reportType = document.getElementById('reportType').value;
+  const periodType = document.getElementById('reportPeriodType').value;
   const periodKey = document.getElementById('reportPeriodSelect').value;
   if(!periodKey){ alert('Load and analyze a punch log first.'); return; }
   const mandateMin = Number(document.getElementById('mandateMin').value) || 60;
@@ -612,7 +699,7 @@ function generateReport(){
 
   let startKey, endKey, label, weeksForTimetable;
 
-  if(type==='weekly'){
+  if(periodType==='weekly'){
     const week = computeAvailableWeeks().find(w=>w.key===periodKey);
     startKey = dateKeyOf(week.days[0]); endKey = dateKeyOf(week.days[5]);
     label = week.label;
@@ -638,13 +725,18 @@ function generateReport(){
     }
   }
 
-  const filtered = filterByPinDateRange(startKey, endKey);
+  const filteredPins = getFilteredPinsByReportType(reportType);
+  const filtered = filterByPinDateRange(startKey, endKey, filteredPins);
   const {allRows, detailRows} = summarizeAll(filtered);
   const {summary: guardSummary, daily: guardDaily} = summarizeGuards(filtered, mandateMin, offdutyMin);
 
+  let typeLabel = 'Staff Attendance Report';
+  if(reportType === 'security') typeLabel = 'Security Guard Attendance Report';
+  else if(reportType === 'general') typeLabel = 'General Workers Attendance Report';
+
   const html = buildReportHTML({
-    type, label, startKey, endKey, allRows, detailRows, guardSummary, guardDaily,
-    weeksForTimetable, filteredByPinDate: filtered, mandateMin
+    reportType, typeLabel, label, startKey, endKey, allRows, detailRows, guardSummary, guardDaily,
+    weeksForTimetable, filteredByPinDate: filtered, mandateMin, filteredPins
   });
 
   document.getElementById('reportPreview').innerHTML = `<style>${REPORT_STYLE}</style>${html}`;
@@ -653,7 +745,7 @@ function generateReport(){
 
   window._lastReportHTML = html;
   window._lastReportLabel = label;
-  window._lastReportType = type;
+  window._lastReportType = reportType;
 }
 
 function printReport(){
@@ -674,7 +766,8 @@ function downloadReportHTML(){
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   const safeLabel = window._lastReportLabel.replace(/[^a-z0-9]+/gi,'_');
-  a.download = `${window._lastReportType==='weekly'?'Weekly':'Monthly'}_Report_${safeLabel}.html`;
+  const typeStr = window._lastReportType === 'security' ? 'Security' : (window._lastReportType === 'general' ? 'General' : 'AllStaff');
+  a.download = `${typeStr}_Report_${safeLabel}.html`;
   a.click();
 }
 
