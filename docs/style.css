@@ -9,6 +9,7 @@
   header{ background:var(--blue); color:#fff; padding:18px 24px; }
   header h1{ margin:0; font-size:22px; }
   header p{ margin:4px 0 0; font-size:13px; opacity:.9; }
+  .app-footer{ color:#666; font-size:12px; margin:0 auto; max-width:1200px; padding:0 16px 24px; text-align:right; }
   main{ max-width:1200px; margin:20px auto; padding:0 16px 60px; }
   .card{ background:#fff; border-radius:8px; padding:20px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,.08); }
   .card h2{ color:var(--blue); border-bottom:2px solid var(--blue); padding-bottom:8px; font-size:18px; margin-top:0; }
@@ -35,7 +36,8 @@
   .pin-row{ display:flex; gap:10px; align-items:center; padding:4px 0; border-bottom:1px solid #eee; }
   .pin-row span.pin{ width:50px; font-weight:bold; color:var(--blue); }
   .pin-row input[type=text]{ flex:1; padding:6px; border:1px solid #ccc; border-radius:4px; }
-  .pin-row label.guard{ font-size:12px; font-weight:normal; display:flex; align-items:center; gap:4px; margin:0; white-space:nowrap; }
+  .pin-row .work-group-selector{ display:flex; gap:15px; flex-wrap:wrap; }
+  .pin-row label.work-group{ font-size:12px; font-weight:normal; display:flex; align-items:center; gap:4px; margin:0; white-space:nowrap; }
   .hint{ font-size:12.5px; color:#666; margin:4px 0 12px; }
   .week-title{ font-weight:bold; color:var(--blue); margin:16px 0 4px; }
   #resultsSection{ display:none; }
