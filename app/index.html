@@ -94,11 +94,19 @@
 
   <div class="card no-print" id="reportBuilderCard" style="display:none">
     <h2><span class="step-label">4</span>Build a Polished Report</h2>
-    <p class="hint">Generates a branded, print-ready report — the same style as the Word document — either for one week or a full calendar month.</p>
+    <p class="hint">Generates a branded, print-ready report for one week or a full calendar month. Select the report type and period.</p>
     <div class="settings-row">
       <div>
         <label>Report type</label>
         <select id="reportType">
+          <option value="security">Security Guard Attendance Report</option>
+          <option value="general">General Workers Attendance Report</option>
+          <option value="all">All-Staff Attendance Report</option>
+        </select>
+      </div>
+      <div>
+        <label>Period type</label>
+        <select id="reportPeriodType">
           <option value="weekly">Weekly</option>
           <option value="monthly">Monthly</option>
         </select>
@@ -115,7 +123,7 @@
 
   <div id="reportPreviewWrapper" style="display:none">
     <div class="no-print" style="max-width:850px;margin:0 auto 12px;">
-      <button onclick="printReport()">🖨️ Print / Save as PDF</button>
+      <button onclick="printReport()">����️ Print / Save as PDF</button>
       <button class="secondary" onclick="downloadReportHTML()">⬇️ Download as HTML report</button>
     </div>
     <div id="reportPreview"></div>
