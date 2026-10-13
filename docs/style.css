@@ -223,7 +223,7 @@ a:focus-visible {
   align-items: center;
   gap: var(--space-lg);
   flex: 1;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 /* ===== BUTTONS ===== */

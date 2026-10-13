@@ -1,4 +1,4 @@
-![version](https://img.shields.io/badge/version-v2.0.0-blue)
+![version](https://img.shields.io/badge/version-v2.1.0-blue)
 
 Status: stable — GitHub Pages publishes the online product from `app/`. The local product is packaged under `docs/`. The folder `Toptech_Attendance_Analyzer_updated/` is archived under `archived/Toptech_Attendance_Analyzer_updated/`.
 
@@ -37,7 +37,7 @@ ZKTeco-Offline-Attendance-Generator/
 
 ### Run in the browser (no download)
 
-GitHub Pages serves the online application directly from `app/`. The marketing homepage is available at `https://alvinlanyon-debug.github.io/ZKTeco-Offline-Attendance-Generator/`, the attendance app at `/app/`, and the download setup page at `/download/`.
+GitHub Pages publishes `app/index.html` as the site homepage at `https://alvinlanyon-debug.github.io/ZKTeco-Offline-Attendance-Generator/`. The attendance app is at `/app/`, and the download setup page is at `/download/`.
 
 ### Local usage
 
@@ -51,9 +51,9 @@ GitHub Pages serves the online application directly from `app/`. The marketing h
 
 This project uses [Semantic Versioning](https://semver.org/):
 
-- `MAJOR.MINOR.PATCH`, for example `2.0.0`.
+- `MAJOR.MINOR.PATCH`, for example `2.1.0`.
 - Increment `PATCH` for compatible fixes, `MINOR` for compatible features, and `MAJOR` for breaking changes.
-- Update `app/app/version.js` and `CHANGELOG.md` together, then run `scripts/package-offline.ps1`, create a matching Git tag such as `v2.0.0`, and publish a GitHub Release.
+- Update `app/app/version.js` and `CHANGELOG.md` together, then run `scripts/package-offline.ps1`, create a matching Git tag such as `v2.1.0`, and publish a GitHub Release.
 
 ## Deployment
 

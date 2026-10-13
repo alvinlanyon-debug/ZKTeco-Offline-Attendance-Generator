@@ -533,7 +533,7 @@ code {
   .feature-tab { transition: none; }
 }
 
-/* ===== FOUR-STEP WORKFLOW ===== */
+/* ===== WORKFLOW SHOWCASE ===== */
 .workflow-section {
   padding-top: var(--section-inset);
   padding-bottom: var(--section-inset);
@@ -541,114 +541,80 @@ code {
 }
 
 .workflow-intro {
-  max-width: 820px;
-  margin: 0 auto var(--space-xl);
+  max-width: 1040px;
+  margin: 0 auto var(--space-lg);
 }
 
 .workflow-intro .body-large {
-  max-width: 700px;
-  margin: 0 auto;
+  max-width: 720px;
+  margin: 0;
 }
 
-.workflow-steps {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-lg);
+.workflow-showcase {
   max-width: 1040px;
   margin: 0 auto;
-  padding: 0;
-  list-style: none;
 }
 
-.workflow-demos {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-lg);
-  max-width: 1040px;
-  margin: var(--space-xl) auto 0;
-}
-
-.workflow-demo {
-  min-width: 0;
-  overflow: hidden;
-  background: var(--surface);
+.workflow-tabs,
+.capability-tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: thin;
   border: 1px solid var(--border-hairline);
   border-radius: var(--rounded-sm);
+  padding: 6px;
 }
 
-.demo-video,
-.capability-video {
+.workflow-tab,
+.capability-tab {
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: var(--rounded-sm);
+  padding: 12px 16px;
+  color: var(--ink-secondary);
+  background: transparent;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+.workflow-tab:hover,
+.capability-tab:hover { background: var(--surface-muted); color: var(--ink); }
+.workflow-tab[aria-selected="true"] { background: var(--surface-muted); color: var(--ink); }
+.workflow-tab:focus-visible,
+.capability-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.workflow-selected-description,
+.capability-selected-description {
+  min-height: 3.2em;
+  max-width: 720px;
+  margin: var(--space-md) 0 var(--space-lg);
+  color: var(--ink-secondary);
+  line-height: 1.55;
+}
+
+.workflow-panel,
+.capability-panel {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--rounded-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.showcase-video {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 1.78;
   background: #1f1f1f;
   object-fit: contain;
 }
 
-.workflow-demo figcaption { padding: var(--space-md); }
-
-.workflow-demo h3 {
-  margin-bottom: var(--space-xs);
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.workflow-demo p {
-  margin: 0;
-  color: var(--ink-secondary);
-  font-size: 14px;
-}
-
-.workflow-step {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-md);
-  min-width: 0;
-  min-height: 100%;
-  padding: var(--space-lg);
-  background: var(--surface);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--rounded-sm);
-}
-
-.step-number {
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--surface-muted);
-  color: var(--ink);
-  font-size: 14px;
-  font-weight: 700;
-  border-radius: 50%;
-  box-shadow: none;
-}
-
-.step-card {
-  flex: 1;
-  min-width: 0;
-}
-
-.step-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--ink);
-  margin: 4px 0 var(--space-sm);
-}
-
-.step-description {
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--ink-secondary);
-  margin-bottom: 0;
-}
-
-.step-description strong {
-  color: var(--ink);
-  font-weight: 600;
-}
+.showcase-caption { padding: 12px 16px; color: var(--ink-secondary); font-size: 14px; text-align: left; }
 
 /* ===== DARK SECTION ===== */
 .section-dark {
@@ -676,51 +642,60 @@ code {
 }
 
 .capabilities-container {
-  max-width: 1080px;
+  max-width: 1040px;
   margin: 0 auto;
 }
 
-.grid-3 {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-lg);
-  margin-top: var(--space-2xl);
+.capabilities-intro {
+  max-width: 700px;
+  margin: 0 auto var(--space-lg);
 }
 
-.card-dark {
-  background: var(--dark-muted);
-  border: 1px solid var(--dark-divider);
-  border-radius: var(--rounded-sm);
-  padding: var(--space-xl);
-  text-align: left;
+.capability-tabs {
+  justify-content: center;
+  max-width: max-content;
+  margin: 0 auto;
+  border-color: transparent;
+  padding: 0;
+}
+
+.capability-tab { color: var(--dark-ink); padding: 14px 20px; }
+.capability-tab:hover { background: rgba(255, 255, 255, 0.07); color: var(--dark-ink); }
+.capability-tab[aria-selected="true"] { background: rgba(255, 255, 255, 0.1); color: var(--dark-ink); }
+.capability-tab:focus-visible { outline-color: #ff7058; }
+.capability-selected-description { margin: var(--space-md) auto var(--space-lg); color: rgba(209, 207, 192, 0.78); }
+
+.capability-panel {
+  border-color: var(--dark-divider);
+  background: #171717;
+  border-radius: var(--rounded-md);
   box-shadow: none;
-  transition: background 180ms ease, border-color 180ms ease;
 }
 
-.capability-video {
-  margin-bottom: var(--space-lg);
-  border-radius: var(--rounded-sm);
+.capability-panel .showcase-video { background: #171717; }
+.capability-panel .showcase-caption { color: rgba(209, 207, 192, 0.76); text-align: center; }
+
+/* Keep showcase controls usable on narrow screens. */
+@media (max-width: 640px) {
+  .workflow-intro { margin-bottom: var(--space-md); }
+  .workflow-tabs { margin-right: calc(-1 * var(--space-md)); border-radius: var(--rounded-sm) 0 0 var(--rounded-sm); }
+  .workflow-selected-description,
+  .capability-selected-description { min-height: 0; }
+  .capability-tabs { max-width: 100%; justify-content: flex-start; }
+  .capability-tab { padding: 12px 14px; }
+  .showcase-video { aspect-ratio: 4 / 3; }
 }
 
-.card-dark:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.18);
+@media (max-width: 1024px) {
+  #capabilities.section-dark {
+    padding-top: var(--section-inset);
+    padding-bottom: var(--section-inset);
+  }
 }
 
-.card-dark h3 {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--dark-ink);
-  margin-bottom: var(--space-md);
+@media (prefers-reduced-motion: reduce) {
+  .workflow-tab, .capability-tab { transition: none; }
 }
-
-.card-dark p {
-  font-size: 16px;
-  line-height: 1.6;
-  color: rgba(209, 207, 192, 0.76);
-  margin: 0;
-}
-
 /* ===== FOOTER ===== */
 .footer-section {
   background: var(--surface-tint);
@@ -832,8 +807,6 @@ code {
   }
 
   .features-intro { margin-bottom: var(--space-xl); }
-
-  .workflow-demos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
   .features-layout {
     grid-template-columns: minmax(230px, 0.8fr) minmax(0, 1.2fr);
@@ -1005,20 +978,9 @@ code {
   .feature-stage { position: static; width: 100%; }
   .feature-media { padding: var(--space-xs); border-radius: var(--rounded-md); }
 
-  .workflow-demos { grid-template-columns: 1fr; gap: var(--space-md); }
-  .workflow-demo { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr); align-items: center; }
-  .workflow-demo figcaption { padding: var(--space-sm); }
-  .workflow-demo h3 { font-size: 16px; }
-  .workflow-demo p { font-size: 13px; line-height: 1.4; }
-  .capability-video { margin-bottom: var(--space-md); }
-
   .section-px {
     padding-left: var(--space-lg);
     padding-right: var(--space-lg);
-  }
-
-  .grid-3 {
-    grid-template-columns: 1fr;
   }
 
   .footer-links {
@@ -1026,12 +988,32 @@ code {
   }
 }
 
-@media (max-width: 640px) {
-  .workflow-steps {
-    grid-template-columns: 1fr;
+@media (max-width: 800px) {
+  .hero-section { padding-top: clamp(48px, 8vw, 64px); }
+
+  .display-hero {
+    max-width: 680px;
+    font-size: clamp(42px, 7.2vw, 54px);
+    line-height: 1.02;
+    margin-bottom: 20px;
   }
 
-  .workflow-step {
-    padding: var(--space-md);
+  .hero-subtitle {
+    max-width: 560px;
+    font-size: 18px;
+    line-height: 1.55;
+    margin-bottom: var(--space-xl);
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-4xl);
+  }
+
+  .hero-actions a {
+    width: auto;
+    min-width: 0;
+    justify-content: center;
   }
 }

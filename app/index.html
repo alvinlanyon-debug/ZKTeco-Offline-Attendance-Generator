@@ -109,70 +109,28 @@
     </div>
   </section>
 
-  <!-- Four-step workflow -->
+  <!-- How it works -->
   <section id="workflow" class="workflow-section section-px">
-    <div class="workflow-intro text-center">
+    <div class="workflow-intro">
       <h2 class="heading-section">From raw punches to polished reports</h2>
       <p class="body-large">
         The ZKTeco attlog.dat format is hard to read. Zen AtGen makes it easy—locally, without uploading your employee data.
       </p>
     </div>
-
-    <ol class="workflow-steps">
-      <li class="workflow-step">
-        <span class="step-number" aria-hidden="true">01</span>
-        <div class="step-card">
-          <h3 class="step-title">Export device data</h3>
-          <p class="step-description">Insert a USB drive into your ZKTeco device. From the menu, download <strong>attlog.dat</strong> (Attendance Data) and optionally <strong>user.dat</strong> (Staff Names).</p>
-        </div>
-      </li>
-
-      <li class="workflow-step">
-        <span class="step-number" aria-hidden="true">02</span>
-        <div class="step-card">
-          <h3 class="step-title">Load files into Zen AtGen</h3>
-          <p class="step-description">Plug the USB drive into your computer and select the files. Data is parsed locally in your browser—nothing is uploaded to the internet.</p>
-        </div>
-      </li>
-
-      <li class="workflow-step">
-        <span class="step-number" aria-hidden="true">03</span>
-        <div class="step-card">
-          <h3 class="step-title">Classify your staff</h3>
-          <p class="step-description">Mark employees as Security Guards or General Workers. Your roster settings are saved on your computer for next time.</p>
-        </div>
-      </li>
-
-      <li class="workflow-step">
-        <span class="step-number" aria-hidden="true">04</span>
-        <div class="step-card">
-          <h3 class="step-title">Generate & export</h3>
-          <p class="step-description">View daily logs and compliance summaries. Print to PDF, export to CSV for spreadsheets, or download as standalone HTML.</p>
-        </div>
-      </li>
-    </ol>
-
-    <div class="workflow-demos" role="group" aria-label="Workflow video demonstrations">
-      <figure class="workflow-demo">
-        <video class="demo-video" controls playsinline preload="none" poster="assets/features/analysis-parameters.jpg" aria-label="Export device data and load files into Zen AtGen">
-          <source src="assets/features/demos/export-and-load.mp4" type="video/mp4">
+    <div class="workflow-showcase">
+      <div class="workflow-tabs" role="tablist" aria-label="How Zen AtGen works">
+        <button class="workflow-tab" id="workflow-tab-export" role="tab" aria-selected="true" aria-controls="workflow-panel" data-workflow="export" tabindex="0">Export device data</button>
+        <button class="workflow-tab" id="workflow-tab-load" role="tab" aria-selected="false" aria-controls="workflow-panel" data-workflow="load" tabindex="-1">Load files</button>
+        <button class="workflow-tab" id="workflow-tab-classify" role="tab" aria-selected="false" aria-controls="workflow-panel" data-workflow="classify" tabindex="-1">Classify your staff</button>
+        <button class="workflow-tab" id="workflow-tab-report" role="tab" aria-selected="false" aria-controls="workflow-panel" data-workflow="report" tabindex="-1">Generate & export</button>
+      </div>
+      <p class="workflow-selected-description" id="workflow-selected-description">Insert a USB drive into your ZKTeco device. From the menu, download attlog.dat (Attendance Data) and optionally user.dat (Staff Names).</p>
+      <figure class="workflow-panel" id="workflow-panel" role="tabpanel" aria-labelledby="workflow-tab-export" tabindex="0">
+        <video class="showcase-video" id="workflow-video" controls playsinline preload="none" poster="assets/features/analysis-parameters.jpg" aria-label="Export device attendance data">
+          <source id="workflow-video-source" src="assets/features/demos/export-and-load.mp4" type="video/mp4">
           Your browser does not support video playback.
         </video>
-        <figcaption><h3>Export & load</h3><p>Move attendance exports from the device into Zen AtGen.</p></figcaption>
-      </figure>
-      <figure class="workflow-demo">
-        <video class="demo-video" controls playsinline preload="none" poster="assets/features/staff-classification.jpg" aria-label="Classify staff in Zen AtGen">
-          <source src="assets/features/demos/classify-staff.mp4" type="video/mp4">
-          Your browser does not support video playback.
-        </video>
-        <figcaption><h3>Classify staff</h3><p>Assign each person to the right report group.</p></figcaption>
-      </figure>
-      <figure class="workflow-demo">
-        <video class="demo-video" controls playsinline preload="none" poster="assets/features/attendance-summary.jpg" aria-label="Generate and export an attendance report">
-          <source src="assets/features/demos/generate-and-export.mp4" type="video/mp4">
-          Your browser does not support video playback.
-        </video>
-        <figcaption><h3>Generate & export</h3><p>Create a report, then save or print the result.</p></figcaption>
+        <figcaption class="showcase-caption" id="workflow-caption">Export attendance data from a ZKTeco device.</figcaption>
       </figure>
     </div>
   </section>
@@ -180,38 +138,23 @@
   <!-- Capabilities -->
   <section id="capabilities" class="section-dark section-px text-center">
     <div class="capabilities-container">
-      <span class="badge">Capabilities</span>
       <h2 class="heading-section">Your data, completely local</h2>
-      <p class="body-large" style="max-width: 700px; margin: 0 auto;">
+      <p class="body-large capabilities-intro">
         Zen AtGen processes your ZKTeco binary files entirely in the browser. It gives supervisors exactly what they need without moving your employee data to the cloud.
       </p>
-
-      <div class="grid-3">
-        <div class="card-dark">
-          <video class="capability-video" controls playsinline preload="none" poster="assets/features/attendance-summary.jpg" aria-label="Supervisor reports in action">
-            <source src="assets/features/demos/supervisor-reports.mp4" type="video/mp4">
-            Your browser does not support video playback.
-          </video>
-          <h3>Supervisor Reports</h3>
-          <p>Generate role-specific attendance reports for Security Guards, General Workers, or an All-Staff overview. Filter anomalies effortlessly.</p>
-        </div>
-        <div class="card-dark">
-          <video class="capability-video" controls playsinline preload="none" poster="assets/features/guard-compliance.jpg" aria-label="Guard compliance in action">
-            <source src="assets/features/demos/guard-compliance-weekly-timetable.mp4" type="video/mp4">
-            Your browser does not support video playback.
-          </video>
-          <h3>Guard Compliance</h3>
-          <p>Track hourly check-in mandates against ZKTeco timestamps. Instantly flag missed checks and calculate daily compliance percentages.</p>
-        </div>
-        <div class="card-dark">
-          <video class="capability-video" controls playsinline preload="none" poster="assets/features/general-worker-timetable.jpg" aria-label="Weekly timetables in action">
-            <source src="assets/features/demos/guard-compliance-weekly-timetable.mp4" type="video/mp4">
-            Your browser does not support video playback.
-          </video>
-          <h3>Weekly Timetables</h3>
-          <p>Read clock-in and clock-out times in an intuitive table format. Flag single-punch anomalies that need manual verification.</p>
-        </div>
+      <div class="capability-tabs" role="tablist" aria-label="Explore Zen AtGen capabilities">
+        <button class="capability-tab" id="capability-tab-reports" role="tab" aria-selected="true" aria-controls="capability-panel" data-capability="reports" tabindex="0">Supervisor Reports</button>
+        <button class="capability-tab" id="capability-tab-compliance" role="tab" aria-selected="false" aria-controls="capability-panel" data-capability="compliance" tabindex="-1">Guard Compliance</button>
+        <button class="capability-tab" id="capability-tab-timetables" role="tab" aria-selected="false" aria-controls="capability-panel" data-capability="timetables" tabindex="-1">Weekly Timetables</button>
       </div>
+      <p class="capability-selected-description" id="capability-selected-description">Generate role-specific attendance reports for Security Guards, General Workers, or an All-Staff overview. Filter anomalies effortlessly.</p>
+      <figure class="capability-panel" id="capability-panel" role="tabpanel" aria-labelledby="capability-tab-reports" tabindex="0">
+        <video class="showcase-video" id="capability-video" controls playsinline preload="none" poster="assets/features/attendance-summary.jpg" aria-label="Supervisor reports in action">
+          <source id="capability-video-source" src="assets/features/demos/supervisor-reports.mp4" type="video/mp4">
+          Your browser does not support video playback.
+        </video>
+        <figcaption class="showcase-caption" id="capability-caption">A role-specific attendance report, ready to review and export.</figcaption>
+      </figure>
     </div>
   </section>
 </main>
@@ -274,6 +217,8 @@
     const nav = document.querySelector('.nav-bar');
     const navToggle = document.querySelector('.nav-toggle');
     const navMenu = document.querySelector('.nav-menu');
+    const workflowTabs = [...document.querySelectorAll('.workflow-tab')];
+    const capabilityTabs = [...document.querySelectorAll('.capability-tab')];
     const features = {
       classify: {
         src: 'assets/features/staff-classification.jpg',
@@ -306,6 +251,82 @@
         caption: 'Single-punch records are listed for manual verification.'
       },
     };
+
+    const workflowMedia = {
+      export: {
+        src: 'assets/features/demos/export-and-load.mp4', poster: 'assets/features/analysis-parameters.jpg',
+        description: 'Insert a USB drive into your ZKTeco device. From the menu, download attlog.dat (Attendance Data) and optionally user.dat (Staff Names).',
+        caption: 'Export attendance data from a ZKTeco device.', label: 'Export device attendance data'
+      },
+      load: {
+        src: 'assets/features/demos/export-and-load.mp4', poster: 'assets/features/analysis-parameters.jpg',
+        description: 'Plug the USB drive into your computer and select the files. Data is parsed locally in your browser—nothing is uploaded to the internet.',
+        caption: 'Load device files into Zen AtGen; your data stays in the browser.', label: 'Load device files into Zen AtGen'
+      },
+      classify: {
+        src: 'assets/features/demos/classify-staff.mp4', poster: 'assets/features/staff-classification.jpg',
+        description: 'Mark employees as Security Guards or General Workers. Your roster settings are saved on your computer for next time.',
+        caption: 'Classify employees by the report group they belong to.', label: 'Classify staff in Zen AtGen'
+      },
+      report: {
+        src: 'assets/features/demos/generate-and-export.mp4', poster: 'assets/features/attendance-summary.jpg',
+        description: 'View daily logs and compliance summaries. Print to PDF, export to CSV for spreadsheets, or download as standalone HTML.',
+        caption: 'Generate a report, then save or print the result.', label: 'Generate and export an attendance report'
+      }
+    };
+    const capabilityMedia = {
+      reports: {
+        src: 'assets/features/demos/supervisor-reports.mp4', poster: 'assets/features/attendance-summary.jpg',
+        description: 'Generate role-specific attendance reports for Security Guards, General Workers, or an All-Staff overview. Filter anomalies effortlessly.',
+        caption: 'A role-specific attendance report, ready to review and export.', label: 'Supervisor reports in action'
+      },
+      compliance: {
+        src: 'assets/features/demos/guard-compliance-weekly-timetable.mp4', poster: 'assets/features/guard-compliance.jpg',
+        description: 'Track hourly check-in mandates against ZKTeco timestamps. Instantly flag missed checks and calculate daily compliance percentages.',
+        caption: 'Guard check-ins compared with the required hourly interval.', label: 'Guard compliance in action'
+      },
+      timetables: {
+        src: 'assets/features/demos/guard-compliance-weekly-timetable.mp4', poster: 'assets/features/general-worker-timetable.jpg',
+        description: 'Read clock-in and clock-out times in an intuitive table format. Flag single-punch anomalies that need manual verification.',
+        caption: 'Weekly attendance shown as a clear timetable.', label: 'Weekly timetables in action'
+      }
+    };
+
+    function bindShowcase(tabsToBind, data, prefix) {
+      const video = document.querySelector(`#${prefix}-video`);
+      const source = document.querySelector(`#${prefix}-video-source`);
+      const panel = document.querySelector(`#${prefix}-panel`);
+      const description = document.querySelector(`#${prefix}-selected-description`);
+      const caption = document.querySelector(`#${prefix}-caption`);
+      function select(tab, moveFocus = false) {
+        const item = data[tab.dataset[prefix]];
+        tabsToBind.forEach((candidate) => {
+          const selected = candidate === tab;
+          candidate.setAttribute('aria-selected', String(selected));
+          candidate.tabIndex = selected ? 0 : -1;
+        });
+        panel.setAttribute('aria-labelledby', tab.id);
+        description.textContent = item.description;
+        caption.textContent = item.caption;
+        video.pause();
+        video.poster = item.poster;
+        video.setAttribute('aria-label', item.label);
+        source.src = item.src;
+        video.load();
+        if (moveFocus) tab.focus();
+      }
+      tabsToBind.forEach((tab) => tab.addEventListener('click', () => select(tab)));
+      tabsToBind[0].parentElement.addEventListener('keydown', (event) => {
+        const current = tabsToBind.indexOf(document.activeElement);
+        if (current < 0 || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabsToBind.length - 1 :
+          (current + (event.key === 'ArrowRight' ? 1 : -1) + tabsToBind.length) % tabsToBind.length;
+        select(tabsToBind[next], true);
+      });
+    }
+    bindShowcase(workflowTabs, workflowMedia, 'workflow');
+    bindShowcase(capabilityTabs, capabilityMedia, 'capability');
 
     const zoomMoments = [0.2, 0.48, 0.76];
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');

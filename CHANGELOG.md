@@ -4,6 +4,20 @@ All notable changes to this project are documented here.
 
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [2.1.0] - 2026-10-13
+
+### Added
+
+- Added responsive workflow and capability showcases to the homepage, with accessible selectors and large video demonstrations.
+- Added demo recordings for exporting and loading device data, staff classification, report generation, supervisor reports, guard compliance, and weekly timetables.
+
+### Changed
+
+- Reworked the homepage hero and feature sections to follow the Zen Browser inspired layout across desktop and mobile sizes.
+- Updated homepage workflow and local-data sections with Zen-inspired selector and media layouts.
+- Aligned local-processing status in the online and offline app headers and refined mobile hero spacing and button layout.
+- Updated the offline application snapshot and release documentation for version 2.1.0.
+
 ## [2.0.0] - 2026-10-13
 
 ### Added
