@@ -4,6 +4,12 @@ All notable changes to this project are documented here.
 
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [2.1.2] - 2026-10-13
+
+### Changed
+
+- Set the homepage capability demonstration to autoplay muted and loop without showing video controls.
+
 ## [2.1.1] - 2026-10-13
 
 ### Changed
