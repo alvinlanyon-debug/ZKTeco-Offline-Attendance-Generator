@@ -1,0 +1,493 @@
+---
+version: alpha
+name: Zen Browser
+description: Warm parchment-cream canvas, soft charcoal ink, a single coral ember accent, Junicode serif heroes against Bricolage Grotesque body, and gently rounded glass screenshots — a calm, open-source serenity.
+
+colors:
+  # Surfaces — warm parchment canvas
+  background: "#f2f0e3"
+  surface: "#ffffff"
+  surface-tint: "#f7f6ed"        # estimated — slightly lighter cream for inset cards
+  surface-muted: "#e8e6d6"       # was rgba(0,0,0,0.05) over cream — flattened opaque
+
+  # Ink — soft charcoal, never pure black
+  ink: "#2e2e2e"
+  on-background: "#2e2e2e"
+  on-surface: "#2e2e2e"
+  ink-secondary: "#5c5c54"       # estimated — muted charcoal for subheads over cream
+  ink-inverted: "#f2f0e3"        # cream text on dark buttons/surfaces
+
+  # Brand accent — the coral ember
+  primary: "#2e2e2e"             # primary CTA is the charcoal pill, not the coral
+  on-primary: "#f2f0e3"
+  accent: "#f76f53"              # coral — the single warm ember, used sparingly
+  on-accent: "#ffffff"
+  accent-soft: "#fbcabf"         # estimated — pale coral tint for hover halos
+
+  # Interactive
+  button-secondary-bg: "#e8e6d6" # was rgba(0,0,0,0.05) over cream — flattened opaque
+  link-coral: "#f76f53"          # underlined inline links
+  focus-ring: "#f76f53"          # coral focus halo
+  hover-overlay: "#dcdacb"       # estimated — cream hover wash over surface-muted
+
+  # Borders + dividers
+  border: "#2e2e2e"              # 2px solid charcoal frame on highlighted cards
+  border-soft: "#d8d6c7"         # estimated — hairline cream divider in footer
+  border-hairline: "#dad8ca"     # was rgba(46,46,46,0.12) — flattened over cream
+
+  # Shadow tint
+  shadow-soft: "#e5e3d7"         # was rgba(0,0,0,0.1) — flattened over cream
+
+typography:
+  display-hero:
+    fontFamily: "Junicode, Georgia, 'Times New Roman', serif"
+    fontSize: 128px
+    fontWeight: 600
+    lineHeight: 1.0
+    letterSpacing: -1px
+  display-hero-italic:
+    fontFamily: "Junicode, Georgia, 'Times New Roman', serif"
+    fontSize: 128px
+    fontWeight: 400
+    lineHeight: 1.0
+    letterSpacing: -1px
+    fontFeature: "'swsh' 0"
+  display:
+    fontFamily: "'Bricolage Grotesque', 'Trebuchet MS', system-ui, sans-serif"
+    fontSize: 60px
+    fontWeight: 700
+    lineHeight: 1.0
+    letterSpacing: -0.5px
+  heading-section:
+    fontFamily: "'Bricolage Grotesque', 'Trebuchet MS', system-ui, sans-serif"
+    fontSize: 60px
+    fontWeight: 700
+    lineHeight: 1.0
+    letterSpacing: -0.5px
+  heading-sub:
+    fontFamily: "'Bricolage Grotesque', 'Trebuchet MS', system-ui, sans-serif"
+    fontSize: 24px
+    fontWeight: 700
+    lineHeight: 1.33
+    letterSpacing: 0px
+  body-large:
+    fontFamily: "'Bricolage Grotesque', 'Trebuchet MS', system-ui, sans-serif"
+    fontSize: 18px
+    fontWeight: 500
+    lineHeight: 1.56
+    letterSpacing: 0px
+  body:
+    fontFamily: "'Bricolage Grotesque', 'Trebuchet MS', system-ui, sans-serif"
+    fontSize: 16px
+    fontWeight: 500
+    lineHeight: 1.5
+    letterSpacing: 0px
+  nav-link:
+    fontFamily: "'Bricolage Grotesque', 'Trebuchet MS', system-ui, sans-serif"
+    fontSize: 16px
+    fontWeight: 500
+    lineHeight: 1.5
+    letterSpacing: 0px
+  link-strong:
+    fontFamily: "'Bricolage Grotesque', 'Trebuchet MS', system-ui, sans-serif"
+    fontSize: 18px
+    fontWeight: 700
+    lineHeight: 1.56
+    letterSpacing: 0px
+  button-ui:
+    fontFamily: "'Bricolage Grotesque', 'Trebuchet MS', system-ui, sans-serif"
+    fontSize: 14.4px
+    fontWeight: 500
+    lineHeight: 1.5
+    letterSpacing: 0px
+  caption:
+    fontFamily: "'Bricolage Grotesque', 'Trebuchet MS', system-ui, sans-serif"
+    fontSize: 14.4px
+    fontWeight: 500
+    lineHeight: 1.5
+    letterSpacing: 0px
+
+spacing:
+  xs: 8px
+  sm: 12px
+  md: 16px
+  lg: 24px
+  xl: 48px
+  2xl: 96px
+  3xl: 128px
+  4xl: 144px
+
+rounded:
+  none: 0px
+  sm: 8px
+  md: 12px
+  lg: 24px
+  pill: 9999px
+
+components:
+  # Sticky cream nav, no border, charcoal links
+  nav-bar:
+    backgroundColor: "{colors.background}"
+    textColor: "{colors.ink}"
+    typography: "{typography.nav-link}"
+    rounded: "{rounded.none}"
+    padding: 24px 48px
+
+  # Primary CTA — charcoal pill on cream
+  button-primary:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.on-primary}"
+    typography: "{typography.button-ui}"
+    rounded: "{rounded.md}"
+    padding: 16px 24px
+  button-primary-hover:
+    backgroundColor: "{colors.ink-secondary}"
+    textColor: "{colors.on-primary}"
+    typography: "{typography.button-ui}"
+    rounded: "{rounded.md}"
+    padding: 16px 24px
+  button-primary-focus:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.on-primary}"
+    typography: "{typography.button-ui}"
+    rounded: "{rounded.md}"
+    padding: 16px 24px
+
+  # Secondary — soft cream-wash button (the "Support Us" pill)
+  button-secondary:
+    backgroundColor: "{colors.button-secondary-bg}"
+    textColor: "{colors.ink}"
+    typography: "{typography.button-ui}"
+    rounded: "{rounded.md}"
+    padding: 16px 24px
+  button-secondary-hover:
+    backgroundColor: "{colors.hover-overlay}"
+    textColor: "{colors.ink}"
+    typography: "{typography.button-ui}"
+    rounded: "{rounded.md}"
+    padding: 16px 24px
+
+  # Accent button — the coral ember, reserved for one moment per view
+  button-accent:
+    backgroundColor: "{colors.accent}"
+    textColor: "{colors.on-accent}"
+    typography: "{typography.button-ui}"
+    rounded: "{rounded.md}"
+    padding: 16px 24px
+  button-accent-hover:
+    backgroundColor: "{colors.accent-soft}"
+    textColor: "{colors.ink}"
+    typography: "{typography.button-ui}"
+    rounded: "{rounded.md}"
+    padding: 16px 24px
+
+  # Standard card on cream
+  card:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.sm}"
+    padding: 24px
+
+  # Highlighted card — 2px charcoal frame
+  card-framed:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.sm}"
+    padding: 24px
+
+  # Inset card on the warm canvas
+  card-tint:
+    backgroundColor: "{colors.surface-tint}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.md}"
+    padding: 24px
+
+  # Product screenshot frame — soft rounded, drop shadow
+  media-frame:
+    backgroundColor: "{colors.surface}"
+    rounded: "{rounded.lg}"
+    padding: 0px
+
+  # Form input
+  input:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.ink}"
+    typography: "{typography.body}"
+    rounded: "{rounded.sm}"
+    padding: 12px 16px
+  input-focus:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.ink}"
+    typography: "{typography.body}"
+    rounded: "{rounded.sm}"
+    padding: 12px 16px
+
+  # Neutral pill badge
+  badge:
+    backgroundColor: "{colors.surface-muted}"
+    textColor: "{colors.ink}"
+    typography: "{typography.caption}"
+    rounded: "{rounded.pill}"
+    padding: 8px 16px
+
+  # Accent badge — coral, sparing
+  badge-accent:
+    backgroundColor: "{colors.accent}"
+    textColor: "{colors.on-accent}"
+    typography: "{typography.caption}"
+    rounded: "{rounded.pill}"
+    padding: 8px 16px
+
+  # Inline coral link
+  link:
+    textColor: "{colors.link-coral}"
+    typography: "{typography.body}"
+  link-hover:
+    textColor: "{colors.accent-soft}"
+    typography: "{typography.body}"
+---
+
+# Zen Browser Design System
+
+## Overview
+
+Zen Browser's site does exactly what its tagline promises — it welcomes you to "a calmer internet." Where most browser landing pages shout in saturated gradients and neon CTAs, Zen opens onto a sheet of warm parchment (`{colors.background}`), a faintly butter-tinted off-white that reads more like the paper of a well-made book than a software product. Across that calm field, an enormous serif headline unfurls in `{typography.display-hero}` — and the single word "calmer" leans into a coral-tinted italic swash (`{colors.accent}`), the one warm ember in an otherwise hushed palette. The effect is editorial, almost literary: this is a browser that wants to feel like a quiet reading room, not a control panel.
+
+The system's discipline is its signature. There is no gradient mesh, no glassmorphism, no rainbow. Instead Zen runs on three colors and two typefaces. The charcoal ink (`{colors.ink}`) is deliberately soft — `#2e2e2e`, not pure black — so text rests gently on the cream rather than stamping it. The coral (`{colors.accent}`) appears perhaps three times on the whole page: the italic hero word, an underlined link, a heart emoji. Everything else is parchment and charcoal. Junicode, an open-source humanist serif, carries the display moments; Bricolage Grotesque, a friendly variable grotesque, does all the working type. Two open fonts for an open-source browser — the choice is itself a statement.
+
+What makes Zen feel *different* is restraint as warmth. The corners are softly rounded (`{rounded.md}`–`{rounded.lg}`), the shadows are barely-there soft drops, the product screenshots sit in gently rounded frames that float a few millimeters off the page. Nothing is sharp, nothing is loud, nothing competes. The page breathes in big 96–144px vertical gaps. It is the rare tech site that lowers your heart rate.
+
+**Key Characteristics:**
+- Warm parchment-cream canvas (`{colors.background}`) — paper-warm, never clinical white
+- Soft charcoal ink (`{colors.ink}`) — `#2e2e2e`, deliberately not pure black
+- A single coral ember accent (`{colors.accent}`) used three times, not three hundred
+- Junicode serif for hero display (`{typography.display-hero}`) with an italic swash on the emphasis word
+- Bricolage Grotesque (`{typography.body}`) for every working line — nav, body, buttons, captions
+- Primary CTA is a charcoal pill (`{colors.primary}`), not the coral — the accent stays rare
+- Gentle radii (`{rounded.md}` 12px buttons, `{rounded.lg}` 24px screenshots) — nothing sharp
+- Barely-there soft drop shadows tinted with `{colors.shadow-soft}` — depth without weight
+- Cavernous vertical rhythm (`{spacing.2xl}`–`{spacing.4xl}`, 96–144px) — the page exhales
+- Two open-source typefaces for an open-source browser — values expressed as type
+
+## Colors
+
+### Primary
+- **Parchment Cream** (`{colors.background}`): The canvas. A warm butter-off-white that defines the whole serene mood. Every section sits on it.
+- **Soft Charcoal** (`{colors.ink}`): Body text, headings, and the primary button fill. A muted near-black that never stamps the cream.
+- **White** (`{colors.surface}`): Cards, inputs, and the bright ground under product screenshots.
+
+### Brand Accent
+- **Coral Ember** (`{colors.accent}`): The single warm note — the italic hero word "calmer," underlined inline links, the occasional heart. Apply it three times per view, never as a primary CTA.
+- **On Accent** (`{colors.on-accent}`): White text when the coral becomes a fill (rare).
+- **Coral Soft** (`{colors.accent-soft}`): Pale coral tint for accent hover halos.
+
+### Ink Tiers
+- **Secondary Ink** (`{colors.ink-secondary}`): Muted charcoal for subheads and supporting copy on cream.
+- **Inverted Ink** (`{colors.ink-inverted}`): Cream text on the charcoal primary button.
+
+### Interactive
+- **Secondary Button Wash** (`{colors.button-secondary-bg}`): A faint charcoal-on-cream wash (flattened from `rgba(0,0,0,0.05)`) — the "Support Us" pill.
+- **Hover Overlay** (`{colors.hover-overlay}`): A slightly deeper cream wash for secondary-button hover.
+- **Link Coral** (`{colors.link-coral}`): Coral, underlined — the inline link style.
+- **Focus Ring** (`{colors.focus-ring}`): Coral focus halo for keyboard navigation.
+
+### Surfaces & Borders
+- **Surface Tint** (`{colors.surface-tint}`): A slightly lighter cream for inset cards.
+- **Surface Muted** (`{colors.surface-muted}`): A faint charcoal wash over cream (flattened from `rgba(0,0,0,0.05)`) — neutral badges.
+- **Charcoal Border** (`{colors.border}`): 2px solid charcoal frame on highlighted cards — the rare hard edge.
+- **Border Soft / Hairline** (`{colors.border-soft}`, `{colors.border-hairline}`): Barely-visible cream dividers; the hairline was flattened from `rgba(46,46,46,0.12)`.
+- **Shadow Soft** (`{colors.shadow-soft}`): Shadow tint, flattened from `rgba(0,0,0,0.1)`.
+
+> Note on flattening: Zen uses several translucent charcoal washes over the cream canvas. Each was flattened to an opaque hex with the original `rgba()` recorded inline in the YAML, per Google format.
+
+## Typography
+
+### Font Family
+- **Display**: `Junicode` — an open-source humanist serif with full italic + swash support. Carries the hero only. Fallback: `Georgia, 'Times New Roman', serif`.
+- **Body/UI**: `Bricolage Grotesque` — a friendly variable grotesque. Every nav item, paragraph, button, and caption. Fallback: `'Trebuchet MS', system-ui, sans-serif`.
+- **OpenType Features**: The italic hero uses `'swsh' 0` on the variable Junicode — the calligraphic swash that gives "calmer" its handwritten lean.
+
+### Hierarchy
+
+The complete type scale is declared in the `typography:` token block above. Reference those tokens directly (`{typography.display-hero}`, `{typography.body}`).
+
+| Token | Use |
+|---|---|
+| `display-hero` | The 128px Junicode serif hero — "welcome to a calmer internet" |
+| `display-hero-italic` | The coral italic swash word inside the hero |
+| `display` / `heading-section` | 60px Bricolage section headings |
+| `heading-sub` | 24px subheadings and lead-ins |
+| `body-large` | 18px feature copy and emphasized links |
+| `body` | 16px general body and nav |
+| `nav-link` | Primary nav items |
+| `link-strong` | Emphasized 18px inline links |
+| `button-ui` | Button labels (14.4px) |
+| `caption` | Captions, badges, fine print |
+
+### Principles
+- **Serif for soul, grotesque for service**: Junicode delivers the one emotional moment; Bricolage handles everything functional.
+- **One italic swash, ever**: The `'swsh'` flourish appears exactly once — on the hero emphasis word. Don't repeat it.
+- **Medium weight is the default voice**: Body and nav sit at weight 500, not 400 — gently confident, never heavy.
+- **Tight display leading (1.0)**: The serif hero stacks at line-height 1.0 for a dense, poster-like block.
+- **Open fonts on purpose**: Both families are libre — the typographic choice mirrors the open-source product.
+
+## Layout
+
+### Spacing System
+The complete spacing scale is in the `spacing:` token block above. Base unit: 8px, but the page leans on its large end.
+
+Whitespace is the design. Sections are separated by `{spacing.2xl}`–`{spacing.4xl}` (96–144px) of breathing room, far more than a typical product page. The generosity is the calm.
+
+### Grid & Container
+- Max content width: ~1080px, centered
+- Hero: centered single column — serif headline, two-line subhead, two pill CTAs, social icon row, then the product screenshot
+- Single breakpoint at 1024px — the layout is deliberately simple
+- Product screenshots are full-width within the container, gently rounded and shadowed
+
+### Whitespace Philosophy
+- **Air as the primary material**: The page is mostly empty cream, and that emptiness is the point.
+- **One idea per scroll**: Each section presents a single thought, surrounded by space.
+- **Center and breathe**: Content centers on the canvas with wide cream margins.
+
+## Elevation & Depth
+
+| Level | Treatment | Use |
+|---|---|---|
+| Flat (Level 0) | No shadow | Page text, the cream canvas itself |
+| Subtle (Level 1) | `0 1px 3px {colors.shadow-soft}` | Resting cards, badges |
+| Card (Level 2) | `0 4px 6px -1px {colors.shadow-soft}` | Buttons, standard cards |
+| Elevated (Level 3) | `0 10px 15px -3px {colors.shadow-soft}` | Primary CTA, floating product screenshots |
+| Dialog (Level 4+) | `0 20px 40px -8px {colors.shadow-soft}` | Modals, popovers (estimated) |
+| Focus Ring | `0 0 0 3px {colors.focus-ring}` | Keyboard focus — coral halo |
+
+**Shadow Philosophy**: Zen's shadows are soft, black-based, and almost apologetic. They use the layered Tailwind `shadow-md` / `shadow-lg` stack (multiple low-opacity drops) to lift screenshots and the primary CTA just enough to read as "floating" without ever looking heavy. There is no glass, no inner highlight, no colored glow — just a quiet drop that says *this is slightly closer to you*. The coral focus ring is the only non-neutral elevation cue.
+
+## Shapes
+
+The complete radius scale is in the `rounded:` token block above.
+
+| Token | Value | Use |
+|---|---|---|
+| `none` | 0px | The nav (no chrome) and the rare 2px-framed card |
+| `sm` | 8px | Cards, inputs, small surfaces |
+| `md` | 12px | Buttons — the default interactive radius |
+| `lg` | 24px | Product screenshots and large media frames |
+| `pill` | 9999px | Badges and chips |
+
+The radius personality is *gently rounded, never sharp*. Buttons at 12px feel soft in the hand; screenshots at 24px feel like rounded windows. The only hard 0px edges are the borderless nav and the occasional 2px charcoal-framed card — deliberate contrast against the softness.
+
+## Components
+
+The complete component spec lives in the `components:` token block above. Reference tokens directly (`{components.button-primary}`, `{components.card}`).
+
+### Button variants
+- **`button-primary`** — Charcoal pill (`{colors.primary}`) with cream text. The default CTA ("Download," "Beta is now available"). Hover darkens slightly.
+- **`button-secondary`** — Faint cream-wash pill (`{colors.button-secondary-bg}`) with charcoal text. The "Support Us ❤️" style.
+- **`button-accent`** — Coral fill (`{colors.accent}`). Reserved for at most one emphatic moment; usually the accent stays as type, not a button.
+
+### Cards
+- **`card`** — White on cream, `{rounded.sm}`, soft shadow.
+- **`card-framed`** — Same card with a 2px charcoal border for emphasis.
+- **`card-tint`** — Inset card on a lighter cream tint, `{rounded.md}`.
+
+### Media
+- **`media-frame`** — Product screenshots in a `{rounded.lg}` (24px) frame with an elevated drop shadow, floating on the cream.
+
+### Inputs
+- **`input`** — White field, hairline border, `{rounded.sm}`. Focus swaps the border to coral (`{colors.focus-ring}`).
+
+### Badges / Tags
+- **`badge`** — Neutral cream-wash pill.
+- **`badge-accent`** — Coral pill, used sparingly.
+
+### Navigation
+- **`nav-bar`** — Borderless sticky bar on the cream canvas. Logo left, centered link groups, a charcoal Download pill right. Bricolage 16px weight 500 links.
+
+## Do's and Don'ts
+
+### Do
+- Start every layout on parchment cream (`{colors.background}`) — the warmth is the brand
+- Pair cream with soft charcoal (`{colors.ink}`) text — `#2e2e2e`, never pure black
+- Reserve the coral (`{colors.accent}`) for one or two moments per view — the italic hero word, an inline link
+- Use Junicode serif (`{typography.display-hero}`) only for the single hero headline
+- Run all working type in Bricolage Grotesque at weight 500 (`{typography.body}`)
+- Make the primary CTA a charcoal pill (`{colors.primary}`), keeping the accent rare
+- Give the page cavernous vertical space (`{spacing.2xl}`–`{spacing.4xl}`) — the calm lives in the gaps
+- Float product screenshots in `{rounded.lg}` frames with a soft drop shadow
+
+### Don't
+- Don't use pure white as the page background — Zen's canvas is warm cream, not `#ffffff`
+- Don't use pure black for text — the ink is intentionally soft (`{colors.ink}`)
+- Don't spread the coral around — overusing `{colors.accent}` kills the ember effect
+- Don't make the coral a primary CTA — the charcoal pill leads; coral accents
+- Don't add gradients, glass, or glow — Zen is flat warmth, not glassmorphism
+- Don't use sharp 0px corners on interactive elements — buttons are `{rounded.md}`, media `{rounded.lg}`
+- Don't set Junicode anywhere but the hero — it's a single emotional accent, not body type
+- Don't tighten the vertical rhythm — cramped spacing breaks the serenity
+- Don't use heavy or colored shadows — drops are soft and black-based (`{colors.shadow-soft}`)
+
+---
+
+## Responsive Behavior
+
+### Breakpoints
+| Name | Width | Key Changes |
+|---|---|---|
+| Mobile | <640px | Hero serif scales down dramatically (128px → ~48px), single column, CTAs stack |
+| Tablet | 640–1024px | Centered single column maintained, screenshot full-width, spacing compresses |
+| Desktop | 1024px+ | Full layout — the lone declared breakpoint at 1024px |
+| Large Desktop | >1280px | Wider cream margins, content stays ~1080px centered |
+
+### Touch Targets
+- Pill buttons are tall (16px vertical padding → ~50px tall) — comfortably tappable
+- Nav links spaced generously; social icons in a roomy row
+
+### Collapsing Strategy
+- Hero serif shrinks the most — the 128px Junicode display reflows to a mobile-friendly size while keeping the italic swash
+- Two CTAs stack vertically on mobile
+- The large 96–144px section gaps compress proportionally but stay generous
+- Centered single-column layout means little structural rearrangement is needed
+
+### Image Behavior
+- Product screenshots stay `{rounded.lg}` and shadowed at every size
+- Media scales to container width, never tiling
+- The hero screenshot crops gracefully to viewport on narrow widths
+
+---
+
+## Agent Prompt Guide
+
+### Quick Color Reference
+- Background: Parchment Cream (`{colors.background}`)
+- Text: Soft Charcoal (`{colors.ink}`)
+- Secondary text: `{colors.ink-secondary}`
+- Brand accent: Coral Ember (`{colors.accent}`) — use sparingly
+- Primary CTA: Charcoal pill (`{colors.primary}`) with cream text (`{colors.on-primary}`)
+- Border: `{colors.border-hairline}` (soft) or `{colors.border}` (2px charcoal frame)
+- Link: `{colors.link-coral}`, underlined
+- Focus ring: `{colors.focus-ring}` (coral)
+
+### Example Component Prompts
+
+- "Create a Zen hero: parchment cream background (`{colors.background}`). Centered headline in Junicode serif (`{typography.display-hero}`) at 128px, line-height 1.0, color `{colors.ink}` — but render one emphasis word in coral italic (`{colors.accent}`) using `font-feature-settings: 'swsh' 0`. Two-line subhead below in Bricolage Grotesque (`{typography.body-large}`), color `{colors.ink-secondary}`. Two pill CTAs: a charcoal primary (`{components.button-primary}`) and a cream-wash secondary (`{components.button-secondary}`)."
+- "Design a Zen card: white background (`{colors.surface}`), `{rounded.sm}` corners, soft drop shadow tinted `{colors.shadow-soft}`, 24px padding, charcoal text (`{colors.ink}`). For emphasis, add a 2px `{colors.border}` frame (the `{components.card-framed}` variant)."
+- "Build a Zen primary button: charcoal fill (`{colors.primary}`), cream text (`{colors.on-primary}`), Bricolage label (`{typography.button-ui}`), `{rounded.md}` radius, 16px 24px padding. On hover, lighten the fill slightly (`{components.button-primary-hover}`)."
+- "Create the Zen nav: borderless bar on cream (`{colors.background}`), logo left, centered link groups in Bricolage 16px weight 500 (`{typography.nav-link}`), and a charcoal Download pill on the right."
+- "Make a Zen product screenshot frame: image in a `{rounded.lg}` (24px) frame floating on cream with an elevated soft shadow (`{colors.shadow-soft}`), no border. It should read as a calm rounded window."
+- "Add a coral inline link (`{components.link}`): text in `{colors.link-coral}`, underlined, Bricolage body. Use it once or twice per section — never as a button."
+
+### Iteration Guide
+
+1. **Start on parchment cream** (`{colors.background}`) — white is wrong, gray is wrong, only warm cream is right.
+2. **Text is soft charcoal** (`{colors.ink}`), never pure black.
+3. **The coral is an ember** — `{colors.accent}` appears once or twice per view: the italic hero word, an inline link. The primary CTA is charcoal, not coral.
+4. **Serif for the single hero, grotesque for everything else** — Junicode (`{typography.display-hero}`) once; Bricolage (`{typography.body}`) everywhere.
+5. **Radius stays soft** — 12px buttons (`{rounded.md}`), 24px screenshots (`{rounded.lg}`), no sharp corners on interactive elements.
+6. **Shadows are barely-there** — soft black-based drops via `{colors.shadow-soft}`, no glass or glow.
+7. **Let it breathe** — 96–144px (`{spacing.2xl}`–`{spacing.4xl}`) between sections. The calm is in the empty cream.
+
+---
+
+## Attribution
+
+Independent design analysis from [Design Swatches](https://designmd.santiagoalonso.com) by [Santiago Alonso](https://santiagoalonso.com). Based on publicly observable interface patterns. Not affiliated with or endorsed by Zen Browser. Brand names and trademarks belong to their respective owners.
