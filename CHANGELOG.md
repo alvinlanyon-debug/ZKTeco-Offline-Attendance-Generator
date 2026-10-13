@@ -10,7 +10,7 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 - Reworked the product homepage and offline download guide around the project’s Zen Browser inspired design system.
 - Added a clearer four-step repository download guide and compact mobile navigation.
-- Added an interactive homepage feature showcase with cropped app screenshots and the supplied product walkthrough.
+- Added an interactive homepage feature showcase with cropped app screenshots.
 
 ### Changed
 
@@ -18,6 +18,7 @@ This project follows [Semantic Versioning](https://semver.org/).
 - Rebuilt the workflow as an ordered, responsive step grid, replacing the fixed-height connector that drifted against variable-height content.
 - Improved app and generated report table readability with column and row rules, subtle striping, and softened compliance colors.
 - Updated the app version to 2.0.0 and refreshed the offline snapshot and release documentation.
+- Replaced the synthetic report preview in the homepage hero with the supplied walkthrough video and three short zoom-ins during playback. Kept the feature section below focused on its three screenshots.
 
 ## [1.1.0] - 2026-10-02
 

@@ -46,55 +46,13 @@
       <a href="download/index.html" class="button-secondary button-large">Download / use offline</a>
     </div>
 
-    <!-- Product Preview Frame -->
+    <!-- Product walkthrough, styled like Zen's rounded hero video. -->
     <div class="media-frame">
-      <div class="ui-mockup">
-        <div class="ui-mockup-header">
-          <div class="ui-mockup-logo">
-            <div class="logo-mark" style="transform: scale(0.7);">
-              <div class="logo-square logo-square-1"></div>
-              <div class="logo-square logo-square-2"></div>
-              <div class="logo-square logo-square-3"></div>
-            </div>
-            <span style="font-size: 14px; font-weight: 600;">Zen AtGen</span>
-          </div>
-        </div>
-        <div class="ui-mockup-body">
-          <div class="ui-mockup-card">
-            <div class="ui-mockup-title">Security Guard — Daily Check Log</div>
-            <table class="ui-mockup-table">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Check 1</th>
-                  <th>Check 2</th>
-                  <th>Check 3</th>
-                  <th>Check 4</th>
-                  <th>Missed</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="font-weight: 600;">14 Oct</td>
-                  <td class="check-ok">08:00</td>
-                  <td class="check-ok">08:52</td>
-                  <td class="check-ok">09:41</td>
-                  <td class="check-violation">10:55</td>
-                  <td class="check-violation">1</td>
-                </tr>
-                <tr>
-                  <td style="font-weight: 600;">15 Oct</td>
-                  <td class="check-ok">07:55</td>
-                  <td class="check-ok">08:45</td>
-                  <td class="check-ok">09:30</td>
-                  <td class="check-ok">10:15</td>
-                  <td class="check-ok">0</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+      <video class="hero-demo-video" controls muted loop playsinline preload="none"
+        poster="assets/features/report-builder.jpg" aria-label="Zen AtGen attendance report workflow demo">
+        <source src="assets/features/atgen-demo.mp4" type="video/mp4">
+        Your browser does not support video playback.
+      </video>
     </div>
   </section>
 
@@ -120,20 +78,12 @@
           <span class="feature-tab-title">Build a report for your team</span>
           <span class="feature-tab-description">Choose the report type and period, then generate a print-ready result.</span>
         </button>
-        <button class="feature-tab" id="feature-tab-demo" type="button" role="tab" aria-selected="false" aria-controls="feature-panel" tabindex="-1" data-feature="demo">
-          <span class="feature-tab-title">See Zen AtGen in action</span>
-          <span class="feature-tab-description">Play the short walkthrough to see the workflow from file selection to report.</span>
-        </button>
       </div>
 
       <div class="feature-stage">
         <div class="feature-panel" id="feature-panel" role="tabpanel" aria-labelledby="feature-tab-classify" tabindex="0">
           <figure class="feature-media">
             <img class="feature-image" src="assets/features/staff-classification.jpg" alt="Staff classification screen with employee names and identifiers removed; role choices remain visible." loading="lazy">
-            <video class="feature-video" controls preload="none" playsinline poster="assets/features/report-builder.jpg" aria-label="Zen AtGen product walkthrough" hidden>
-              <source src="assets/features/atgen-demo.mp4" type="video/mp4">
-              Your browser does not support video playback. You can still explore the feature screenshots.
-            </video>
             <figcaption class="feature-caption">Attendance files and roster settings are handled on your device.</figcaption>
           </figure>
         </div>
@@ -263,9 +213,9 @@
     const tabs = [...document.querySelectorAll('.feature-tab')];
     const panel = document.querySelector('#feature-panel');
     const image = panel.querySelector('.feature-image');
-    const video = panel.querySelector('.feature-video');
     const caption = panel.querySelector('.feature-caption');
     const tabList = document.querySelector('.feature-list');
+    const heroVideo = document.querySelector('.hero-demo-video');
     const features = {
       classify: {
         src: 'assets/features/staff-classification.jpg',
@@ -282,11 +232,25 @@
         alt: 'Report builder with controls for report type, period type and date range.',
         caption: 'Choose the scope and time window before generating a report.'
       },
-      demo: {
-        video: true,
-        caption: 'A walkthrough of the app using the supplied demo recording.'
-      }
     };
+
+    const zoomMoments = [0.2, 0.48, 0.76];
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    heroVideo.addEventListener('timeupdate', () => {
+      if (reducedMotion.matches || !Number.isFinite(heroVideo.duration) || heroVideo.duration <= 0) return;
+      const zoomWindow = Math.min(0.025, 1.2 / heroVideo.duration);
+      const zooming = zoomMoments.some((moment) => Math.abs(heroVideo.currentTime / heroVideo.duration - moment) < zoomWindow);
+      heroVideo.dataset.zoom = String(zooming);
+    });
+    reducedMotion.addEventListener('change', () => {
+      if (reducedMotion.matches) {
+        heroVideo.pause();
+        heroVideo.dataset.zoom = 'false';
+      } else if (heroVideo.paused) {
+        heroVideo.play().catch(() => {});
+      }
+    });
+    if (!reducedMotion.matches) heroVideo.play().catch(() => {});
 
     const updateTabOrientation = () => {
       tabList.setAttribute('aria-orientation', matchMedia('(max-width: 640px)').matches ? 'horizontal' : 'vertical');
@@ -303,16 +267,9 @@
       });
       panel.setAttribute('aria-labelledby', tab.id);
       caption.textContent = feature.caption;
-      if (feature.video) {
-        image.hidden = true;
-        video.hidden = false;
-      } else {
-        video.pause();
-        video.hidden = true;
-        image.hidden = false;
-        image.src = feature.src;
-        image.alt = feature.alt;
-      }
+      image.hidden = false;
+      image.src = feature.src;
+      image.alt = feature.alt;
       if (moveFocus) tab.focus();
     }
 
