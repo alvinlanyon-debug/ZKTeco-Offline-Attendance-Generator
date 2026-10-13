@@ -4,6 +4,13 @@ All notable changes to this project are documented here.
 
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [2.1.1] - 2026-10-13
+
+### Changed
+
+- Replaced the duplicate homepage workflow video section with a concise benefits section highlighting exception review, weekly visibility, and report exports.
+- Updated homepage navigation labels to point to the benefits section.
+
 ## [2.1.0] - 2026-10-13
 
 ### Added

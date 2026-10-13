@@ -533,29 +533,63 @@ code {
   .feature-tab { transition: none; }
 }
 
-/* ===== WORKFLOW SHOWCASE ===== */
-.workflow-section {
+/* ===== BENEFITS ===== */
+.benefits-section {
   padding-top: var(--section-inset);
   padding-bottom: var(--section-inset);
-  position: relative;
 }
 
-.workflow-intro {
+.benefits-intro {
   max-width: 1040px;
   margin: 0 auto var(--space-lg);
 }
 
-.workflow-intro .body-large {
-  max-width: 720px;
+.benefits-intro .body-large {
+  max-width: 680px;
   margin: 0;
 }
 
-.workflow-showcase {
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-lg);
   max-width: 1040px;
   margin: 0 auto;
 }
 
-.workflow-tabs,
+.benefit-card {
+  min-width: 0;
+  padding: var(--space-xl);
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--rounded-md);
+}
+
+.benefit-number {
+  display: inline-block;
+  margin-bottom: var(--space-md);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.benefit-card h3 {
+  margin: 0 0 var(--space-sm);
+  color: var(--ink);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.benefit-card p {
+  margin: 0;
+  color: var(--ink-secondary);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
 .capability-tabs {
   display: flex;
   align-items: center;
@@ -567,7 +601,6 @@ code {
   padding: 6px;
 }
 
-.workflow-tab,
 .capability-tab {
   flex: 0 0 auto;
   border: 0;
@@ -581,13 +614,9 @@ code {
   transition: background 160ms ease, color 160ms ease;
 }
 
-.workflow-tab:hover,
 .capability-tab:hover { background: var(--surface-muted); color: var(--ink); }
-.workflow-tab[aria-selected="true"] { background: var(--surface-muted); color: var(--ink); }
-.workflow-tab:focus-visible,
 .capability-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-.workflow-selected-description,
 .capability-selected-description {
   min-height: 3.2em;
   max-width: 720px;
@@ -596,7 +625,6 @@ code {
   line-height: 1.55;
 }
 
-.workflow-panel,
 .capability-panel {
   margin: 0;
   overflow: hidden;
@@ -677,9 +705,9 @@ code {
 
 /* Keep showcase controls usable on narrow screens. */
 @media (max-width: 640px) {
-  .workflow-intro { margin-bottom: var(--space-md); }
-  .workflow-tabs { margin-right: calc(-1 * var(--space-md)); border-radius: var(--rounded-sm) 0 0 var(--rounded-sm); }
-  .workflow-selected-description,
+  .benefits-intro { margin-bottom: var(--space-md); }
+  .benefits-grid { grid-template-columns: 1fr; gap: var(--space-md); }
+  .benefit-card { padding: var(--space-lg); }
   .capability-selected-description { min-height: 0; }
   .capability-tabs { max-width: 100%; justify-content: flex-start; }
   .capability-tab { padding: 12px 14px; }
@@ -694,7 +722,7 @@ code {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .workflow-tab, .capability-tab { transition: none; }
+  .capability-tab { transition: none; }
 }
 /* ===== FOOTER ===== */
 .footer-section {
