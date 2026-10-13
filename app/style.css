@@ -508,15 +508,27 @@ code {
 
 /* ===== DARK SECTION ===== */
 .section-dark {
-  background: var(--background);
-  color: var(--ink);
-  padding-top: var(--space-4xl);
-  padding-bottom: var(--space-4xl);
+  /* Zen's dark-theme palette, applied to this single feature chapter. */
+  --dark-paper: #1f1f1f;
+  --dark-ink: #d1cfc0;
+  --dark-muted: rgba(255, 255, 255, 0.05);
+  --dark-divider: rgba(255, 255, 255, 0.1);
+  width: 100%;
+  max-width: none;
+  background: var(--dark-paper);
+  color: var(--dark-ink);
+  padding: var(--space-4xl) var(--space-xl);
 }
 
 .section-dark .heading-section,
 .section-dark .body-large {
-  color: var(--ink);
+  color: var(--dark-ink);
+}
+
+.section-dark .badge {
+  background: var(--dark-muted);
+  color: var(--dark-ink);
+  border: 1px solid var(--dark-divider);
 }
 
 .capabilities-container {
@@ -532,25 +544,31 @@ code {
 }
 
 .card-dark {
-  background: var(--surface);
-  border: 1px solid var(--border-hairline);
+  background: var(--dark-muted);
+  border: 1px solid var(--dark-divider);
   border-radius: var(--rounded-sm);
   padding: var(--space-xl);
   text-align: left;
-  box-shadow: 0 1px 3px var(--shadow-soft);
+  box-shadow: none;
+  transition: background 180ms ease, border-color 180ms ease;
+}
+
+.card-dark:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
 }
 
 .card-dark h3 {
   font-size: 20px;
   font-weight: 700;
-  color: var(--ink);
+  color: var(--dark-ink);
   margin-bottom: var(--space-md);
 }
 
 .card-dark p {
   font-size: 16px;
   line-height: 1.6;
-  color: var(--ink-secondary);
+  color: rgba(209, 207, 192, 0.76);
   margin: 0;
 }
 
@@ -671,6 +689,8 @@ code {
   .section-dark {
     padding-top: var(--space-2xl);
     padding-bottom: var(--space-2xl);
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
   }
 
   .footer-main {

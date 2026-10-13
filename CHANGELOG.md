@@ -13,7 +13,7 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- Centered and responsively scaled the single-line homepage hero; aligned section surfaces, cards, typography, and accents with the design tokens.
+- Centered and responsively scaled the single-line homepage hero; aligned section surfaces, cards, typography, and accents with Zen's current light and dark theme tokens.
 - Improved app and generated report table readability with column and row rules, subtle striping, and softened compliance colors.
 - Updated the app version to 2.0.0 and refreshed the offline snapshot and release documentation.
 
