@@ -39,6 +39,9 @@
   --space-3xl: 128px;
   --space-4xl: 144px;
 
+  /* Equal section breathing room, scaled at the same breakpoints. */
+  --section-inset: var(--space-3xl);
+
   /* Rounded */
   --rounded-none: 0px;
   --rounded-sm: 8px;
@@ -72,7 +75,7 @@ body {
 .display-hero {
   font-family: 'Junicode', Georgia, 'Times New Roman', serif;
   font-size: 128px;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.0;
   letter-spacing: -1px;
   color: var(--ink);
@@ -327,8 +330,8 @@ code {
 
 /* ===== HERO SECTION ===== */
 .hero-section {
-  padding-top: var(--space-4xl);
-  padding-bottom: var(--space-4xl);
+  padding-top: var(--section-inset);
+  padding-bottom: var(--section-inset);
 }
 
 .hero-actions {
@@ -346,7 +349,8 @@ code {
   border-radius: var(--rounded-lg);
   box-shadow: 0 10px 15px -3px var(--shadow-soft), 0 4px 6px -2px var(--shadow-soft);
   overflow: hidden;
-  max-width: 900px;
+  width: 100%;
+  max-width: 1120px;
   margin: 0 auto;
 }
 
@@ -372,9 +376,22 @@ code {
 
 /* ===== FEATURE SHOWCASE ===== */
 .features-section {
-  padding-top: var(--space-3xl);
-  padding-bottom: var(--space-3xl);
+  --dark-paper: #1f1f1f;
+  --dark-ink: #d1cfc0;
+  --dark-muted: rgba(255, 255, 255, 0.05);
+  --dark-divider: rgba(255, 255, 255, 0.1);
+  width: 100%;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  padding: var(--section-inset) var(--space-xl);
+  background: var(--dark-paper);
+  color: var(--dark-ink);
 }
+
+.features-section .heading-section,
+.features-section .body-large,
+.features-section .eyebrow { color: var(--dark-ink); }
 
 .features-intro {
   max-width: 820px;
@@ -422,18 +439,18 @@ code {
   border: 1px solid transparent;
   border-radius: var(--rounded-md);
   background: transparent;
-  color: var(--ink);
+  color: var(--dark-ink);
   font: inherit;
   text-align: left;
   cursor: pointer;
   transition: background-color 180ms ease, border-color 180ms ease;
 }
 
-.feature-tab:hover { background: rgba(46, 46, 46, 0.035); }
+.feature-tab:hover { background: rgba(255, 255, 255, 0.08); }
 
 .feature-tab[aria-selected="true"] {
-  background: var(--surface-muted);
-  border-color: var(--border-hairline);
+  background: var(--dark-muted);
+  border-color: var(--dark-divider);
 }
 
 .feature-tab:focus-visible {
@@ -452,7 +469,7 @@ code {
 }
 
 .feature-tab-description {
-  color: var(--ink-secondary);
+  color: rgba(209, 207, 192, 0.76);
   font-size: 15px;
   line-height: 1.5;
 }
@@ -469,10 +486,10 @@ code {
   overflow: hidden;
   margin: 0;
   padding: var(--space-md);
-  border: 1px solid var(--border-hairline);
+  border: 1px solid var(--dark-divider);
   border-radius: var(--rounded-lg);
-  background: var(--surface);
-  box-shadow: 0 12px 30px var(--shadow-soft);
+  background: var(--dark-muted);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
 }
 
 .feature-image {
@@ -481,7 +498,7 @@ code {
   max-height: 560px;
   border-radius: var(--rounded-md);
   object-fit: contain;
-  background: var(--surface-tint);
+  background: #fff;
 }
 
 .feature-image { aspect-ratio: 1.55; }
@@ -489,7 +506,7 @@ code {
 
 .feature-caption {
   margin: var(--space-sm) 2px 0;
-  color: var(--ink-secondary);
+  color: rgba(209, 207, 192, 0.76);
   font-size: 13px;
   line-height: 1.45;
 }
@@ -500,8 +517,8 @@ code {
 
 /* ===== FOUR-STEP WORKFLOW ===== */
 .workflow-section {
-  padding-top: var(--space-3xl);
-  padding-bottom: var(--space-3xl);
+  padding-top: var(--section-inset);
+  padding-bottom: var(--section-inset);
   position: relative;
 }
 
@@ -578,7 +595,7 @@ code {
 
 /* ===== DARK SECTION ===== */
 .section-dark {
-  /* Zen's dark-theme palette, applied to this single feature chapter. */
+  /* Shared Zen dark-theme palette for the feature and capabilities chapters. */
   --dark-paper: #1f1f1f;
   --dark-ink: #d1cfc0;
   --dark-muted: rgba(255, 255, 255, 0.05);
@@ -587,7 +604,7 @@ code {
   max-width: none;
   background: var(--dark-paper);
   color: var(--dark-ink);
-  padding: var(--space-4xl) var(--space-xl);
+  padding: var(--section-inset) var(--space-xl);
 }
 
 .section-dark .heading-section,
@@ -645,8 +662,8 @@ code {
 /* ===== FOOTER ===== */
 .footer-section {
   background: var(--surface-tint);
-  padding-top: var(--space-4xl);
-  padding-bottom: var(--space-xl);
+  padding-top: var(--section-inset);
+  padding-bottom: var(--section-inset);
   position: relative;
   overflow: hidden;
 }
@@ -738,6 +755,7 @@ code {
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
+  :root { --section-inset: var(--space-2xl); }
   .display-hero {
     font-size: clamp(48px, 8.6vw, 72px);
   }
@@ -747,18 +765,8 @@ code {
   }
 
   .hero-section {
-    padding-top: var(--space-2xl);
-    padding-bottom: var(--space-2xl);
-  }
-
-  .workflow-section {
-    padding-top: var(--space-2xl);
-    padding-bottom: var(--space-2xl);
-  }
-
-  .features-section {
-    padding-top: var(--space-2xl);
-    padding-bottom: var(--space-2xl);
+    padding-top: var(--section-inset);
+    padding-bottom: var(--section-inset);
   }
 
   .features-intro { margin-bottom: var(--space-xl); }
@@ -770,11 +778,13 @@ code {
 
   .feature-stage { top: 88px; }
 
+  .media-frame { max-width: 960px; }
+
   .feature-media { padding: var(--space-sm); }
 
   .section-dark {
-    padding-top: var(--space-2xl);
-    padding-bottom: var(--space-2xl);
+    padding-top: var(--section-inset);
+    padding-bottom: var(--section-inset);
     padding-left: var(--space-md);
     padding-right: var(--space-md);
   }
@@ -794,6 +804,7 @@ code {
 }
 
 @media (max-width: 640px) {
+  :root { --section-inset: var(--space-xl); }
   .display-hero {
     font-size: clamp(24px, 7.4vw, 46px);
     letter-spacing: -0.5px;
@@ -835,7 +846,7 @@ code {
     display: none;
   }
 
-  .features-section { padding-top: var(--space-xl); padding-bottom: var(--space-xl); }
+  .features-section { padding-left: var(--space-lg); padding-right: var(--space-lg); }
 
   .features-intro { margin-bottom: var(--space-lg); }
 

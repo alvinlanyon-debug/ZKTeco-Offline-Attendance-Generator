@@ -11,6 +11,7 @@ This project follows [Semantic Versioning](https://semver.org/).
 - Reworked the product homepage and offline download guide around the project’s Zen Browser inspired design system.
 - Added a clearer four-step repository download guide and compact mobile navigation.
 - Added an interactive homepage feature showcase with cropped app screenshots.
+- Replaced the earlier feature images with six new fictional-data examples covering staff classification, analysis settings, guard compliance, weekly timetables, report summaries, and attendance exceptions.
 
 ### Changed
 
@@ -18,7 +19,9 @@ This project follows [Semantic Versioning](https://semver.org/).
 - Rebuilt the workflow as an ordered, responsive step grid, replacing the fixed-height connector that drifted against variable-height content.
 - Improved app and generated report table readability with column and row rules, subtle striping, and softened compliance colors.
 - Updated the app version to 2.0.0 and refreshed the offline snapshot and release documentation.
-- Replaced the synthetic report preview in the homepage hero with the supplied walkthrough video and three short zoom-ins during playback. Kept the feature section below focused on its three screenshots.
+- Replaced the synthetic report preview in the homepage hero with the supplied walkthrough video and three short zoom-ins during playback. Kept the feature section focused on app screenshots.
+- Matched the hero headline’s normal Junicode weight to Zen’s current hero, expanded the desktop video frame, and applied Zen’s dark paper-and-ink palette to the feature chapter.
+- Standardized the top and bottom section inset across the hero, feature chapter, workflow, capabilities, and footer at desktop, tablet, and mobile breakpoints.
 
 ## [1.1.0] - 2026-10-02
 

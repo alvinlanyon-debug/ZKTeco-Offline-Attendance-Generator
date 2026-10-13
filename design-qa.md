@@ -1,5 +1,14 @@
 # Homepage video and feature showcase QA
 
+## Latest refinement
+
+- [x] Replaced the old feature screenshots with six user-provided fictional-data screenshots, cropped to the application window.
+- [x] Added accessible feature tabs for staff classification, analysis settings, guard compliance, timetables, report summaries, and exceptions.
+- [x] Matched the hero headline weight to Zen’s normal-weight headline, widened the desktop video frame, and applied Zen’s dark palette to the feature chapter.
+- [x] Unified the section inset at desktop, tablet, and mobile sizes without changing the workflow section’s content.
+- [x] Visually checked each cropped image and corrected the mapping between analysis settings and the hourly-compliance table.
+- [ ] Capture the changed homepage at desktop and mobile sizes; the local-page browser policy still prevents that rendered check.
+
 **Findings**
 
 - [Blocked] Rendered comparison and video timing review could not be completed.
@@ -19,8 +28,8 @@
 - [x] Keep the post-hero feature section and remove its demo-video tab.
 - [x] Add three restrained progress-based focus zooms and honor reduced-motion settings.
 - [x] Add responsive horizontal feature tabs and keyboard arrow navigation.
-- [x] Keep the three supplied screenshots as the post-hero feature media.
-- [x] Cover names and identifiers in the roster screenshot.
+- [x] Replace earlier example media with the six fictional-data screenshots supplied for the latest refinement.
+- [x] Use fictional names in the visible roster and report examples.
 - [x] Check JavaScript syntax, local asset references, and whitespace errors.
 - [ ] Capture and compare the rendered page on desktop and mobile.
 - [ ] Verify hero playback and review all visible demo content.

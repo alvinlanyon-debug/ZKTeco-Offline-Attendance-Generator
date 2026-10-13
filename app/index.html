@@ -49,7 +49,7 @@
     <!-- Product walkthrough, styled like Zen's rounded hero video. -->
     <div class="media-frame">
       <video class="hero-demo-video" controls muted loop playsinline preload="none"
-        poster="assets/features/report-builder.jpg" aria-label="Zen AtGen attendance report workflow demo">
+        poster="assets/features/attendance-summary.jpg" aria-label="Zen AtGen attendance report workflow demo">
         <source src="assets/features/atgen-demo.mp4" type="video/mp4">
         Your browser does not support video playback.
       </video>
@@ -57,7 +57,7 @@
   </section>
 
   <!-- Product features, following Zen's post-hero feature section pattern. -->
-  <section id="features" class="features-section section-px" aria-labelledby="features-title">
+  <section id="features" class="features-section" aria-labelledby="features-title">
     <div class="features-intro text-center">
       <span class="eyebrow">Made for the whole review</span>
       <h2 id="features-title" class="heading-section">From raw punches to clear decisions</h2>
@@ -70,21 +70,33 @@
           <span class="feature-tab-title">Classify your team</span>
           <span class="feature-tab-description">Set staff roles once. Names and preferences stay on your device.</span>
         </button>
+        <button class="feature-tab" id="feature-tab-compliance" type="button" role="tab" aria-selected="false" aria-controls="feature-panel" tabindex="-1" data-feature="compliance">
+          <span class="feature-tab-title">Review guard compliance</span>
+          <span class="feature-tab-description">See patrol checks against the hourly mandate.</span>
+        </button>
+        <button class="feature-tab" id="feature-tab-analysis" type="button" role="tab" aria-selected="false" aria-controls="feature-panel" tabindex="-1" data-feature="analysis">
+          <span class="feature-tab-title">Set analysis parameters</span>
+          <span class="feature-tab-description">Adjust the check interval and shift handoff threshold.</span>
+        </button>
+        <button class="feature-tab" id="feature-tab-timetable" type="button" role="tab" aria-selected="false" aria-controls="feature-panel" tabindex="-1" data-feature="timetable">
+          <span class="feature-tab-title">Compare team timetables</span>
+          <span class="feature-tab-description">Review clock-in and clock-out times across the week.</span>
+        </button>
+        <button class="feature-tab" id="feature-tab-summary" type="button" role="tab" aria-selected="false" aria-controls="feature-panel" tabindex="-1" data-feature="summary">
+          <span class="feature-tab-title">Build attendance summaries</span>
+          <span class="feature-tab-description">Turn device records into a print-ready report.</span>
+        </button>
         <button class="feature-tab" id="feature-tab-exceptions" type="button" role="tab" aria-selected="false" aria-controls="feature-panel" tabindex="-1" data-feature="exceptions">
           <span class="feature-tab-title">Spot records to review</span>
           <span class="feature-tab-description">Bring single-punch days and other exceptions into view.</span>
-        </button>
-        <button class="feature-tab" id="feature-tab-reports" type="button" role="tab" aria-selected="false" aria-controls="feature-panel" tabindex="-1" data-feature="reports">
-          <span class="feature-tab-title">Build a report for your team</span>
-          <span class="feature-tab-description">Choose the report type and period, then generate a print-ready result.</span>
         </button>
       </div>
 
       <div class="feature-stage">
         <div class="feature-panel" id="feature-panel" role="tabpanel" aria-labelledby="feature-tab-classify" tabindex="0">
           <figure class="feature-media">
-            <img class="feature-image" src="assets/features/staff-classification.jpg" alt="Staff classification screen with employee names and identifiers removed; role choices remain visible." loading="lazy">
-            <figcaption class="feature-caption">Attendance files and roster settings are handled on your device.</figcaption>
+            <img class="feature-image" src="assets/features/staff-classification.jpg" alt="Staff roster with fictional names Angie, Lisa, Stan, Stevie and John, and role choices for each person." loading="lazy">
+            <figcaption class="feature-caption">Example roster with fictional staff names.</figcaption>
           </figure>
         </div>
       </div>
@@ -219,18 +231,33 @@
     const features = {
       classify: {
         src: 'assets/features/staff-classification.jpg',
-        alt: 'Staff classification screen with employee names and identifiers removed; role choices remain visible.',
-        caption: 'Names and identifiers have been removed from this roster preview.'
+        alt: 'Staff roster with fictional names Angie, Lisa, Stan, Stevie and John, and role choices for each person.',
+        caption: 'Example roster with fictional staff names.'
+      },
+      compliance: {
+        src: 'assets/features/guard-compliance.jpg',
+        alt: 'Hourly check compliance table for fictional staff including Don, Faye, Fin, John, Jojo and Kojo.',
+        caption: 'Guard checks are compared with the required interval.'
+      },
+      analysis: {
+        src: 'assets/features/analysis-parameters.jpg',
+        alt: 'Analysis settings with a 60-minute required check-in interval and 250-minute off-duty gap threshold.',
+        caption: 'Set the guard check interval and mark shift handoffs.'
+      },
+      timetable: {
+        src: 'assets/features/general-worker-timetable.jpg',
+        alt: 'General worker timetable for fictional employee Jojo with attendance checks and missed counts.',
+        caption: 'Review the full check pattern for each worker.'
+      },
+      summary: {
+        src: 'assets/features/attendance-summary.jpg',
+        alt: 'General workers attendance summary for fictional employees Angie and Lisa, with a timetable below.',
+        caption: 'A print-ready report brings totals and timetables together.'
       },
       exceptions: {
         src: 'assets/features/attendance-exception.jpg',
-        alt: 'Attendance notes panel highlighting a single-punch record that needs manual verification.',
-        caption: 'Exceptions are called out clearly so a supervisor can verify them.'
-      },
-      reports: {
-        src: 'assets/features/report-builder.jpg',
-        alt: 'Report builder with controls for report type, period type and date range.',
-        caption: 'Choose the scope and time window before generating a report.'
+        alt: 'Attendance notes and exceptions report listing fictional employees Angie and Lisa for manual verification.',
+        caption: 'Single-punch records are listed for manual verification.'
       },
     };
 

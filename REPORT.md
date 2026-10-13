@@ -13,10 +13,12 @@ This release aligns the marketing homepage, app tables, report preview, mobile l
 - Replaced the fixed SVG workflow timeline with a compact two-column ordered list that collapses to one column on mobile.
 - Retained the download guide’s four-step path from repository ZIP to opening the included app and loading device files.
 - Added the post-hero feature showcase using Zen’s published feature-section structure: a feature selector beside a large, rounded media panel, with horizontal feature tabs on narrow screens. The reference implementation is [Zen Browser’s Features.astro component](https://github.com/zen-browser/www/blob/main/src/components/Features.astro); AtGen uses its own accessible HTML and interaction code with project copy and media.
-- Added sanitized, app-cropped screenshots for roster classification, attendance exceptions, and report setup. Employee names and identifiers are covered in the roster preview.
+- Replaced the feature media with six app-window crops supplied for this refinement. The examples use fictional staff names and show staff classification, analysis settings, guard compliance, weekly timetables, attendance summaries, and single-punch exceptions.
+- Matched the hero headline’s normal Junicode weight to Zen’s published hero component, widened the desktop video frame to 1120px, and applied the existing Zen dark palette to the full-width feature section.
+- Standardized section top and bottom insets at 128px desktop, 96px tablet, and 48px mobile for the hero, feature chapter, workflow, capabilities, and footer. Kept the workflow content and interactions intact.
 - Replaced the static report mockup in the hero with the supplied video in a rounded, cropped frame, following Zen’s [video component](https://github.com/zen-browser/www/blob/main/src/components/Video.astro) treatment. Added three brief, time-based focus zooms and reduced-motion handling. Kept the post-hero feature section and removed only its demo-video tab.
 
-The dark palette follows the official [Zen Browser website theme tokens](https://github.com/zen-browser/www/blob/main/src/styles/global.css). In Zen's source, dark mode is a site-wide color scheme rather than a standalone dark feature block; AtGen uses those values for one capabilities chapter to preserve the light-page layout while bringing in the dark treatment requested here.
+The dark palette follows the official [Zen Browser website theme tokens](https://github.com/zen-browser/www/blob/main/src/styles/global.css). In Zen's source, dark mode is a site-wide color scheme rather than a standalone dark feature block; AtGen reuses those values for the feature and capabilities chapters.
 
 ## Functional and distribution changes
 
@@ -30,7 +32,7 @@ The dark palette follows the official [Zen Browser website theme tokens](https:/
 - Passed `git diff --check` and checked all local HTML links and assets for existing targets.
 - Regenerated the package and confirmed all four offline files exactly match `app/app/`; all three app version files report 2.0.0.
 - Confirmed attendance `.dat` and `.csv` data remain ignored by Git.
-- Verified the generated screenshot crops and identifier removal visually; validated feature asset paths and interactive tab JavaScript syntax. The in-app browser rejected a local video URL, so the walkthrough was not played in-browser during this pass.
+- Visually checked all six screenshot crops, their fictional example content, and their feature mapping; validated feature asset paths and interactive tab JavaScript syntax. The in-app browser rejected a local video URL, so the walkthrough was not played in-browser during this pass.
 - The hero video placement and zoom timing still need rendered review; the in-app browser does not permit opening the local branch preview under its current file-URL policy.
 - Visual browser verification after the changes remains unperformed in this turn; the supplied screenshots were used as the before-state reference.
 - No production employee attendance files are included in this report or release.
