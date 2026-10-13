@@ -12,6 +12,8 @@ This release aligns the marketing homepage, app tables, report preview, mobile l
 - Added clear table column and row rules, restrained zebra striping, and softer green/rust status fills in the app and self-contained report stylesheet.
 - Replaced the fixed SVG workflow timeline with a compact two-column ordered list that collapses to one column on mobile.
 - Retained the download guide’s four-step path from repository ZIP to opening the included app and loading device files.
+- Added the post-hero feature showcase using Zen’s published feature-section structure: a feature selector beside a large, rounded media panel, with horizontal feature tabs on narrow screens. The reference implementation is [Zen Browser’s Features.astro component](https://github.com/zen-browser/www/blob/main/src/components/Features.astro); AtGen uses its own accessible HTML and interaction code with project copy and media.
+- Added sanitized, app-cropped screenshots for roster classification, attendance exceptions, and report setup. Employee names and identifiers are covered in the roster preview. Added the supplied walkthrough as an optional click-to-play video.
 
 The dark palette follows the official [Zen Browser website theme tokens](https://github.com/zen-browser/www/blob/main/src/styles/global.css). In Zen's source, dark mode is a site-wide color scheme rather than a standalone dark feature block; AtGen uses those values for one capabilities chapter to preserve the light-page layout while bringing in the dark treatment requested here.
 
@@ -27,6 +29,7 @@ The dark palette follows the official [Zen Browser website theme tokens](https:/
 - Passed `git diff --check` and checked all local HTML links and assets for existing targets.
 - Regenerated the package and confirmed all four offline files exactly match `app/app/`; all three app version files report 2.0.0.
 - Confirmed attendance `.dat` and `.csv` data remain ignored by Git.
+- Verified the generated screenshot crops and identifier removal visually; validated feature asset paths and interactive tab JavaScript syntax. The in-app browser rejected a local video URL, so the walkthrough was not played in-browser during this pass.
 - Visual browser verification after the changes remains unperformed in this turn; the supplied screenshots were used as the before-state reference.
 - No production employee attendance files are included in this report or release.
 

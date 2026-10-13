@@ -21,6 +21,7 @@
     Zen AtGen
   </a>
   <div class="nav-links">
+    <a href="#features" class="nav-link">Features</a>
     <a href="#workflow" class="nav-link">How It Works</a>
     <a href="#capabilities" class="nav-link">Capabilities</a>
   </div>
@@ -92,6 +93,49 @@
               </tbody>
             </table>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product features, following Zen's post-hero feature section pattern. -->
+  <section id="features" class="features-section section-px" aria-labelledby="features-title">
+    <div class="features-intro text-center">
+      <span class="eyebrow">Made for the whole review</span>
+      <h2 id="features-title" class="heading-section">From raw punches to clear decisions</h2>
+      <p class="body-large">A closer look at the steps that turn device exports into useful attendance reports, processed right in your browser.</p>
+    </div>
+
+    <div class="features-layout">
+      <div class="feature-list" role="tablist" aria-label="Zen AtGen features" aria-orientation="vertical">
+        <button class="feature-tab" id="feature-tab-classify" type="button" role="tab" aria-selected="true" aria-controls="feature-panel" tabindex="0" data-feature="classify">
+          <span class="feature-tab-title">Classify your team</span>
+          <span class="feature-tab-description">Set staff roles once. Names and preferences stay on your device.</span>
+        </button>
+        <button class="feature-tab" id="feature-tab-exceptions" type="button" role="tab" aria-selected="false" aria-controls="feature-panel" tabindex="-1" data-feature="exceptions">
+          <span class="feature-tab-title">Spot records to review</span>
+          <span class="feature-tab-description">Bring single-punch days and other exceptions into view.</span>
+        </button>
+        <button class="feature-tab" id="feature-tab-reports" type="button" role="tab" aria-selected="false" aria-controls="feature-panel" tabindex="-1" data-feature="reports">
+          <span class="feature-tab-title">Build a report for your team</span>
+          <span class="feature-tab-description">Choose the report type and period, then generate a print-ready result.</span>
+        </button>
+        <button class="feature-tab" id="feature-tab-demo" type="button" role="tab" aria-selected="false" aria-controls="feature-panel" tabindex="-1" data-feature="demo">
+          <span class="feature-tab-title">See Zen AtGen in action</span>
+          <span class="feature-tab-description">Play the short walkthrough to see the workflow from file selection to report.</span>
+        </button>
+      </div>
+
+      <div class="feature-stage">
+        <div class="feature-panel" id="feature-panel" role="tabpanel" aria-labelledby="feature-tab-classify" tabindex="0">
+          <figure class="feature-media">
+            <img class="feature-image" src="assets/features/staff-classification.jpg" alt="Staff classification screen with employee names and identifiers removed; role choices remain visible." loading="lazy">
+            <video class="feature-video" controls preload="none" playsinline poster="assets/features/report-builder.jpg" aria-label="Zen AtGen product walkthrough" hidden>
+              <source src="assets/features/atgen-demo.mp4" type="video/mp4">
+              Your browser does not support video playback. You can still explore the feature screenshots.
+            </video>
+            <figcaption class="feature-caption">Attendance files and roster settings are handled on your device.</figcaption>
+          </figure>
         </div>
       </div>
     </div>
@@ -213,6 +257,80 @@
     <path d="M 400 400 Q 310 310, 220 310 Q 130 310, 40 400" stroke="var(--ink)" stroke-width="2" fill="none" opacity="0.05"/>
   </svg>
 </footer>
+
+<script>
+  (() => {
+    const tabs = [...document.querySelectorAll('.feature-tab')];
+    const panel = document.querySelector('#feature-panel');
+    const image = panel.querySelector('.feature-image');
+    const video = panel.querySelector('.feature-video');
+    const caption = panel.querySelector('.feature-caption');
+    const tabList = document.querySelector('.feature-list');
+    const features = {
+      classify: {
+        src: 'assets/features/staff-classification.jpg',
+        alt: 'Staff classification screen with employee names and identifiers removed; role choices remain visible.',
+        caption: 'Names and identifiers have been removed from this roster preview.'
+      },
+      exceptions: {
+        src: 'assets/features/attendance-exception.jpg',
+        alt: 'Attendance notes panel highlighting a single-punch record that needs manual verification.',
+        caption: 'Exceptions are called out clearly so a supervisor can verify them.'
+      },
+      reports: {
+        src: 'assets/features/report-builder.jpg',
+        alt: 'Report builder with controls for report type, period type and date range.',
+        caption: 'Choose the scope and time window before generating a report.'
+      },
+      demo: {
+        video: true,
+        caption: 'A walkthrough of the app using the supplied demo recording.'
+      }
+    };
+
+    const updateTabOrientation = () => {
+      tabList.setAttribute('aria-orientation', matchMedia('(max-width: 640px)').matches ? 'horizontal' : 'vertical');
+    };
+    updateTabOrientation();
+    window.addEventListener('resize', updateTabOrientation);
+
+    function selectFeature(tab, moveFocus = false) {
+      const feature = features[tab.dataset.feature];
+      tabs.forEach((item) => {
+        const selected = item === tab;
+        item.setAttribute('aria-selected', String(selected));
+        item.tabIndex = selected ? 0 : -1;
+      });
+      panel.setAttribute('aria-labelledby', tab.id);
+      caption.textContent = feature.caption;
+      if (feature.video) {
+        image.hidden = true;
+        video.hidden = false;
+      } else {
+        video.pause();
+        video.hidden = true;
+        image.hidden = false;
+        image.src = feature.src;
+        image.alt = feature.alt;
+      }
+      if (moveFocus) tab.focus();
+    }
+
+    tabs.forEach((tab) => tab.addEventListener('click', () => selectFeature(tab)));
+    tabList.addEventListener('keydown', (event) => {
+      const current = tabs.indexOf(document.activeElement);
+      if (current < 0) return;
+      const isHorizontal = matchMedia('(max-width: 640px)').matches;
+      const forward = isHorizontal ? 'ArrowRight' : 'ArrowDown';
+      const backward = isHorizontal ? 'ArrowLeft' : 'ArrowUp';
+      if (event.key === forward || event.key === backward) {
+        event.preventDefault();
+        const offset = event.key === forward ? 1 : -1;
+        selectFeature(tabs[(current + offset + tabs.length) % tabs.length], true);
+      }
+    });
+  })();
+</script>
 
 </body>
 </html>

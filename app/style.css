@@ -423,6 +423,137 @@ code {
   font-weight: 600;
 }
 
+/* ===== FEATURE SHOWCASE ===== */
+.features-section {
+  padding-top: var(--space-3xl);
+  padding-bottom: var(--space-3xl);
+}
+
+.features-intro {
+  max-width: 820px;
+  margin: 0 auto var(--space-2xl);
+}
+
+.features-intro .heading-section {
+  margin-bottom: var(--space-md);
+}
+
+.features-intro .body-large {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: var(--space-md);
+  color: var(--ink-secondary);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.features-layout {
+  display: grid;
+  grid-template-columns: minmax(270px, 0.78fr) minmax(0, 1.5fr);
+  align-items: start;
+  gap: clamp(32px, 6vw, 88px);
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.feature-tab {
+  display: block;
+  width: 100%;
+  padding: var(--space-md) var(--space-lg);
+  border: 1px solid transparent;
+  border-radius: var(--rounded-md);
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.feature-tab:hover { background: rgba(46, 46, 46, 0.035); }
+
+.feature-tab[aria-selected="true"] {
+  background: var(--surface-muted);
+  border-color: var(--border-hairline);
+}
+
+.feature-tab:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+.feature-tab-title,
+.feature-tab-description { display: block; }
+
+.feature-tab-title {
+  margin-bottom: 5px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.feature-tab-description {
+  color: var(--ink-secondary);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.feature-stage {
+  position: sticky;
+  top: 112px;
+  min-width: 0;
+}
+
+.feature-panel { min-width: 0; }
+
+.feature-media {
+  overflow: hidden;
+  margin: 0;
+  padding: var(--space-md);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--rounded-lg);
+  background: var(--surface);
+  box-shadow: 0 12px 30px var(--shadow-soft);
+}
+
+.feature-image,
+.feature-video {
+  display: block;
+  width: 100%;
+  max-height: 560px;
+  border-radius: var(--rounded-md);
+  object-fit: contain;
+  background: var(--surface-tint);
+}
+
+.feature-image { aspect-ratio: 1.55; }
+.feature-image[hidden], .feature-video[hidden] { display: none; }
+
+.feature-video { aspect-ratio: 16 / 9; }
+
+.feature-caption {
+  margin: var(--space-sm) 2px 0;
+  color: var(--ink-secondary);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feature-tab { transition: none; }
+}
+
 /* ===== FOUR-STEP WORKFLOW ===== */
 .workflow-section {
   padding-top: var(--space-3xl);
@@ -681,6 +812,22 @@ code {
     padding-bottom: var(--space-2xl);
   }
 
+  .features-section {
+    padding-top: var(--space-2xl);
+    padding-bottom: var(--space-2xl);
+  }
+
+  .features-intro { margin-bottom: var(--space-xl); }
+
+  .features-layout {
+    grid-template-columns: minmax(230px, 0.8fr) minmax(0, 1.2fr);
+    gap: var(--space-lg);
+  }
+
+  .feature-stage { top: 88px; }
+
+  .feature-media { padding: var(--space-sm); }
+
   .section-dark {
     padding-top: var(--space-2xl);
     padding-bottom: var(--space-2xl);
@@ -743,6 +890,32 @@ code {
   .nav-links {
     display: none;
   }
+
+  .features-section { padding-top: var(--space-xl); padding-bottom: var(--space-xl); }
+
+  .features-intro { margin-bottom: var(--space-lg); }
+
+  .features-layout { display: flex; flex-direction: column; gap: var(--space-md); }
+
+  .feature-list {
+    flex-direction: row;
+    width: 100%;
+    overflow-x: auto;
+    padding: 2px 2px 8px;
+    scroll-snap-type: x mandatory;
+  }
+
+  .feature-tab {
+    flex: 0 0 min(78vw, 290px);
+    min-height: 100%;
+    padding: var(--space-sm) var(--space-md);
+    scroll-snap-align: start;
+  }
+
+  .feature-tab-title { font-size: 16px; }
+  .feature-tab-description { font-size: 14px; }
+  .feature-stage { position: static; width: 100%; }
+  .feature-media { padding: var(--space-xs); border-radius: var(--rounded-md); }
 
   .section-px {
     padding-left: var(--space-lg);

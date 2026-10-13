@@ -10,6 +10,7 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 - Reworked the product homepage and offline download guide around the project’s Zen Browser inspired design system.
 - Added a clearer four-step repository download guide and compact mobile navigation.
+- Added an interactive homepage feature showcase with cropped app screenshots and the supplied product walkthrough.
 
 ### Changed
 
