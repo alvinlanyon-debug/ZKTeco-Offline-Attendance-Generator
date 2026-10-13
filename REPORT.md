@@ -16,6 +16,9 @@ This release aligns the marketing homepage, app tables, report preview, mobile l
 - Replaced the feature media with six app-window crops supplied for this refinement. The examples use fictional staff names and show staff classification, analysis settings, guard compliance, weekly timetables, attendance summaries, and single-punch exceptions.
 - Matched the hero headline’s normal Junicode weight to Zen’s published hero component, widened the desktop video frame to 1120px, and applied the existing Zen dark palette to the full-width feature section.
 - Standardized section top and bottom insets at 128px desktop, 96px tablet, and 48px mobile for the hero, feature chapter, workflow, capabilities, and footer. Kept the workflow content and interactions intact.
+- At tablet and mobile widths, collapsed navigation into a compact menu with an `aria-expanded` state, Escape-to-close behavior, and close-on-link navigation. Kept desktop navigation unchanged. Tightened the phone hero gap and changed its opening word to lowercase as requested.
+- Changed the phone feature selector to a horizontally scrollable Zen-style tab strip with the selected feature description below it. Kept the wide feature layout unchanged.
+- Added five supplied recordings: export/load, staff classification, report generation/export, supervisor reports, and the combined guard compliance/weekly timetable demo. Added controls and matching screenshot posters; the combined clip is shown in both relevant capability cards.
 - Replaced the static report mockup in the hero with the supplied video in a rounded, cropped frame, following Zen’s [video component](https://github.com/zen-browser/www/blob/main/src/components/Video.astro) treatment. Added three brief, time-based focus zooms and reduced-motion handling. Kept the post-hero feature section and removed only its demo-video tab.
 
 The dark palette follows the official [Zen Browser website theme tokens](https://github.com/zen-browser/www/blob/main/src/styles/global.css). In Zen's source, dark mode is a site-wide color scheme rather than a standalone dark feature block; AtGen reuses those values for the feature and capabilities chapters.
@@ -33,6 +36,8 @@ The dark palette follows the official [Zen Browser website theme tokens](https:/
 - Regenerated the package and confirmed all four offline files exactly match `app/app/`; all three app version files report 2.0.0.
 - Confirmed attendance `.dat` and `.csv` data remain ignored by Git.
 - Visually checked all six screenshot crops, their fictional example content, and their feature mapping; validated feature asset paths and interactive tab JavaScript syntax. The in-app browser rejected a local video URL, so the walkthrough was not played in-browser during this pass.
+- For this refinement, confirmed the five supplied video files were copied and referenced in the requested sections. The in-app browser rejected access to the local `file:` page, so rendered breakpoint and playback checks remain blocked.
+- Static validation passed for the inline JavaScript, seven video players, five unique recording files, poster/source targets, six feature-tab mappings, mobile-menu accessibility hooks, balanced CSS braces, and `git diff --check`.
 - The hero video placement and zoom timing still need rendered review; the in-app browser does not permit opening the local branch preview under its current file-URL policy.
 - Visual browser verification after the changes remains unperformed in this turn; the supplied screenshots were used as the before-state reference.
 - No production employee attendance files are included in this report or release.

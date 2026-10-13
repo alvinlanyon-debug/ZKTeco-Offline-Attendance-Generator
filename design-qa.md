@@ -9,6 +9,14 @@
 - [x] Visually checked each cropped image and corrected the mapping between analysis settings and the hourly-compliance table.
 - [ ] Capture the changed homepage at desktop and mobile sizes; the local-page browser policy still prevents that rendered check.
 
+## Mobile navigation and demo media
+
+- [x] Added a compact responsive navigation toggle for tablet and phone widths, including keyboard close and link selection behavior.
+- [x] Matched the phone feature tabs to a single-line horizontal selector with the active description below.
+- [x] Added the five user-provided recordings to workflow demonstrations and capability media.
+- [x] Preserved the large viewport hero layout and styling; changed the requested capitalization and tightened only the mobile hero gap.
+- [ ] Verify the responsive menu and video playback in a rendered browser. Browser Use rejected the local `file:` page; no alternate route was attempted.
+
 **Findings**
 
 - [Blocked] Rendered comparison and video timing review could not be completed.
@@ -32,7 +40,7 @@
 - [x] Use fictional names in the visible roster and report examples.
 - [x] Check JavaScript syntax, local asset references, and whitespace errors.
 - [ ] Capture and compare the rendered page on desktop and mobile.
-- [ ] Verify hero playback and review all visible demo content.
+- [ ] Verify hero and feature video playback and review the rendered layout.
 - [ ] Align zoom cues with actual recorded click moments.
 
 **Follow-up Polish**

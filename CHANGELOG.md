@@ -22,6 +22,8 @@ This project follows [Semantic Versioning](https://semver.org/).
 - Replaced the synthetic report preview in the homepage hero with the supplied walkthrough video and three short zoom-ins during playback. Kept the feature section focused on app screenshots.
 - Matched the hero headline’s normal Junicode weight to Zen’s current hero, expanded the desktop video frame, and applied Zen’s dark paper-and-ink palette to the feature chapter.
 - Standardized the top and bottom section inset across the hero, feature chapter, workflow, capabilities, and footer at desktop, tablet, and mobile breakpoints.
+- Refined the tablet/mobile header into a compact, accessible menu, and matched the mobile feature selector to Zen’s horizontal tab-and-description pattern while leaving large viewport hero styling intact.
+- Added the five supplied screen recordings to the workflow demonstrations and capability cards for supervisor reports, guard compliance, and weekly timetables.
 
 ## [1.1.0] - 2026-10-02
 

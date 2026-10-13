@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<header class="nav-bar">
+<header class="nav-bar" data-menu-open="false">
   <a href="#" class="nav-logo">
     <div class="logo-mark">
       <div class="logo-square logo-square-1"></div>
@@ -20,22 +20,27 @@
     </div>
     Zen AtGen
   </a>
-  <div class="nav-links">
-    <a href="#features" class="nav-link">Features</a>
-    <a href="#workflow" class="nav-link">How It Works</a>
-    <a href="#capabilities" class="nav-link">Capabilities</a>
-  </div>
-  <div>
-    <a href="download/index.html" class="button-secondary">Download</a>
-    <a href="app/index.html" class="button-primary">Open the App</a>
-  </div>
+  <nav class="nav-menu" id="site-navigation" aria-label="Main navigation">
+    <div class="nav-links">
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#workflow" class="nav-link">How It Works</a>
+      <a href="#capabilities" class="nav-link">Capabilities</a>
+    </div>
+    <div class="nav-actions">
+      <a href="download/index.html" class="button-secondary">Download</a>
+      <a href="app/index.html" class="button-primary">Open the App</a>
+    </div>
+  </nav>
+  <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="site-navigation">
+    Menu
+  </button>
 </header>
 
 <main>
   <!-- Hero Section -->
   <section class="hero-section section-px text-center">
     <h1 class="display-hero">
-      <span class="hero-nowrap">Turn device exports</span>
+      <span class="hero-nowrap">turn device exports</span>
       into <span class="display-hero-italic">clear</span> reports
     </h1>
     <p class="hero-subtitle">
@@ -91,6 +96,7 @@
           <span class="feature-tab-description">Bring single-punch days and other exceptions into view.</span>
         </button>
       </div>
+      <p class="feature-selected-description" id="feature-selected-description" aria-live="polite">Set staff roles once. Names and preferences stay on your device.</p>
 
       <div class="feature-stage">
         <div class="feature-panel" id="feature-panel" role="tabpanel" aria-labelledby="feature-tab-classify" tabindex="0">
@@ -145,6 +151,30 @@
         </div>
       </li>
     </ol>
+
+    <div class="workflow-demos" role="group" aria-label="Workflow video demonstrations">
+      <figure class="workflow-demo">
+        <video class="demo-video" controls playsinline preload="none" poster="assets/features/analysis-parameters.jpg" aria-label="Export device data and load files into Zen AtGen">
+          <source src="assets/features/demos/export-and-load.mp4" type="video/mp4">
+          Your browser does not support video playback.
+        </video>
+        <figcaption><h3>Export & load</h3><p>Move attendance exports from the device into Zen AtGen.</p></figcaption>
+      </figure>
+      <figure class="workflow-demo">
+        <video class="demo-video" controls playsinline preload="none" poster="assets/features/staff-classification.jpg" aria-label="Classify staff in Zen AtGen">
+          <source src="assets/features/demos/classify-staff.mp4" type="video/mp4">
+          Your browser does not support video playback.
+        </video>
+        <figcaption><h3>Classify staff</h3><p>Assign each person to the right report group.</p></figcaption>
+      </figure>
+      <figure class="workflow-demo">
+        <video class="demo-video" controls playsinline preload="none" poster="assets/features/attendance-summary.jpg" aria-label="Generate and export an attendance report">
+          <source src="assets/features/demos/generate-and-export.mp4" type="video/mp4">
+          Your browser does not support video playback.
+        </video>
+        <figcaption><h3>Generate & export</h3><p>Create a report, then save or print the result.</p></figcaption>
+      </figure>
+    </div>
   </section>
 
   <!-- Capabilities -->
@@ -158,14 +188,26 @@
 
       <div class="grid-3">
         <div class="card-dark">
+          <video class="capability-video" controls playsinline preload="none" poster="assets/features/attendance-summary.jpg" aria-label="Supervisor reports in action">
+            <source src="assets/features/demos/supervisor-reports.mp4" type="video/mp4">
+            Your browser does not support video playback.
+          </video>
           <h3>Supervisor Reports</h3>
           <p>Generate role-specific attendance reports for Security Guards, General Workers, or an All-Staff overview. Filter anomalies effortlessly.</p>
         </div>
         <div class="card-dark">
+          <video class="capability-video" controls playsinline preload="none" poster="assets/features/guard-compliance.jpg" aria-label="Guard compliance in action">
+            <source src="assets/features/demos/guard-compliance-weekly-timetable.mp4" type="video/mp4">
+            Your browser does not support video playback.
+          </video>
           <h3>Guard Compliance</h3>
           <p>Track hourly check-in mandates against ZKTeco timestamps. Instantly flag missed checks and calculate daily compliance percentages.</p>
         </div>
         <div class="card-dark">
+          <video class="capability-video" controls playsinline preload="none" poster="assets/features/general-worker-timetable.jpg" aria-label="Weekly timetables in action">
+            <source src="assets/features/demos/guard-compliance-weekly-timetable.mp4" type="video/mp4">
+            Your browser does not support video playback.
+          </video>
           <h3>Weekly Timetables</h3>
           <p>Read clock-in and clock-out times in an intuitive table format. Flag single-punch anomalies that need manual verification.</p>
         </div>
@@ -226,8 +268,12 @@
     const panel = document.querySelector('#feature-panel');
     const image = panel.querySelector('.feature-image');
     const caption = panel.querySelector('.feature-caption');
+    const selectedDescription = document.querySelector('#feature-selected-description');
     const tabList = document.querySelector('.feature-list');
     const heroVideo = document.querySelector('.hero-demo-video');
+    const nav = document.querySelector('.nav-bar');
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
     const features = {
       classify: {
         src: 'assets/features/staff-classification.jpg',
@@ -294,6 +340,7 @@
       });
       panel.setAttribute('aria-labelledby', tab.id);
       caption.textContent = feature.caption;
+      selectedDescription.textContent = tab.querySelector('.feature-tab-description').textContent;
       image.hidden = false;
       image.src = feature.src;
       image.alt = feature.alt;
@@ -301,6 +348,25 @@
     }
 
     tabs.forEach((tab) => tab.addEventListener('click', () => selectFeature(tab)));
+    navToggle.addEventListener('click', () => {
+      const open = navToggle.getAttribute('aria-expanded') !== 'true';
+      navToggle.setAttribute('aria-expanded', String(open));
+      navToggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+      nav.dataset.menuOpen = String(open);
+    });
+    navMenu.addEventListener('click', (event) => {
+      if (!event.target.closest('a')) return;
+      nav.dataset.menuOpen = 'false';
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.setAttribute('aria-label', 'Open navigation');
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape' || nav.dataset.menuOpen !== 'true') return;
+      nav.dataset.menuOpen = 'false';
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.setAttribute('aria-label', 'Open navigation');
+      navToggle.focus();
+    });
     tabList.addEventListener('keydown', (event) => {
       const current = tabs.indexOf(document.activeElement);
       if (current < 0) return;
