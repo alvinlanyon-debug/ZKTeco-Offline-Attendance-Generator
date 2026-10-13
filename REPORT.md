@@ -10,6 +10,7 @@ This release aligns the marketing homepage, app tables, report preview, mobile l
 - Applied the cream canvas, charcoal text, Junicode hero, Bricolage Grotesque working type, restrained coral, soft cards, and neutral step markers. Used Zen’s published dark-theme paper and ink values for the feature chapter, with low-contrast card fills and dividers.
 - Kept the app’s nested-square brand mark and compact mobile header; reduced narrow-screen hero and navigation sizing to prevent clipping.
 - Added clear table column and row rules, restrained zebra striping, and softer green/rust status fills in the app and self-contained report stylesheet.
+- Replaced the fixed SVG workflow timeline with a compact two-column ordered list that collapses to one column on mobile.
 - Retained the download guide’s four-step path from repository ZIP to opening the included app and loading device files.
 
 The dark palette follows the official [Zen Browser website theme tokens](https://github.com/zen-browser/www/blob/main/src/styles/global.css). In Zen's source, dark mode is a site-wide color scheme rather than a standalone dark feature block; AtGen uses those values for one capabilities chapter to preserve the light-page layout while bringing in the dark treatment requested here.

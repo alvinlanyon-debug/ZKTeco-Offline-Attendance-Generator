@@ -97,61 +97,48 @@
     </div>
   </section>
 
-  <!-- How It Works — Alia-style numbered workflow -->
+  <!-- Four-step workflow -->
   <section id="workflow" class="workflow-section section-px">
     <div class="workflow-intro text-center">
       <h2 class="heading-section">From raw punches to polished reports</h2>
-      <p class="body-large" style="max-width: 700px; margin: 0 auto;">
+      <p class="body-large">
         The ZKTeco attlog.dat format is hard to read. Zen AtGen makes it easy—locally, without uploading your employee data.
       </p>
     </div>
 
-    <!-- Workflow graphic with curved connectors -->
-    <div class="workflow-visual">
-      <svg class="workflow-connector" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid meet">
-        <path d="M 200 50 Q 200 150, 200 200" stroke="var(--accent)" stroke-width="2" fill="none" opacity="0.4"/>
-        <circle cx="200" cy="200" r="16" fill="var(--accent)" opacity="0.2"/>
-        <path d="M 200 216 Q 200 300, 200 350" stroke="var(--accent)" stroke-width="2" fill="none" opacity="0.4"/>
-        <circle cx="200" cy="350" r="16" fill="var(--accent)" opacity="0.2"/>
-        <path d="M 200 366 Q 200 450, 200 500" stroke="var(--accent)" stroke-width="2" fill="none" opacity="0.4"/>
-        <circle cx="200" cy="500" r="16" fill="var(--accent)" opacity="0.2"/>
-        <path d="M 200 516 Q 200 600, 200 650" stroke="var(--accent)" stroke-width="2" fill="none" opacity="0.4"/>
-      </svg>
-
-      <div class="workflow-steps">
-        <div class="workflow-step">
-          <div class="step-number">01</div>
-          <div class="step-card">
-            <h3 class="step-title">Export device data</h3>
-            <p class="step-description">Insert a USB drive into your ZKTeco device. From the menu, download <strong>attlog.dat</strong> (Attendance Data) and optionally <strong>user.dat</strong> (Staff Names).</p>
-          </div>
+    <ol class="workflow-steps">
+      <li class="workflow-step">
+        <span class="step-number" aria-hidden="true">01</span>
+        <div class="step-card">
+          <h3 class="step-title">Export device data</h3>
+          <p class="step-description">Insert a USB drive into your ZKTeco device. From the menu, download <strong>attlog.dat</strong> (Attendance Data) and optionally <strong>user.dat</strong> (Staff Names).</p>
         </div>
+      </li>
 
-        <div class="workflow-step">
-          <div class="step-number">02</div>
-          <div class="step-card">
-            <h3 class="step-title">Load files into Zen AtGen</h3>
-            <p class="step-description">Plug the USB drive into your computer and select the files. Data is parsed locally in your browser—nothing is uploaded to the internet.</p>
-          </div>
+      <li class="workflow-step">
+        <span class="step-number" aria-hidden="true">02</span>
+        <div class="step-card">
+          <h3 class="step-title">Load files into Zen AtGen</h3>
+          <p class="step-description">Plug the USB drive into your computer and select the files. Data is parsed locally in your browser—nothing is uploaded to the internet.</p>
         </div>
+      </li>
 
-        <div class="workflow-step">
-          <div class="step-number">03</div>
-          <div class="step-card">
-            <h3 class="step-title">Classify your staff</h3>
-            <p class="step-description">Mark employees as Security Guards or General Workers. Your roster settings are saved on your computer for next time.</p>
-          </div>
+      <li class="workflow-step">
+        <span class="step-number" aria-hidden="true">03</span>
+        <div class="step-card">
+          <h3 class="step-title">Classify your staff</h3>
+          <p class="step-description">Mark employees as Security Guards or General Workers. Your roster settings are saved on your computer for next time.</p>
         </div>
+      </li>
 
-        <div class="workflow-step">
-          <div class="step-number">04</div>
-          <div class="step-card">
-            <h3 class="step-title">Generate & export</h3>
-            <p class="step-description">View daily logs and compliance summaries. Print to PDF, export to CSV for spreadsheets, or download as standalone HTML.</p>
-          </div>
+      <li class="workflow-step">
+        <span class="step-number" aria-hidden="true">04</span>
+        <div class="step-card">
+          <h3 class="step-title">Generate & export</h3>
+          <p class="step-description">View daily logs and compliance summaries. Print to PDF, export to CSV for spreadsheets, or download as standalone HTML.</p>
         </div>
-      </div>
-    </div>
+      </li>
+    </ol>
   </section>
 
   <!-- Capabilities -->

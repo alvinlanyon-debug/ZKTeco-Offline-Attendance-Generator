@@ -423,58 +423,55 @@ code {
   font-weight: 600;
 }
 
-/* ===== WORKFLOW SECTION (Alia-style) ===== */
+/* ===== FOUR-STEP WORKFLOW ===== */
 .workflow-section {
-  padding-top: var(--space-4xl);
-  padding-bottom: var(--space-4xl);
+  padding-top: var(--space-3xl);
+  padding-bottom: var(--space-3xl);
   position: relative;
 }
 
 .workflow-intro {
-  margin-bottom: var(--space-4xl);
+  max-width: 820px;
+  margin: 0 auto var(--space-xl);
 }
 
-.workflow-visual {
-  position: relative;
-  max-width: 800px;
+.workflow-intro .body-large {
+  max-width: 700px;
   margin: 0 auto;
 }
 
-.workflow-connector {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  transform: translateX(-50%);
-  width: 400px;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
-
 .workflow-steps {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4xl);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-lg);
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
 }
 
 .workflow-step {
   display: flex;
   align-items: flex-start;
-  gap: var(--space-xl);
+  gap: var(--space-md);
+  min-width: 0;
+  min-height: 100%;
+  padding: var(--space-lg);
+  background: var(--surface);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--rounded-sm);
 }
 
 .step-number {
   flex-shrink: 0;
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--surface-muted);
   color: var(--ink);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
   border-radius: 50%;
   box-shadow: none;
@@ -482,23 +479,21 @@ code {
 
 .step-card {
   flex: 1;
-  background: var(--surface);
-  border-radius: var(--rounded-sm);
-  padding: var(--space-xl);
-  box-shadow: 0 1px 3px var(--shadow-soft);
+  min-width: 0;
 }
 
 .step-title {
   font-size: 20px;
   font-weight: 700;
   color: var(--ink);
-  margin-bottom: var(--space-sm);
+  margin: 4px 0 var(--space-sm);
 }
 
 .step-description {
   font-size: 16px;
   line-height: 1.6;
   color: var(--ink-secondary);
+  margin-bottom: 0;
 }
 
 .step-description strong {
@@ -754,26 +749,21 @@ code {
     padding-right: var(--space-lg);
   }
 
-  .workflow-step {
-    flex-direction: column;
-    gap: var(--space-lg);
-  }
-
-  .step-number {
-    width: 48px;
-    height: 48px;
-    font-size: 20px;
-  }
-
-  .workflow-connector {
-    display: none;
-  }
-
   .grid-3 {
     grid-template-columns: 1fr;
   }
 
   .footer-links {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .workflow-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .workflow-step {
+    padding: var(--space-md);
   }
 }

@@ -14,6 +14,7 @@ This project follows [Semantic Versioning](https://semver.org/).
 ### Changed
 
 - Centered and responsively scaled the single-line homepage hero; aligned section surfaces, cards, typography, and accents with Zen's current light and dark theme tokens.
+- Rebuilt the workflow as an ordered, responsive step grid, replacing the fixed-height connector that drifted against variable-height content.
 - Improved app and generated report table readability with column and row rules, subtle striping, and softened compliance colors.
 - Updated the app version to 2.0.0 and refreshed the offline snapshot and release documentation.
 
