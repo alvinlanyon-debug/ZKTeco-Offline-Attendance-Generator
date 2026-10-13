@@ -5,3 +5,10 @@ Thumbs.db
 # Editor settings
 .vscode/
 .idea/
+
+# Design reference files
+Inspo/
+
+# Local attendance test and export data
+*.dat
+*.csv

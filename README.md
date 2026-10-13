@@ -1,79 +1,67 @@
-![version](https://img.shields.io/badge/version-v0.01-blue)
+![version](https://img.shields.io/badge/version-v2.0.0-blue)
 
-Status: stable — the active, published app is in `docs/`. The folder `Toptech_Attendance_Analyzer_updated/` has been archived and moved to `archived/Toptech_Attendance_Analyzer_updated/`.
+Status: stable — GitHub Pages publishes the online product from `app/`. The local product is packaged under `docs/`. The folder `Toptech_Attendance_Analyzer_updated/` is archived under `archived/Toptech_Attendance_Analyzer_updated/`.
 
-# ZKTeco Offline Attendance Generator
+# Zen AtGen — ZKTeco Attendance Generator
 
-An offline-first browser app for analyzing ZKTeco attendance exports and producing weekly or monthly reports. Attendance data is processed locally in the browser; uploaded files are not sent to a server.
+Zen AtGen is an open-source, browser-local attendance report generator for ZKTeco biometric terminals. It processes logs directly in your browser without uploading files to any external server.
 
 ## Use it
 
 - Online: open `https://alvinlanyon-debug.github.io/ZKTeco-Offline-Attendance-Generator/`.
-- Offline: share the `docs/offline/` folder, then open `index.html` in a modern browser. Downloading or cloning this repository also works.
+- Local: open `docs/index.html` in a modern browser, or share `docs/offline/` as a self-contained snapshot. Downloading or cloning this repository also works.
 
-Upload `attlog.dat` and, optionally, `user.dat`. Set the required check-in interval, identify guards, then analyze, print, or export CSV reports.
-
+Upload `attlog.dat` and, optionally, `user.dat`. Set the required check-in interval, classify guards and staff, then analyze, print, or export CSV reports.
 
 ## Project Structure
 
 ```
 ZKTeco-Offline-Attendance-Generator/
-├── README.md                                    # This file (updated with version badge)
+├── README.md                                    # Repository documentation
 ├── LICENSE                                      # GNU General Public License v3.0
-├── docs/                                        # Published site (use this to run the app in the browser)
-│   ├── index.html
-│   ├── script.js
-│   └── style.css
-└── archived/Toptech_Attendance_Analyzer_updated/ # Old version (deprecated, kept for reference)
-    ├── index.html
-    ├── Toptech_Attendance_Analyzer.html
-    ├── script.js
-    └── style.css
+├── CHANGELOG.md                                 # Historical release notes
+├── app/                                         # GitHub Pages deployment root
+│   ├── index.html                               # Online marketing homepage
+│   ├── app/                                     # Online attendance application
+│   └── download/                                # Online setup and download page
+├── docs/                                        # Local application entry and generated snapshot
+│   ├── index.html                               # Generated local application entry
+│   ├── script.js, style.css, version.js         # Generated local assets
+│   └── offline/                                 # Generated offline snapshot
+├── scripts/
+│   └── package-offline.ps1                      # Synchronizes docs/ from app/app/
+└── archived/Toptech_Attendance_Analyzer_updated/ # Archived legacy code (deprecated)
 ```
 
 ## Getting Started
 
 ### Run in the browser (no download)
 
-The easiest way to run the app without downloading is to use GitHub Pages. I have copied the app into `docs/` on a branch; after you enable Pages for the repository (see instructions below) it will be available at `https://alvinlanyon-debug.github.io/ZKTeco-Offline-Attendance-Generator/`.
+GitHub Pages serves the online application directly from `app/`. The marketing homepage is available at `https://alvinlanyon-debug.github.io/ZKTeco-Offline-Attendance-Generator/`, the attendance app at `/app/`, and the download setup page at `/download/`.
 
-### Usage
+### Local usage
 
-1. Clone or download this repository
-2. Open `docs/index.html` in a modern web browser (or use the published Pages site once enabled)
-3. Import your ZKTeco device export file
-4. Configure report parameters as needed
-5. Generate and export your attendance report
-```text
-app/                         # Canonical web application
-  index.html                 # Entry point
-  script.js                  # Attendance parsing and report logic
-  style.css                  # Interface and print styling
-  version.js                 # Current app version
-docs/offline/                # Shareable offline application snapshot
-docs/README.md               # Offline sharing and refresh instructions
-scripts/package-offline.ps1  # Rebuilds docs/offline from app/
-.github/workflows/
-  deploy-pages.yml           # GitHub Pages deployment
-CHANGELOG.md                 # User-visible release notes
-```
+1. Clone or download this repository.
+2. Open `docs/index.html` in a modern web browser.
+3. Import your ZKTeco device export file (`attlog.dat` and optional `user.dat`).
+4. Configure analysis parameters as needed.
+5. Generate, preview, print, or export your attendance report.
 
 ## Releases and versioning
 
 This project uses [Semantic Versioning](https://semver.org/):
 
-- `MAJOR.MINOR.PATCH`, for example `1.0.0`.
+- `MAJOR.MINOR.PATCH`, for example `2.0.0`.
 - Increment `PATCH` for compatible fixes, `MINOR` for compatible features, and `MAJOR` for breaking changes.
-- Update `app/version.js` and `CHANGELOG.md` together, then create a matching Git tag such as `v1.0.1` and a GitHub Release.
+- Update `app/app/version.js` and `CHANGELOG.md` together, then run `scripts/package-offline.ps1`, create a matching Git tag such as `v2.0.0`, and publish a GitHub Release.
 
 ## Deployment
 
-(remaining sections unchanged)
-The included GitHub Actions workflow deploys `app/` whenever a change reaches `main`. GitHub Pages has been configured to publish the URL listed above.
+The included GitHub Actions workflow deploys `app/` whenever a change reaches `main`. GitHub Pages is configured to publish the site root from the `app/` directory artifact.
 
 ## Development
 
-This is intentionally a dependency-free static application. A local web server is optional; opening `app/index.html` directly works for the current browser APIs.
+Zen AtGen is a dependency-free static web application. A local web server is optional; opening `app/app/index.html` or the generated `docs/index.html` directly works for current browser APIs.
 
 ## License
 

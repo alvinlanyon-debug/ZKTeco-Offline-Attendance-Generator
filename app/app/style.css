@@ -234,7 +234,7 @@ a:focus-visible {
   gap: var(--space-xs);
   background: var(--ink);
   color: var(--ink-inverted);
-  font-family: 'Trebuchet MS', system-ui, sans-serif;
+  font-family: 'Bricolage Grotesque', 'Trebuchet MS', system-ui, sans-serif;
   font-size: 14.4px;
   font-weight: 500;
   padding: var(--space-md) var(--space-lg);
@@ -262,7 +262,7 @@ a:focus-visible {
   gap: var(--space-xs);
   background: var(--button-secondary-bg);
   color: var(--ink);
-  font-family: 'Trebuchet MS', system-ui, sans-serif;
+  font-family: 'Bricolage Grotesque', 'Trebuchet MS', system-ui, sans-serif;
   font-size: 14.4px;
   font-weight: 500;
   padding: var(--space-md) var(--space-lg);
@@ -620,7 +620,7 @@ a:focus-visible {
   border-radius: var(--rounded-sm);
   background: var(--surface);
   color: var(--ink);
-  font-family: 'Trebuchet MS', system-ui, sans-serif;
+  font-family: 'Bricolage Grotesque', 'Trebuchet MS', system-ui, sans-serif;
   font-size: 16px;
   transition: border-color 0.2s ease;
 }
@@ -665,6 +665,7 @@ th {
   padding: var(--space-sm) var(--space-md);
   color: var(--ink);
   border-bottom: 2px solid var(--border-hairline);
+  border-right: 1px solid var(--border-hairline);
   font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -673,26 +674,36 @@ th {
 td {
   padding: var(--space-sm) var(--space-md);
   border-bottom: 1px solid var(--border-hairline);
+  border-right: 1px solid var(--border-hairline);
   color: var(--ink);
 }
 
+th:first-child, td:first-child { border-left: 1px solid var(--border-hairline); }
+th:last-child, td:last-child { border-right: 1px solid var(--border-hairline); }
+thead th { border-top: 1px solid var(--border-hairline); }
+
 tbody tr:last-child td {
-  border-bottom: none;
+  border-bottom: 1px solid var(--border-hairline);
 }
+
+tbody tr:nth-child(even) { background: var(--surface-tint); }
 
 tbody tr:hover {
   background: var(--surface-tint);
 }
 
 td.ok, .badge-legend.ok {
-  color: #2d5f2e;
+  color: #38563a;
   font-weight: 600;
 }
 
 td.violation, .badge-legend.violation {
-  color: #c53030;
+  color: #8f4838;
   font-weight: 600;
 }
+
+td.ok { background: #e7efe5; }
+td.violation { background: #f6e8e4; }
 
 td.warning {
   color: #d69e2e;
@@ -708,11 +719,11 @@ td.warning {
 }
 
 .badge-legend.ok {
-  background: rgba(45, 95, 46, 0.1);
+  background: #e7efe5;
 }
 
 .badge-legend.violation {
-  background: rgba(197, 48, 48, 0.1);
+  background: #f6e8e4;
 }
 
 /* ===== ACTIONS ROW ===== */
@@ -892,4 +903,12 @@ td.warning {
   th, td {
     padding: var(--space-xs) var(--space-sm);
   }
+
+  .header-inner { gap: var(--space-sm); padding: var(--space-sm) var(--space-md); }
+  .nav-logo { white-space: nowrap; font-size: 15px; gap: 6px; }
+  .nav-logo .logo-mark { width: 24px; height: 24px; flex-basis: 24px; }
+  .nav-links { display: none; }
+  .header-inner > div:last-child { margin-left: auto; }
+  .badge { padding: 6px 9px; font-size: 11px; white-space: nowrap; }
+  .button-primary, .button-secondary { padding: 10px 12px; font-size: 13px; }
 }

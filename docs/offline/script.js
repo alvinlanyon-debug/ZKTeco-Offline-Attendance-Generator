@@ -1,5 +1,5 @@
 let punches = []; // {pin, dt, dateKey}
-let pinMap = {};  // pin -> {name, guard}
+let pinMap = {};  // pin -> {name, guard, workGroup: 'guard'|'general'|'unclassified'}
 let byPinDate = {}; // pin -> dateKey -> [Date,...]  (built once from all punches)
 let importedNames = {}; // canonical PIN -> name, read from optional user.dat
 
@@ -9,6 +9,81 @@ document.getElementById('appVersion').textContent = window.APP_VERSION || 'devel
 document.getElementById('fileInput').addEventListener('change', handleFile);
 document.getElementById('userFileInput').addEventListener('change', handleUserFile);
 document.getElementById('analyzeBtn').addEventListener('click', runAnalysis);
+
+// Drag-and-drop handlers for file dropzones
+function setupDropzone(dropzone, fileInput, statusId, handler) {
+  // Prevent default drag behaviors
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    dropzone.addEventListener(eventName, preventDefaults, false);
+    document.body.addEventListener(eventName, preventDefaults, false);
+  });
+
+  function preventDefaults(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  // Visual feedback on drag over
+  ['dragenter', 'dragover'].forEach(eventName => {
+    dropzone.addEventListener(eventName, () => dropzone.classList.add('dragover'), false);
+  });
+
+  ['dragleave', 'drop'].forEach(eventName => {
+    dropzone.addEventListener(eventName, () => dropzone.classList.remove('dragover'), false);
+  });
+
+  // Handle dropped files
+  dropzone.addEventListener('drop', (e) => {
+    const dt = e.dataTransfer;
+    const files = dt.files;
+    if (files.length) {
+      fileInput.files = files;
+      // Trigger the change handler manually
+      const event = new Event('change', { bubbles: true });
+      fileInput.dispatchEvent(event);
+    }
+  }, false);
+
+  // Add file selected class when file is chosen
+  fileInput.addEventListener('change', () => {
+    const statusEl = document.getElementById(statusId);
+    if (fileInput.files.length) {
+      dropzone.classList.add('has-file');
+      // Clear any error state
+      if (statusEl) statusEl.classList.remove('error');
+    } else {
+      dropzone.classList.remove('has-file');
+    }
+  });
+
+  // Focus visible styling on the dropzone when input is focused
+  fileInput.addEventListener('focus', () => dropzone.classList.add('focus-visible'));
+  fileInput.addEventListener('blur', () => dropzone.classList.remove('focus-visible'));
+}
+
+// Initialize dropzones after DOM is ready
+const attlogDropzone = document.querySelector('.upload-dropzone:has(#fileInput)');
+const userDropzone = document.querySelector('.upload-dropzone:has(#userFileInput)');
+
+if (attlogDropzone) {
+  setupDropzone(attlogDropzone, document.getElementById('fileInput'), 'fileStatus', handleFile);
+}
+
+if (userDropzone) {
+  setupDropzone(userDropzone, document.getElementById('userFileInput'), 'userFileStatus', handleUserFile);
+}
+
+// Toggle device guide
+const toggleGuideBtn = document.getElementById('toggleGuideBtn');
+const deviceGuide = document.getElementById('deviceGuide');
+if(toggleGuideBtn && deviceGuide){
+  toggleGuideBtn.addEventListener('click', ()=>{
+    const isExpanded = toggleGuideBtn.getAttribute('aria-expanded') === 'true';
+    toggleGuideBtn.setAttribute('aria-expanded', String(!isExpanded));
+    deviceGuide.style.display = isExpanded ? 'none' : 'block';
+    toggleGuideBtn.textContent = isExpanded ? '📖 How to get files from device' : '📖 Hide guide';
+  });
+}
 
 function loadStoredMap(){
   try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ return {}; }
@@ -132,11 +207,14 @@ function parseLog(text){
   const stored = loadStoredMap();
   pinMap = {};
   [...seenPins].sort((a,b)=>Number(a)-Number(b)).forEach(pin=>{
-    const saved = stored[pin] || {name:'PIN '+pin, guard:false};
+    const saved = stored[pin] || {name:'PIN '+pin, guard:false, workGroup:'unclassified'};
     const importedName = importedNameFor(pin);
+    // Preserve workGroup classification, falling back to deriving from guard flag if needed
+    const workGroup = saved.workGroup || (saved.guard ? 'guard' : 'unclassified');
     pinMap[pin] = {
       name: importedName && isDefaultName(pin, saved.name) ? importedName : saved.name,
-      guard: !!saved.guard
+      guard: !!saved.guard,
+      workGroup: workGroup
     };
   });
   saveStoredMap();
@@ -162,18 +240,30 @@ function renderPinList(){
   Object.keys(pinMap).sort((a,b)=>Number(a)-Number(b)).forEach(pin=>{
     const row = document.createElement('div');
     row.className = 'pin-row';
+    const workGroup = pinMap[pin].workGroup;
     row.innerHTML = `
       <span class="pin">#${pin}</span>
       <input type="text" data-pin="${pin}" class="nameInput" value="${pinMap[pin].name}">
-      <label class="guard"><input type="checkbox" data-pin="${pin}" class="guardCheck" ${pinMap[pin].guard?'checked':''}> Guard</label>
+      <div class="work-group-selector">
+        <label class="work-group"><input type="radio" data-pin="${pin}" name="group_${pin}" value="guard" class="groupRadio" ${workGroup==='guard'?'checked':''}> Security Guard</label>
+        <label class="work-group"><input type="radio" data-pin="${pin}" name="group_${pin}" value="general" class="groupRadio" ${workGroup==='general'?'checked':''}> General Worker</label>
+        <label class="work-group"><input type="radio" data-pin="${pin}" name="group_${pin}" value="unclassified" class="groupRadio" ${workGroup==='unclassified'?'checked':''}> Unclassified</label>
+      </div>
     `;
     container.appendChild(row);
   });
   container.querySelectorAll('.nameInput').forEach(inp=>{
     inp.addEventListener('input', ()=>{ pinMap[inp.dataset.pin].name = inp.value; saveStoredMap(); });
   });
-  container.querySelectorAll('.guardCheck').forEach(chk=>{
-    chk.addEventListener('change', ()=>{ pinMap[chk.dataset.pin].guard = chk.checked; saveStoredMap(); });
+  container.querySelectorAll('.groupRadio').forEach(radio=>{
+    radio.addEventListener('change', ()=>{
+      const pin = radio.dataset.pin;
+      const group = radio.value;
+      pinMap[pin].workGroup = group;
+      // Maintain guard flag for backward compatibility
+      pinMap[pin].guard = (group === 'guard');
+      saveStoredMap();
+    });
   });
 }
 
@@ -196,7 +286,8 @@ function summarizeAll(byPinDateSubset){
         name, pin, date: dateKey,
         first: fmtTime(first),
         last: times.length>1 ? fmtTime(last) : '—',
-        punches: times.length
+        punches: times.length,
+        singlePunch: times.length === 1
       });
     });
     allRows.push({
@@ -211,7 +302,7 @@ function summarizeAll(byPinDateSubset){
 }
 
 function summarizeGuards(byPinDateSubset, mandateMin, offdutyMin){
-  const guardPins = Object.keys(pinMap).filter(p=>pinMap[p].guard);
+  const guardPins = Object.keys(pinMap).filter(p=>pinMap[p].workGroup === 'guard');
   const summary = [];
   const daily = {};
 
@@ -257,6 +348,14 @@ function summarizeGuards(byPinDateSubset, mandateMin, offdutyMin){
   return {summary, daily};
 }
 
+function getSinglePunchRecords(detailRows){
+  return detailRows.filter(r => r.singlePunch);
+}
+
+function getUnclassifiedEmployees(byPinDateSubset){
+  return Object.keys(byPinDateSubset).filter(pin => pinMap[pin].workGroup === 'unclassified');
+}
+
 function runAnalysis(){
   const mandateMin = Number(document.getElementById('mandateMin').value) || 60;
   const offdutyMin = Number(document.getElementById('offdutyMin').value) || 240;
@@ -299,9 +398,10 @@ function renderAllSummary(rows){
 
 function renderDetail(rows){
   const t = document.getElementById('detailTable');
-  let html = '<tr><th>Name</th><th>PIN</th><th>Date</th><th>Clock-In</th><th>Clock-Out</th><th>Punches</th></tr>';
+  let html = '<tr><th>Name</th><th>PIN</th><th>Date</th><th>Clock-In</th><th>Clock-Out</th><th>Punches</th><th>Note</th></tr>';
   rows.forEach(r=>{
-    html += `<tr><td style="text-align:left;font-weight:bold">${r.name}</td><td>${r.pin}</td><td>${fmtDateLabel(r.date)}</td><td>${r.first}</td><td>${r.last}</td><td>${r.punches}</td></tr>`;
+    const note = r.singlePunch ? '⚠ Single punch — verify direction' : '';
+    html += `<tr><td style="text-align:left;font-weight:bold">${r.name}</td><td>${r.pin}</td><td>${fmtDateLabel(r.date)}</td><td>${r.first}</td><td>${r.last}</td><td>${r.punches}</td><td>${note}</td></tr>`;
   });
   t.innerHTML = html;
 }
@@ -313,7 +413,7 @@ function renderGuardSummary(rows, mandateMin){
     const cls = r.compliance<25?'compliance-low':(r.compliance<60?'compliance-mid':'compliance-high');
     html += `<tr><td style="text-align:left;font-weight:bold">${r.name}</td><td>${r.daysOnDuty}</td><td>${r.totalChecks}</td><td>${r.okCount}</td><td>${r.violCount}</td><td class="${cls}">${r.compliance}%</td></tr>`;
   });
-  if(!rows.length) html += '<tr><td colspan="6">No staff marked as Guard yet — tick "Guard" next to their name in Step 2.</td></tr>';
+  if(!rows.length) html += '<tr><td colspan="6">No staff marked as Security Guard.</td></tr>';
   t.innerHTML = html;
 }
 
@@ -322,6 +422,10 @@ function renderGuardDaily(summaryRows, guardDaily){
   container.innerHTML = '';
   summaryRows.forEach(g=>{
     const days = guardDaily[g.pin];
+    if(!days.length){
+      container.innerHTML += `<h3>${g.name}</h3><p style="color:#888">No attendance records this period.</p>`;
+      return;
+    }
     const maxChecks = Math.max(...days.map(d=>d.times.length));
     let html = `<h3>${g.name}</h3><div class="table-scroll"><table><tr><th>Date</th>`;
     for(let i=1;i<=maxChecks;i++) html += `<th>Check ${i}</th>`;
@@ -402,7 +506,7 @@ function dateKeyOf(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStar
 
 // ================= Report Builder =================
 
-document.getElementById('reportType').addEventListener('change', populatePeriodOptions);
+document.getElementById('reportPeriodType').addEventListener('change', populatePeriodOptions);
 document.getElementById('generateReportBtn').addEventListener('click', generateReport);
 
 function computeAvailableWeeks(){
@@ -433,7 +537,7 @@ function computeAvailableMonths(){
 }
 
 function populatePeriodOptions(){
-  const type = document.getElementById('reportType').value;
+  const type = document.getElementById('reportPeriodType').value;
   const sel = document.getElementById('reportPeriodSelect');
   sel.innerHTML = '';
   const items = type==='weekly' ? computeAvailableWeeks() : computeAvailableMonths();
@@ -446,17 +550,30 @@ function populatePeriodOptions(){
   if(sel.options.length) sel.selectedIndex = sel.options.length - 1;
 }
 
-function filterByPinDateRange(startKey, endKey){
+function filterByPinDateRange(startKey, endKey, pins){
   const filtered = {};
-  Object.keys(byPinDate).forEach(pin=>{
-    Object.keys(byPinDate[pin]).forEach(dateKey=>{
-      if(dateKey >= startKey && dateKey <= endKey){
-        filtered[pin] = filtered[pin] || {};
-        filtered[pin][dateKey] = byPinDate[pin][dateKey];
-      }
-    });
+  pins.forEach(pin=>{
+    if(byPinDate[pin]){
+      Object.keys(byPinDate[pin]).forEach(dateKey=>{
+        if(dateKey >= startKey && dateKey <= endKey){
+          filtered[pin] = filtered[pin] || {};
+          filtered[pin][dateKey] = byPinDate[pin][dateKey];
+        }
+      });
+    }
   });
   return filtered;
+}
+
+function getFilteredPinsByReportType(reportType){
+  const allPins = Object.keys(pinMap);
+  if(reportType === 'security'){
+    return allPins.filter(p => pinMap[p].workGroup === 'guard');
+  } else if(reportType === 'general'){
+    return allPins.filter(p => pinMap[p].workGroup === 'general');
+  } else {
+    return allPins; // all-staff: include all including unclassified
+  }
 }
 
 function guardTableHTML(guardSummary, mandateMin){
@@ -465,7 +582,7 @@ function guardTableHTML(guardSummary, mandateMin){
     const cls = r.compliance<25?'compliance-low':(r.compliance<60?'compliance-mid':'compliance-high');
     html += `<tr><td class="rpt-left rpt-bold">${r.name}</td><td>${r.daysOnDuty}</td><td>${r.totalChecks}</td><td>${r.okCount}</td><td>${r.violCount}</td><td class="${cls}">${r.compliance}%</td></tr>`;
   });
-  if(!guardSummary.length) html += '<tr><td colspan="6">No guards marked, or no guard punches fall within this period.</td></tr>';
+  if(!guardSummary.length) html += '<tr><td colspan="6">No security guards marked, or no guard punches fall within this period.</td></tr>';
   html += '</tbody></table>';
   return html;
 }
@@ -507,8 +624,7 @@ function allSummaryHTML(allRows){
   return html;
 }
 
-function weekTableHTML(week, byPinDateFiltered){
-  const pins = Object.keys(pinMap).sort((a,b)=>Number(a)-Number(b));
+function weekTableHTML(week, byPinDateFiltered, pins){
   let html = `<div class="rpt-week-title">${week.label}</div><table class="rpt-table"><thead><tr><th rowspan="2">Name</th>`;
   week.days.forEach(d=> html += `<th colspan="2">${d.toLocaleDateString('en-GB',{weekday:'long'})}</th>`);
   html += '</tr><tr>';
@@ -534,31 +650,37 @@ function weekTableHTML(week, byPinDateFiltered){
 }
 
 const REPORT_STYLE = `
+  :root{--background:#f2f0e3;--surface:#fff;--surface-tint:#f7f6ed;--ink:#2e2e2e;--ink-secondary:#5c5c54;--ink-inverted:#f2f0e3;--accent:#f76f53;--border-hairline:#dad8ca;}
   *{box-sizing:border-box;}
-  body{font-family:Arial,Helvetica,sans-serif;color:#222;background:#e8e9ec;margin:0;padding:20px;}
-  .report-page{max-width:850px;margin:0 auto;background:#fff;padding:36px 40px;box-shadow:0 1px 6px rgba(0,0,0,.15);}
-  .rpt-header{border-bottom:2px solid #085395;padding-bottom:6px;margin-bottom:10px;color:#085395;font-weight:bold;font-size:13px;}
-  .rpt-title{color:#085395;font-size:28px;margin:0 0 4px;}
-  .rpt-subtitle{color:#555;font-size:13px;margin:0 0 20px;}
-  .rpt-section{color:#085395;border-bottom:2px solid #085395;padding-bottom:6px;font-size:17px;margin:28px 0 10px;}
-  .rpt-page ul{margin:0 0 10px;padding-left:20px;font-size:13px;}
-  .rpt-page li{margin-bottom:4px;}
-  .rpt-page p{font-size:13px;margin:6px 0;}
-  .rpt-italic{font-style:italic;color:#555;}
-  table.rpt-table{border-collapse:collapse;width:100%;font-size:11.5px;margin:6px 0 4px;}
-  table.rpt-table th, table.rpt-table td{border:1px solid #ddd;padding:5px 7px;text-align:center;}
-  table.rpt-table th{background:#085395;color:#fff;font-size:11px;}
-  table.rpt-table tr:nth-child(even) td{background:#f2f2f2;}
+  body{font-family:'Bricolage Grotesque','Trebuchet MS',system-ui,sans-serif;color:var(--ink);background:var(--background);margin:0;padding:20px;}
+  .report-page{max-width:850px;margin:0 auto;background:var(--surface);padding:36px 40px;box-shadow:0 1px 6px rgba(0,0,0,.15);}
+  .rpt-header{display:flex;align-items:center;gap:8px;border-bottom:3px solid var(--ink);padding-bottom:8px;margin-bottom:12px;color:var(--ink);font-weight:bold;font-size:12px;letter-spacing:0.5px;text-transform:uppercase;}
+  .rpt-logo{position:relative;display:inline-block;width:18px;height:18px;flex:0 0 18px;}
+  .rpt-logo i{position:absolute;inset:0;border:2px solid var(--accent);border-radius:6px;}
+  .rpt-logo i:nth-child(2){inset:4px;border-radius:4px;}
+  .rpt-logo i:nth-child(3){inset:8px;border-radius:2px;}
+  .rpt-title{color:var(--ink);font-size:32px;font-weight:700;margin:0 0 8px;letter-spacing:-0.5px;}
+  .rpt-subtitle{color:var(--ink-secondary);font-size:14px;margin:0 0 24px;}
+  .rpt-section{color:var(--ink);border-bottom:2px solid var(--ink);padding-bottom:8px;font-size:18px;margin:32px 0 12px;font-weight:700;letter-spacing:-0.3px;}
+  .rpt-page ul{margin:0 0 12px;padding-left:24px;font-size:13px;}
+  .rpt-page li{margin-bottom:6px;line-height:1.5;}
+  .rpt-page p{font-size:13px;margin:8px 0;line-height:1.5;}
+  .rpt-italic{font-style:italic;color:var(--ink-secondary);}
+  table.rpt-table{border-collapse:collapse;width:100%;font-size:11.5px;margin:12px 0 8px;}
+  table.rpt-table th, table.rpt-table td{border:1px solid var(--border-hairline);padding:7px 8px;text-align:center;}
+  table.rpt-table th{background:#e8e6d6;color:var(--ink);font-size:11px;font-weight:700;border-bottom:2px solid var(--border-hairline);}
+  table.rpt-table tr:nth-child(even) td{background:var(--surface-tint);}
   .rpt-left{text-align:left !important;}
   .rpt-bold{font-weight:bold;}
-  .rpt-page h3{color:#085395;font-size:14px;margin:16px 0 6px;}
-  .rpt-week-title{font-weight:bold;color:#085395;margin:14px 0 4px;font-size:13px;}
-  td.ok{background:#D4EDDA !important;color:#1E7B34;font-weight:bold;}
-  td.violation{background:#F8D7DA !important;color:#A4262C;font-weight:bold;}
-  td.compliance-low{background:#F8D7DA;color:#A4262C;font-weight:bold;}
-  td.compliance-mid{background:#FFF3CD;color:#946C00;font-weight:bold;}
-  td.compliance-high{background:#D4EDDA;color:#1E7B34;font-weight:bold;}
-  .rpt-footer{text-align:center;color:#888;font-size:11px;margin-top:30px;border-top:1px solid #ddd;padding-top:10px;}
+  .rpt-page h3{color:var(--ink);font-size:14px;margin:18px 0 8px;font-weight:700;}
+  .rpt-week-title{font-weight:bold;color:var(--ink);margin:16px 0 6px;font-size:13px;}
+  .rpt-note{background:var(--surface-tint);border-left:4px solid var(--accent);padding:10px 14px;margin:10px 0;font-size:12px;color:var(--ink);line-height:1.5;}
+  td.ok{background:#e7efe5 !important;color:#38563a;font-weight:bold;}
+  td.violation{background:#f6e8e4 !important;color:#8f4838;font-weight:bold;}
+  td.compliance-low{background:#f6e8e4;color:#8f4838;font-weight:bold;}
+  td.compliance-mid{background:#f4f0e2;color:#725c32;font-weight:bold;}
+  td.compliance-high{background:#e7efe5;color:#38563a;font-weight:bold;}
+  .rpt-footer{text-align:center;color:var(--ink-secondary);font-size:10px;margin-top:32px;border-top:1px solid var(--border-hairline);padding-top:12px;}
   @media print{
     body{background:#fff;padding:0;}
     .report-page{box-shadow:none;max-width:none;padding:0;}
@@ -566,45 +688,90 @@ const REPORT_STYLE = `
 `;
 
 function buildReportHTML(opts){
-  const {type, label, startKey, endKey, allRows, detailRows, guardSummary, guardDaily, weeksForTimetable, mandateMin} = opts;
+  const {reportType, typeLabel, label, startKey, endKey, allRows, detailRows, guardSummary, guardDaily, weeksForTimetable, mandateMin, filteredPins} = opts;
   const totalPunches = detailRows.reduce((a,d)=>a+d.punches,0);
   const staffPresent = allRows.length;
-  const typeLabel = type==='weekly' ? 'Weekly Report' : 'Monthly Report';
   const generatedOn = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
 
+  // Find single punch records and unclassified employees
+  const singlePunchRecords = getSinglePunchRecords(detailRows);
+  const unclassifiedPins = getUnclassifiedEmployees(opts.filteredByPinDate);
+
   let html = `<div class="report-page rpt-page">
-    <div class="rpt-header">ZKTeco Report Builder</div>
-    <h1 class="rpt-title">Staff Attendance Report</h1>
-    <p class="rpt-subtitle">Biometric Device Export &nbsp;•&nbsp; ${typeLabel} &nbsp;•&nbsp; Period: ${label}</p>
+    <div class="rpt-header"><span class="rpt-logo" aria-hidden="true"><i></i><i></i><i></i></span> Zen AtGen · Attendance Report</div>
+    <h1 class="rpt-title">${typeLabel}</h1>
+    <p class="rpt-subtitle">Biometric Device Export &nbsp;•&nbsp; Period: ${label}</p>
 
     <h2 class="rpt-section">Overview</h2>
     <ul>
+      <li>Report Type: ${typeLabel}</li>
       <li>Period covered: ${label}</li>
       <li>Total punch records: ${totalPunches}</li>
       <li>Staff with activity this period: ${staffPresent}</li>
-    </ul>
+    </ul>`;
 
+  if(reportType === 'security'){
+    html += `
     <h2 class="rpt-section">Security Guard — Hourly Check Compliance</h2>
     <p class="rpt-italic">Mandate: a check-in at least every ${mandateMin} minutes while on duty.</p>
     ${guardTableHTML(guardSummary, mandateMin)}
 
     <h2 class="rpt-section">Security Guard — Daily Check Log</h2>
     <p>Green = within the required interval. Red = over the interval (missed check). Unshaded = start of a new duty period.</p>
-    ${guardDailyHTML(guardSummary, guardDaily)}
+    ${guardDailyHTML(guardSummary, guardDaily)}`;
+  }
 
-    <h2 class="rpt-section">All-Staff Attendance Summary</h2>
+  html += `
+    <h2 class="rpt-section">Staff Attendance Summary</h2>
     ${allSummaryHTML(allRows)}
 
     <h2 class="rpt-section">Clock In / Clock Out Timetable</h2>
-    ${weeksForTimetable.map(w=>weekTableHTML(w, opts.filteredByPinDate)).join('')}
+    ${weeksForTimetable.map(w=>weekTableHTML(w, opts.filteredByPinDate, filteredPins)).join('')}`;
 
-    <div class="rpt-footer">ZKTeco Report Builder — Staff Attendance Report — ${label} — Generated ${generatedOn}</div>
+  // Add notes section if there are single punch records
+  if(singlePunchRecords.length > 0){
+    html += `<h2 class="rpt-section">Attendance Notes & Exceptions</h2>
+    <div class="rpt-note"><strong>⚠ Single Punch Records:</strong> The following dates have only one recorded punch. Unable to determine if this is a clock-in or clock-out without additional information. Please verify manually.</div>
+    <table class="rpt-table"><thead><tr><th>Employee</th><th>Date</th><th>Time</th><th>Action</th></tr></thead><tbody>`;
+    singlePunchRecords.forEach(r=>{
+      html += `<tr><td class="rpt-left rpt-bold">${r.name}</td><td>${fmtDateLabel(r.date)}</td><td>${r.first}</td><td>Verify direction</td></tr>`;
+    });
+    html += `</tbody></table>`;
+  }
+
+  // Add unclassified employees warning
+  if(unclassifiedPins.length > 0 && reportType === 'all'){
+    html += `<h2 class="rpt-section">Unclassified Employees</h2>
+    <div class="rpt-note"><strong>⚠ Unclassified Records:</strong> The following employees have not been classified as Security Guards or General Workers. They are included in this all-staff report but should be properly classified for supervisor-specific reports.</div>
+    <ul>`;
+    unclassifiedPins.forEach(pin=>{
+      html += `<li>${pinMap[pin].name} (PIN #${pin})</li>`;
+    });
+    html += `</ul>`;
+  }
+
+  // Final summary
+  html += `<h2 class="rpt-section">Report Summary</h2>
+    <ul>
+      <li><strong>Report Type:</strong> ${typeLabel}</li>
+      <li><strong>Period:</strong> ${label}</li>
+      <li><strong>Employees Included:</strong> ${staffPresent}</li>
+      <li><strong>Total Punch Events:</strong> ${totalPunches}</li>
+      <li><strong>Records Requiring Attention:</strong> ${singlePunchRecords.length} (single punch)</li>`;
+
+  if(reportType === 'security' && guardSummary.length > 0){
+    html += `<li><strong>Security Guards Covered:</strong> ${guardSummary.length}</li>`;
+  }
+
+  html += `</ul>
+    <div class="rpt-footer">Zen AtGen · Attendance Report — ${typeLabel} — ${label} — Generated ${generatedOn}</div>
   </div>`;
   return html;
 }
 
 function generateReport(){
-  const type = document.getElementById('reportType').value;
+  const reportType = document.getElementById('reportType').value;
+  const periodType = document.getElementById('reportPeriodType').value;
   const periodKey = document.getElementById('reportPeriodSelect').value;
   if(!periodKey){ alert('Load and analyze a punch log first.'); return; }
   const mandateMin = Number(document.getElementById('mandateMin').value) || 60;
@@ -612,7 +779,7 @@ function generateReport(){
 
   let startKey, endKey, label, weeksForTimetable;
 
-  if(type==='weekly'){
+  if(periodType==='weekly'){
     const week = computeAvailableWeeks().find(w=>w.key===periodKey);
     startKey = dateKeyOf(week.days[0]); endKey = dateKeyOf(week.days[5]);
     label = week.label;
@@ -638,13 +805,18 @@ function generateReport(){
     }
   }
 
-  const filtered = filterByPinDateRange(startKey, endKey);
+  const filteredPins = getFilteredPinsByReportType(reportType);
+  const filtered = filterByPinDateRange(startKey, endKey, filteredPins);
   const {allRows, detailRows} = summarizeAll(filtered);
   const {summary: guardSummary, daily: guardDaily} = summarizeGuards(filtered, mandateMin, offdutyMin);
 
+  let typeLabel = 'Staff Attendance Report';
+  if(reportType === 'security') typeLabel = 'Security Guard Attendance Report';
+  else if(reportType === 'general') typeLabel = 'General Workers Attendance Report';
+
   const html = buildReportHTML({
-    type, label, startKey, endKey, allRows, detailRows, guardSummary, guardDaily,
-    weeksForTimetable, filteredByPinDate: filtered, mandateMin
+    reportType, typeLabel, label, startKey, endKey, allRows, detailRows, guardSummary, guardDaily,
+    weeksForTimetable, filteredByPinDate: filtered, mandateMin, filteredPins
   });
 
   document.getElementById('reportPreview').innerHTML = `<style>${REPORT_STYLE}</style>${html}`;
@@ -653,7 +825,7 @@ function generateReport(){
 
   window._lastReportHTML = html;
   window._lastReportLabel = label;
-  window._lastReportType = type;
+  window._lastReportType = reportType;
 }
 
 function printReport(){
@@ -674,7 +846,8 @@ function downloadReportHTML(){
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   const safeLabel = window._lastReportLabel.replace(/[^a-z0-9]+/gi,'_');
-  a.download = `${window._lastReportType==='weekly'?'Weekly':'Monthly'}_Report_${safeLabel}.html`;
+  const typeStr = window._lastReportType === 'security' ? 'Security' : (window._lastReportType === 'general' ? 'General' : 'AllStaff');
+  a.download = `${typeStr}_Report_${safeLabel}.html`;
   a.click();
 }
 

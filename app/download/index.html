@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zen AtGen — Download</title>
+  <meta name="theme-color" content="#f2f0e3">
+  <title>Zen AtGen — Download and use offline</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,73 +13,47 @@
 <body>
   <header class="download-nav">
     <a href="../index.html" class="brand" aria-label="Zen AtGen homepage">
-      <span class="logo-mark" aria-hidden="true">
-        <span class="logo-square logo-square-1"></span>
-        <span class="logo-square logo-square-2"></span>
-        <span class="logo-square logo-square-3"></span>
-      </span>
+      <span class="logo-mark" aria-hidden="true"><span class="logo-square"></span><span class="logo-square logo-square-2"></span><span class="logo-square logo-square-3"></span></span>
       <span>Zen AtGen</span>
     </a>
     <nav aria-label="Primary navigation">
       <a href="../index.html">Overview</a>
       <a href="../app/index.html">Open app</a>
-      <a href="https://github.com/alvinlanyon-debug/ZKTeco-Offline-Attendance-Generator" class="nav-cta">Download source</a>
+      <a href="#download-guide" class="nav-cta">Download guide</a>
     </nav>
   </header>
 
   <main>
     <section class="download-hero">
-      <div class="hero-mark" aria-hidden="true">
-        <span class="logo-square logo-square-1"></span>
-        <span class="logo-square logo-square-2"></span>
-        <span class="logo-square logo-square-3"></span>
-      </div>
-      <p class="eyebrow">A local-first attendance tool</p>
-      <h1>Bring your reports<br><em>with you.</em></h1>
-      <p class="hero-copy">Zen AtGen runs in a modern browser, without an account or a server. Use the hosted app for a quick start, or download the repository when you need a local copy.</p>
+      <p class="eyebrow">Use it your way</p>
+      <h1>Attendance reports,<br><em>on your terms.</em></h1>
+      <p class="hero-copy">Start in your browser, or save a copy of Zen AtGen to use locally. Your attendance files are processed on your device either way.</p>
       <div class="hero-actions">
-        <a href="../app/index.html" class="button button-light">Open the online app <span aria-hidden="true">↗</span></a>
-        <a href="#local" class="text-link">How local use works <span aria-hidden="true">↓</span></a>
+        <a href="../app/index.html" class="button button-primary">Open the app <span aria-hidden="true">↗</span></a>
+        <a href="#download-guide" class="button button-secondary">Get the offline copy <span aria-hidden="true">↓</span></a>
       </div>
-      <p class="status-line"><span class="status-dot" aria-hidden="true"></span> Current app version 1.1.0 · files stay on your device</p>
     </section>
 
-    <section id="local" class="local-section">
+    <section class="local-section" id="download-guide">
       <div class="section-heading">
-        <p class="eyebrow">Choose your setup</p>
-        <h2>One tool, two calm ways to work.</h2>
+        <p class="eyebrow">Download from GitHub</p>
+        <h2>Get the app in four steps.</h2>
+        <p>GitHub downloads the whole project as a ZIP. The app you want is already included—there’s no installer or build step.</p>
       </div>
-      <div class="setup-grid">
-        <article class="setup-card setup-card-featured">
-          <p class="card-kicker">Fastest</p>
-          <h3>Use the hosted app</h3>
-          <p>Open Zen AtGen in your browser and start with your <code>attlog.dat</code> export. Parsing and reporting happen locally in the page.</p>
-          <a href="../app/index.html" class="card-link">Open the app <span aria-hidden="true">↗</span></a>
-        </article>
-        <article class="setup-card">
-          <p class="card-kicker">For offline work</p>
-          <h3>Download the repository</h3>
-          <p>Download or clone the open-source repository, then open the packaged local app in <code>docs/</code>. No build step is required for everyday use.</p>
-          <a href="https://github.com/alvinlanyon-debug/ZKTeco-Offline-Attendance-Generator" class="card-link">View source on GitHub <span aria-hidden="true">↗</span></a>
-        </article>
-      </div>
-      <p class="fine-print">Zen AtGen is an independent tool and is not affiliated with or endorsed by ZKTeco.</p>
+      <ol class="download-steps">
+        <li><span class="step-number">01</span><div><h3>Open the project</h3><p>Go to the <a href="https://github.com/alvinlanyon-debug/ZKTeco-Offline-Attendance-Generator">Zen AtGen GitHub repository</a>.</p></div></li>
+        <li><span class="step-number">02</span><div><h3>Choose “Download ZIP”</h3><p>On the repository page, select the green <strong>Code</strong> button, then choose <strong>Download ZIP</strong>. Save and extract the ZIP on your computer.</p></div></li>
+        <li><span class="step-number">03</span><div><h3>Open the included app</h3><p>In the extracted folder, open <code>docs</code>, then open <code>index.html</code> in a modern browser. That is the ready-to-use local app.</p></div></li>
+        <li><span class="step-number">04</span><div><h3>Load your device exports</h3><p>Select <code>attlog.dat</code> and, if you have it, <code>user.dat</code>. Keep the original files in a safe place; the app does not upload them.</p></div></li>
+      </ol>
+      <aside class="help-card"><strong>Prefer a quick start?</strong><span>Use the hosted app instead. It needs an internet connection to open, then processes your files locally in the browser.</span><a href="../app/index.html">Open the app →</a></aside>
+      <p class="fine-print">Zen AtGen is independent and is not affiliated with or endorsed by ZKTeco. GitHub may label the ZIP with the repository’s project name.</p>
     </section>
   </main>
 
   <footer class="download-footer">
-    <a href="../index.html" class="brand">
-      <span class="logo-mark" aria-hidden="true">
-        <span class="logo-square logo-square-1"></span>
-        <span class="logo-square logo-square-2"></span>
-        <span class="logo-square logo-square-3"></span>
-      </span>
-      <span>Zen AtGen</span>
-    </a>
-    <div class="footer-links">
-      <a href="../app/index.html">Open app</a>
-      <a href="https://github.com/alvinlanyon-debug/ZKTeco-Offline-Attendance-Generator/issues">Report an issue</a>
-    </div>
+    <a href="../index.html" class="brand"><span class="logo-mark" aria-hidden="true"><span class="logo-square"></span><span class="logo-square logo-square-2"></span><span class="logo-square logo-square-3"></span></span><span>Zen AtGen</span></a>
+    <div class="footer-links"><a href="../app/index.html">Open app</a><a href="https://github.com/alvinlanyon-debug/ZKTeco-Offline-Attendance-Generator/issues">Report an issue</a></div>
   </footer>
 </body>
 </html>

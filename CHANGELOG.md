@@ -4,6 +4,19 @@ All notable changes to this project are documented here.
 
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [2.0.0] - 2026-10-13
+
+### Added
+
+- Reworked the product homepage and offline download guide around the project’s Zen Browser inspired design system.
+- Added a clearer four-step repository download guide and compact mobile navigation.
+
+### Changed
+
+- Centered and responsively scaled the single-line homepage hero; aligned section surfaces, cards, typography, and accents with the design tokens.
+- Improved app and generated report table readability with column and row rules, subtle striping, and softened compliance colors.
+- Updated the app version to 2.0.0 and refreshed the offline snapshot and release documentation.
+
 ## [1.1.0] - 2026-10-02
 
 ### Added

@@ -2,136 +2,257 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>ZKTeco Report Builder</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zen AtGen — Report Builder</title>
 <link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Junicode:ital,wght@0,400;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<header>
-  <h1>ZKTeco Report Builder</h1>
-  <p>Runs entirely in your browser — no internet required, no data leaves your computer.</p>
+<header class="nav-bar">
+  <div class="header-inner">
+    <a href="index.html" class="nav-logo" aria-label="Return to Zen AtGen homepage">
+      <div class="logo-mark" aria-hidden="true">
+        <div class="logo-square logo-square-1"></div>
+        <div class="logo-square logo-square-2"></div>
+        <div class="logo-square logo-square-3"></div>
+      </div>
+      Zen AtGen
+    </a>
+    <div class="nav-links">
+      <span class="badge" aria-label="Processed locally in your browser" style="margin: 0; background: var(--surface-muted); display: inline-flex; align-items: center; gap: 8px;">
+        <span style="display:inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink:0;"></span>
+        Processed locally in your browser
+      </span>
+    </div>
+    <div>
+      <!-- Optional: secondary actions -->
+    </div>
+  </div>
 </header>
 
-<main>
+<main class="app-main">
 
-  <div class="card no-print">
-    <h2><span class="step-label">1</span>Load device files</h2>
-    <p class="hint">Upload the raw punch file (e.g. <code>attlog.dat</code>). Optionally upload <code>user.dat</code> now or later to automatically fill staff names from the device export.</p>
-    <label for="fileInput">Attendance log (attlog.dat)</label>
-    <input type="file" id="fileInput" accept=".dat,.txt">
-    <label for="userFileInput">Staff names (user.dat) <span class="hint">— optional but recommended</span></label>
-    <input type="file" id="userFileInput" accept=".dat">
-    <div id="fileStatus" class="hint"></div>
-    <div id="userFileStatus" class="hint"></div>
+  <div class="app-hero text-center no-print">
+    <h1 class="app-hero-title">Report Builder</h1>
+    <p class="body-large">Turn ZKTeco biometric logs into structured attendance reports.</p>
   </div>
 
+  <!-- Step 1: Upload Files -->
+  <div class="card card-framed no-print" id="uploadSection">
+    <div class="card-header border-bottom">
+      <h2 class="heading-sub" style="margin: 0; display: flex; align-items: center; gap: var(--space-md);">
+        <span class="step-label">1</span>
+        Load Device Files
+      </h2>
+      <button type="button" class="btn-text" id="toggleGuideBtn" aria-expanded="false">How to get files from device</button>
+    </div>
+
+    <div id="deviceGuide" class="device-guide" style="display:none; margin-top: var(--space-lg);">
+      <h3 style="margin-bottom: var(--space-xs);">Transferring attendance data from your hardware</h3>
+      <p class="guide-note" style="margin-bottom: var(--space-lg); font-size: 13px;"><em>Note: Menu terms vary by ZKTeco hardware model and firmware version.</em></p>
+
+      <div class="grid-2" style="margin-top: 0; align-items: flex-start; gap: var(--space-lg);">
+        <div class="guide-col">
+          <h4>1. Download Attendance Logs</h4>
+          <ol class="guide-steps">
+            <li>Insert a USB drive into the ZKTeco device.</li>
+            <li>Press <strong>M/OK</strong> to open the main menu.</li>
+            <li>Select the <strong>USB / PenDrive</strong> icon.</li>
+            <li>Choose <strong>Download</strong>.</li>
+            <li>Select <strong>Attendance Data</strong> (or <strong>Att Data</strong>).</li>
+            <li>Select the date period (e.g., Daily/Weekly/Monthly).</li>
+            <li>Save <code>attlog.dat</code> to the USB.</li>
+          </ol>
+        </div>
+        <div class="guide-col">
+          <h4>2. Download Staff Names (Optional)</h4>
+          <ol class="guide-steps" start="8">
+            <li>Return to the main device menu.</li>
+            <li>Open the <strong>User / Personnel / User Mgt</strong> section.</li>
+            <li>Select <strong>Download User Data</strong> to save <code>user.dat</code>.</li>
+            <li>Carefully remove the USB drive.</li>
+            <li>Connect the USB drive to your computer.</li>
+            <li>Upload the files below.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="upload-container" style="margin-top: var(--space-lg);">
+      <div class="upload-dropzone">
+        <label for="fileInput" class="upload-label" style="cursor: pointer;">
+          <span class="upload-icon" aria-hidden="true">↥</span>
+          <span class="upload-title">Attendance log — <code>attlog.dat</code></span>
+          <span class="upload-subtitle" style="font-weight: 600; color: var(--accent);">Required. Contains punch timestamps and PINs.</span>
+        </label>
+        <input type="file" id="fileInput" accept=".dat,.txt" style="margin-top: var(--space-sm); display: block; opacity: 0; position: absolute; width: 0; height: 0; overflow: hidden;">
+        <button type="button" onclick="document.getElementById('fileInput').click()" class="button-primary" style="margin-top: var(--space-md); width: 100%; justify-content: center;">Choose attendance file</button>
+        <div id="fileStatus" class="status-msg"></div>
+      </div>
+
+      <div class="upload-dropzone">
+        <label for="userFileInput" class="upload-label" style="cursor: pointer;">
+          <span class="upload-icon" aria-hidden="true">◎</span>
+          <span class="upload-title">Staff names — <code>user.dat</code></span>
+          <span class="upload-subtitle">Optional. Auto-populates employee names.</span>
+        </label>
+        <input type="file" id="userFileInput" accept=".dat" style="margin-top: var(--space-sm); display: block; opacity: 0; position: absolute; width: 0; height: 0; overflow: hidden;">
+        <button type="button" onclick="document.getElementById('userFileInput').click()" class="button-secondary" style="margin-top: var(--space-md); width: 100%; justify-content: center;">Choose staff names file</button>
+        <div id="userFileStatus" class="status-msg"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2: Staff Roster -->
   <div class="card no-print" id="pinSection" style="display:none">
-    <h2><span class="step-label">2</span>Name your staff &amp; mark security guards</h2>
-    <p class="hint">Names from <code>user.dat</code> are filled automatically when available. You can still change any name here. Names and Guard choices are remembered on this computer.</p>
-    <div id="pinList"></div>
+    <div class="card-header border-bottom" style="margin-bottom: var(--space-lg);">
+      <h2 class="heading-sub" style="margin: 0; display: flex; align-items: center; gap: var(--space-md);">
+        <span class="step-label">2</span>
+        Staff Roster & Classification
+      </h2>
+    </div>
+    <p class="hint">Names from <code>user.dat</code> are auto-filled. Select a group for each employee: <strong>Security Guard</strong> (for hourly mandate compliance), <strong>General Worker</strong>, or <strong>Unclassified</strong>. Settings are saved locally.</p>
+    <div id="pinList" class="pin-list-container"></div>
   </div>
 
+  <!-- Step 3: Analysis Parameters -->
   <div class="card no-print" id="settingsSection" style="display:none">
-    <h2><span class="step-label">3</span>Settings</h2>
-    <div class="settings-row">
-      <div>
-        <label>Required check-in interval (minutes)</label>
-        <input type="number" id="mandateMin" value="60">
+    <div class="card-header border-bottom" style="margin-bottom: var(--space-lg);">
+      <h2 class="heading-sub" style="margin: 0; display: flex; align-items: center; gap: var(--space-md);">
+        <span class="step-label">3</span>
+        Analysis Parameters
+      </h2>
+    </div>
+    <div class="settings-grid">
+      <div class="setting-item">
+        <label for="mandateMin">Required check-in interval (min)</label>
+        <input type="number" id="mandateMin" value="60" min="5" max="1440">
+        <div class="hint">Expected interval between guard patrols.</div>
       </div>
-      <div>
-        <label>Off-duty gap threshold (minutes)</label>
-        <input type="number" id="offdutyMin" value="240">
-        <div class="hint" style="margin:4px 0 0;max-width:260px">Gaps longer than this are treated as "off duty" (e.g. between shifts), not a missed check.</div>
+      <div class="setting-item">
+        <label for="offdutyMin">Off-duty gap threshold (min)</label>
+        <input type="number" id="offdutyMin" value="240" min="30" max="2880">
+        <div class="hint">Gaps longer than this mark shift handoffs.</div>
       </div>
-      <div>
-        <button id="analyzeBtn">Analyze Attendance ▶</button>
+      <div class="setting-action">
+        <button id="analyzeBtn" class="button-primary">Analyze Attendance ▶</button>
       </div>
     </div>
   </div>
 
-  <div id="resultsSection">
+  <!-- Results Section -->
+  <div id="resultsSection" style="display:none">
 
     <div class="card">
-      <h2>Security Guard — Hourly Check Compliance</h2>
-      <p class="hint">Mandate: a check-in at least every <span id="mandateEcho">60</span> minutes while on duty.</p>
+      <div class="card-header border-bottom" style="margin-bottom: var(--space-lg);">
+        <h2 class="heading-sub" style="margin: 0;">Security Guard — Hourly Check Compliance</h2>
+      </div>
+      <p class="hint">Mandate: a check-in at least every <span id="mandateEcho" style="font-weight: 600;">60</span> minutes while on duty.</p>
       <div class="table-scroll"><table id="guardSummaryTable"></table></div>
-      <div class="no-print" style="margin-top:12px">
-        <button class="secondary" onclick="exportCSV('guardSummaryTable','guard_compliance_summary.csv')">Export CSV</button>
+      <div class="no-print actions-row">
+        <button class="button-secondary" onclick="exportCSV('guardSummaryTable','guard_compliance_summary.csv')">Export CSV</button>
       </div>
     </div>
 
     <div class="card">
-      <h2>Security Guard — Daily Check Log</h2>
-      <p class="hint">🟩 within the required interval &nbsp; 🟥 over the interval (missed check) &nbsp; unshaded = start of a new duty period</p>
+      <div class="card-header border-bottom" style="margin-bottom: var(--space-lg);">
+        <h2 class="heading-sub" style="margin: 0;">Security Guard — Daily Check Log</h2>
+      </div>
+      <p class="hint">
+        <span class="badge-legend ok">Green</span> within required interval &nbsp;&nbsp;|&nbsp;&nbsp;
+        <span class="badge-legend violation">Red</span> missed check &nbsp;&nbsp;|&nbsp;&nbsp;
+        <span>Unshaded</span> new duty period
+      </p>
       <div id="guardDailyLogs"></div>
-      <div class="no-print" style="margin-top:12px">
-        <button class="secondary" onclick="window.print()">Print / Save as PDF</button>
+      <div class="no-print actions-row">
+        <button class="button-secondary" onclick="window.print()">Print / Save as PDF</button>
       </div>
     </div>
 
     <div class="card">
-      <h2>All-Staff Attendance Summary</h2>
+      <div class="card-header border-bottom" style="margin-bottom: var(--space-lg);">
+        <h2 class="heading-sub" style="margin: 0;">All-Staff Attendance Summary</h2>
+      </div>
       <div class="table-scroll"><table id="allSummaryTable"></table></div>
-      <div class="no-print" style="margin-top:12px">
-        <button class="secondary" onclick="exportCSV('allSummaryTable','all_staff_summary.csv')">Export CSV</button>
+      <div class="no-print actions-row">
+        <button class="button-secondary" onclick="exportCSV('allSummaryTable','all_staff_summary.csv')">Export CSV</button>
       </div>
     </div>
 
     <div class="card">
-      <h2>Weekly Clock In / Clock Out Timetable</h2>
+      <div class="card-header border-bottom" style="margin-bottom: var(--space-lg);">
+        <h2 class="heading-sub" style="margin: 0;">Weekly Clock In / Clock Out Timetable</h2>
+      </div>
       <div id="weeklyTimetable"></div>
     </div>
 
     <div class="card">
-      <h2>Full Daily Punch Log</h2>
+      <div class="card-header border-bottom" style="margin-bottom: var(--space-lg);">
+        <h2 class="heading-sub" style="margin: 0;">Full Daily Punch Log</h2>
+      </div>
       <div class="table-scroll"><table id="detailTable"></table></div>
-      <div class="no-print" style="margin-top:12px">
-        <button class="secondary" onclick="exportCSV('detailTable','full_daily_log.csv')">Export CSV</button>
+      <div class="no-print actions-row">
+        <button class="button-secondary" onclick="exportCSV('detailTable','full_daily_log.csv')">Export CSV</button>
       </div>
     </div>
 
   </div>
 
-  <div class="card no-print" id="reportBuilderCard" style="display:none">
-    <h2><span class="step-label">4</span>Build a Polished Report</h2>
-    <p class="hint">Generates a branded, print-ready report for one week or a full calendar month. Select the report type and period.</p>
-    <div class="settings-row">
-      <div>
-        <label>Report type</label>
+  <!-- Step 4: Report Builder -->
+  <div class="card card-framed no-print" id="reportBuilderCard" style="display:none">
+    <div class="card-header border-bottom" style="margin-bottom: var(--space-lg);">
+      <h2 class="heading-sub" style="margin: 0; display: flex; align-items: center; gap: var(--space-md);">
+        <span class="step-label">4</span>
+        Build Polished Report
+      </h2>
+    </div>
+    <p class="hint" style="margin-bottom: var(--space-lg);">Generate a clean, branded, print-ready document tailored for supervisors. Select report scope and time window.</p>
+    <div class="settings-grid">
+      <div class="setting-item">
+        <label for="reportType">Report type</label>
         <select id="reportType">
-          <option value="security">Security Guard Attendance Report</option>
-          <option value="general">General Workers Attendance Report</option>
-          <option value="all">All-Staff Attendance Report</option>
+          <option value="security">Security Guard Attendance</option>
+          <option value="general">General Workers Attendance</option>
+          <option value="all">All-Staff Attendance</option>
         </select>
       </div>
-      <div>
-        <label>Period type</label>
+      <div class="setting-item">
+        <label for="reportPeriodType">Period type</label>
         <select id="reportPeriodType">
           <option value="weekly">Weekly</option>
           <option value="monthly">Monthly</option>
         </select>
       </div>
-      <div>
-        <label>Period</label>
-        <select id="reportPeriodSelect" style="min-width:260px;padding:8px;border:1px solid #ccc;border-radius:4px;font-size:13px;"></select>
+      <div class="setting-item">
+        <label for="reportPeriodSelect">Period</label>
+        <select id="reportPeriodSelect"></select>
       </div>
-      <div>
-        <button id="generateReportBtn">Generate Report ▶</button>
+      <div class="setting-action">
+        <button id="generateReportBtn" class="button-primary">Generate Report ▶</button>
       </div>
     </div>
   </div>
 
+  <!-- Report Preview & Actions -->
   <div id="reportPreviewWrapper" style="display:none">
-    <div class="no-print" style="max-width:850px;margin:0 auto 12px;">
-      <button onclick="printReport()">🖨️ Print / Save as PDF</button>
-      <button class="secondary" onclick="downloadReportHTML()">⬇️ Download as HTML report</button>
+    <div class="no-print report-actions" style="margin-top: var(--space-2xl); margin-bottom: var(--space-lg); display: flex; gap: var(--space-md); justify-content: center;">
+      <button onclick="printReport()" class="button-primary"><span aria-hidden="true">▣</span> Print / Save as PDF</button>
+      <button class="button-secondary" onclick="downloadReportHTML()"><span aria-hidden="true">↓</span> Download as HTML report</button>
     </div>
-    <div id="reportPreview"></div>
+    <div id="reportPreview" style="background: var(--surface); padding: var(--space-lg); border-radius: var(--rounded-lg); box-shadow: 0 10px 15px -3px var(--shadow-soft);"></div>
   </div>
 
 </main>
 
-<footer class="app-footer">Version <span id="appVersion"></span></footer>
+<footer class="app-footer">
+  <div class="footer-inner">
+    <p>Zen AtGen — open-source attendance for ZKTeco logs. Processed locally in your browser.</p>
+    <p style="font-size: 13px; margin: 0;">Version <span id="appVersion"></span></p>
+  </div>
+</footer>
 
 <script src="version.js"></script>
 <script src="script.js"></script>

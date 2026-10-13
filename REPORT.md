@@ -1,0 +1,32 @@
+# Zen AtGen 2.0.0 — Design and Release Report
+
+## Scope
+
+This release aligns the marketing homepage, app tables, report preview, mobile layouts, and download instructions with `design-sys/zen-attendance-generator-design-system-md.txt`. It preserves the existing report generation and export flow.
+
+## Design changes
+
+- Kept the one-line “Turn device exports” hero and constrained its display size responsively so it remains centered within the content frame.
+- Applied the cream canvas, charcoal text, Junicode hero, Bricolage Grotesque working type, restrained coral, soft cards, and neutral step markers. Removed the oversized dark capabilities panel.
+- Kept the app’s nested-square brand mark and compact mobile header; reduced narrow-screen hero and navigation sizing to prevent clipping.
+- Added clear table column and row rules, restrained zebra striping, and softer green/rust status fills in the app and self-contained report stylesheet.
+- Retained the download guide’s four-step path from repository ZIP to opening the included app and loading device files.
+
+## Functional and distribution changes
+
+- Set the application version to 2.0.0 and updated the changelog and release instructions.
+- Regenerated the online-local app entry and portable offline copy from `app/app/` using `scripts/package-offline.ps1`.
+- Kept sample `.dat` and `.csv` data excluded from version control.
+
+## Validation
+
+- Passed `node --check` for the canonical app, hosted app, generated local app, and offline app JavaScript.
+- Passed `git diff --check` and checked all local HTML links and assets for existing targets.
+- Regenerated the package and confirmed all four offline files exactly match `app/app/`; all three app version files report 2.0.0.
+- Confirmed attendance `.dat` and `.csv` data remain ignored by Git.
+- Visual browser verification after the changes remains unperformed in this turn; the supplied screenshots were used as the before-state reference.
+- No production employee attendance files are included in this report or release.
+
+## Deployment note
+
+GitHub Pages deploys on pushes to `main`. This release is prepared on `zen-atgen-product-refresh`; pushing that branch preserves the existing branch and commit but does not itself publish the Pages site.

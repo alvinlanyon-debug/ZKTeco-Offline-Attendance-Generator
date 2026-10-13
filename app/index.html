@@ -1,140 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>ZKTeco Report Builder</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zen AtGen — Turn device exports into clear reports</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Junicode:ital,wght@0,400;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<header>
-  <h1>ZKTeco Report Builder</h1>
-  <p>Runs entirely in your browser — no internet required, no data leaves your computer.</p>
+<header class="nav-bar">
+  <a href="#" class="nav-logo">
+    <div class="logo-mark">
+      <div class="logo-square logo-square-1"></div>
+      <div class="logo-square logo-square-2"></div>
+      <div class="logo-square logo-square-3"></div>
+    </div>
+    Zen AtGen
+  </a>
+  <div class="nav-links">
+    <a href="#workflow" class="nav-link">How It Works</a>
+    <a href="#capabilities" class="nav-link">Capabilities</a>
+  </div>
+  <div>
+    <a href="download/index.html" class="button-secondary">Download</a>
+    <a href="app/index.html" class="button-primary">Open the App</a>
+  </div>
 </header>
 
 <main>
-
-  <div class="card no-print">
-    <h2><span class="step-label">1</span>Load device files</h2>
-    <p class="hint">Upload the raw punch file (e.g. <code>attlog.dat</code>). Optionally upload <code>user.dat</code> now or later to automatically fill staff names from the device export.</p>
-    <label for="fileInput">Attendance log (attlog.dat)</label>
-    <input type="file" id="fileInput" accept=".dat,.txt">
-    <label for="userFileInput">Staff names (user.dat) <span class="hint">— optional but recommended</span></label>
-    <input type="file" id="userFileInput" accept=".dat">
-    <div id="fileStatus" class="hint"></div>
-    <div id="userFileStatus" class="hint"></div>
-  </div>
-
-  <div class="card no-print" id="pinSection" style="display:none">
-    <h2><span class="step-label">2</span>Name your staff &amp; mark security guards</h2>
-    <p class="hint">Names from <code>user.dat</code> are filled automatically when available. You can still change any name here. Names and Guard choices are remembered on this computer.</p>
-    <div id="pinList"></div>
-  </div>
-
-  <div class="card no-print" id="settingsSection" style="display:none">
-    <h2><span class="step-label">3</span>Settings</h2>
-    <div class="settings-row">
-      <div>
-        <label>Required check-in interval (minutes)</label>
-        <input type="number" id="mandateMin" value="60">
-      </div>
-      <div>
-        <label>Off-duty gap threshold (minutes)</label>
-        <input type="number" id="offdutyMin" value="240">
-        <div class="hint" style="margin:4px 0 0;max-width:260px">Gaps longer than this are treated as "off duty" (e.g. between shifts), not a missed check.</div>
-      </div>
-      <div>
-        <button id="analyzeBtn">Analyze Attendance ▶</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="resultsSection">
-
-    <div class="card">
-      <h2>Security Guard — Hourly Check Compliance</h2>
-      <p class="hint">Mandate: a check-in at least every <span id="mandateEcho">60</span> minutes while on duty.</p>
-      <div class="table-scroll"><table id="guardSummaryTable"></table></div>
-      <div class="no-print" style="margin-top:12px">
-        <button class="secondary" onclick="exportCSV('guardSummaryTable','guard_compliance_summary.csv')">Export CSV</button>
-      </div>
+  <!-- Hero Section -->
+  <section class="hero-section section-px text-center">
+    <h1 class="display-hero">
+      <span class="hero-nowrap">Turn device exports</span>
+      into <span class="display-hero-italic">clear</span> reports
+    </h1>
+    <p class="hero-subtitle">
+      A calmer way to understand ZKTeco attendance data.<br>From USB export to a report you can actually use.
+    </p>
+    <div class="hero-actions">
+      <a href="app/index.html" class="button-primary button-large">Open the App</a>
+      <a href="download/index.html" class="button-secondary button-large">Download / use offline</a>
     </div>
 
-    <div class="card">
-      <h2>Security Guard — Daily Check Log</h2>
-      <p class="hint">🟩 within the required interval &nbsp; 🟥 over the interval (missed check) &nbsp; unshaded = start of a new duty period</p>
-      <div id="guardDailyLogs"></div>
-      <div class="no-print" style="margin-top:12px">
-        <button class="secondary" onclick="window.print()">Print / Save as PDF</button>
+    <!-- Product Preview Frame -->
+    <div class="media-frame">
+      <div class="ui-mockup">
+        <div class="ui-mockup-header">
+          <div class="ui-mockup-logo">
+            <div class="logo-mark" style="transform: scale(0.7);">
+              <div class="logo-square logo-square-1"></div>
+              <div class="logo-square logo-square-2"></div>
+              <div class="logo-square logo-square-3"></div>
+            </div>
+            <span style="font-size: 14px; font-weight: 600;">Zen AtGen</span>
+          </div>
+        </div>
+        <div class="ui-mockup-body">
+          <div class="ui-mockup-card">
+            <div class="ui-mockup-title">Security Guard — Daily Check Log</div>
+            <table class="ui-mockup-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Check 1</th>
+                  <th>Check 2</th>
+                  <th>Check 3</th>
+                  <th>Check 4</th>
+                  <th>Missed</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-weight: 600;">14 Oct</td>
+                  <td class="check-ok">08:00</td>
+                  <td class="check-ok">08:52</td>
+                  <td class="check-ok">09:41</td>
+                  <td class="check-violation">10:55</td>
+                  <td class="check-violation">1</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: 600;">15 Oct</td>
+                  <td class="check-ok">07:55</td>
+                  <td class="check-ok">08:45</td>
+                  <td class="check-ok">09:30</td>
+                  <td class="check-ok">10:15</td>
+                  <td class="check-ok">0</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
+  </section>
 
-    <div class="card">
-      <h2>All-Staff Attendance Summary</h2>
-      <div class="table-scroll"><table id="allSummaryTable"></table></div>
-      <div class="no-print" style="margin-top:12px">
-        <button class="secondary" onclick="exportCSV('allSummaryTable','all_staff_summary.csv')">Export CSV</button>
-      </div>
+  <!-- How It Works — Alia-style numbered workflow -->
+  <section id="workflow" class="workflow-section section-px">
+    <div class="workflow-intro text-center">
+      <h2 class="heading-section">From raw punches to polished reports</h2>
+      <p class="body-large" style="max-width: 700px; margin: 0 auto;">
+        The ZKTeco attlog.dat format is hard to read. Zen AtGen makes it easy—locally, without uploading your employee data.
+      </p>
     </div>
 
-    <div class="card">
-      <h2>Weekly Clock In / Clock Out Timetable</h2>
-      <div id="weeklyTimetable"></div>
-    </div>
+    <!-- Workflow graphic with curved connectors -->
+    <div class="workflow-visual">
+      <svg class="workflow-connector" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid meet">
+        <path d="M 200 50 Q 200 150, 200 200" stroke="var(--accent)" stroke-width="2" fill="none" opacity="0.4"/>
+        <circle cx="200" cy="200" r="16" fill="var(--accent)" opacity="0.2"/>
+        <path d="M 200 216 Q 200 300, 200 350" stroke="var(--accent)" stroke-width="2" fill="none" opacity="0.4"/>
+        <circle cx="200" cy="350" r="16" fill="var(--accent)" opacity="0.2"/>
+        <path d="M 200 366 Q 200 450, 200 500" stroke="var(--accent)" stroke-width="2" fill="none" opacity="0.4"/>
+        <circle cx="200" cy="500" r="16" fill="var(--accent)" opacity="0.2"/>
+        <path d="M 200 516 Q 200 600, 200 650" stroke="var(--accent)" stroke-width="2" fill="none" opacity="0.4"/>
+      </svg>
 
-    <div class="card">
-      <h2>Full Daily Punch Log</h2>
-      <div class="table-scroll"><table id="detailTable"></table></div>
-      <div class="no-print" style="margin-top:12px">
-        <button class="secondary" onclick="exportCSV('detailTable','full_daily_log.csv')">Export CSV</button>
+      <div class="workflow-steps">
+        <div class="workflow-step">
+          <div class="step-number">01</div>
+          <div class="step-card">
+            <h3 class="step-title">Export device data</h3>
+            <p class="step-description">Insert a USB drive into your ZKTeco device. From the menu, download <strong>attlog.dat</strong> (Attendance Data) and optionally <strong>user.dat</strong> (Staff Names).</p>
+          </div>
+        </div>
+
+        <div class="workflow-step">
+          <div class="step-number">02</div>
+          <div class="step-card">
+            <h3 class="step-title">Load files into Zen AtGen</h3>
+            <p class="step-description">Plug the USB drive into your computer and select the files. Data is parsed locally in your browser—nothing is uploaded to the internet.</p>
+          </div>
+        </div>
+
+        <div class="workflow-step">
+          <div class="step-number">03</div>
+          <div class="step-card">
+            <h3 class="step-title">Classify your staff</h3>
+            <p class="step-description">Mark employees as Security Guards or General Workers. Your roster settings are saved on your computer for next time.</p>
+          </div>
+        </div>
+
+        <div class="workflow-step">
+          <div class="step-number">04</div>
+          <div class="step-card">
+            <h3 class="step-title">Generate & export</h3>
+            <p class="step-description">View daily logs and compliance summaries. Print to PDF, export to CSV for spreadsheets, or download as standalone HTML.</p>
+          </div>
+        </div>
       </div>
     </div>
+  </section>
 
-  </div>
+  <!-- Capabilities -->
+  <section id="capabilities" class="section-dark section-px text-center">
+    <div class="capabilities-container">
+      <span class="badge" style="background: var(--surface-tint); color: var(--ink);">Capabilities</span>
+      <h2 class="heading-section">Your data, completely local</h2>
+      <p class="body-large" style="max-width: 700px; margin: 0 auto;">
+        Zen AtGen processes your ZKTeco binary files entirely in the browser. It gives supervisors exactly what they need without moving your employee data to the cloud.
+      </p>
 
-  <div class="card no-print" id="reportBuilderCard" style="display:none">
-    <h2><span class="step-label">4</span>Build a Polished Report</h2>
-    <p class="hint">Generates a branded, print-ready report for one week or a full calendar month. Select the report type and period.</p>
-    <div class="settings-row">
-      <div>
-        <label>Report type</label>
-        <select id="reportType">
-          <option value="security">Security Guard Attendance Report</option>
-          <option value="general">General Workers Attendance Report</option>
-          <option value="all">All-Staff Attendance Report</option>
-        </select>
-      </div>
-      <div>
-        <label>Period type</label>
-        <select id="reportPeriodType">
-          <option value="weekly">Weekly</option>
-          <option value="monthly">Monthly</option>
-        </select>
-      </div>
-      <div>
-        <label>Period</label>
-        <select id="reportPeriodSelect" style="min-width:260px;padding:8px;border:1px solid #ccc;border-radius:4px;font-size:13px;"></select>
-      </div>
-      <div>
-        <button id="generateReportBtn">Generate Report ▶</button>
+      <div class="grid-3">
+        <div class="card-dark">
+          <h3>Supervisor Reports</h3>
+          <p>Generate role-specific attendance reports for Security Guards, General Workers, or an All-Staff overview. Filter anomalies effortlessly.</p>
+        </div>
+        <div class="card-dark">
+          <h3>Guard Compliance</h3>
+          <p>Track hourly check-in mandates against ZKTeco timestamps. Instantly flag missed checks and calculate daily compliance percentages.</p>
+        </div>
+        <div class="card-dark">
+          <h3>Weekly Timetables</h3>
+          <p>Read clock-in and clock-out times in an intuitive table format. Flag single-punch anomalies that need manual verification.</p>
+        </div>
       </div>
     </div>
-  </div>
-
-  <div id="reportPreviewWrapper" style="display:none">
-    <div class="no-print" style="max-width:850px;margin:0 auto 12px;">
-      <button onclick="printReport()">����️ Print / Save as PDF</button>
-      <button class="secondary" onclick="downloadReportHTML()">⬇️ Download as HTML report</button>
-    </div>
-    <div id="reportPreview"></div>
-  </div>
-
+  </section>
 </main>
 
-<footer class="app-footer">Version <span id="appVersion"></span></footer>
+<footer class="footer-section">
+  <div class="footer-content section-px">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <div class="logo-mark">
+            <div class="logo-square logo-square-1"></div>
+            <div class="logo-square logo-square-2"></div>
+            <div class="logo-square logo-square-3"></div>
+          </div>
+          <span>Zen AtGen</span>
+        </div>
+        <p class="footer-tagline">An open-source tool for parsing ZKTeco attendance logs. Processed locally in your browser.</p>
+        <a href="download/index.html" class="button-primary" style="display: inline-flex; margin-top: var(--space-lg);">Download / use offline →</a>
+      </div>
 
-<script src="version.js"></script>
-<script src="script.js"></script>
+      <div class="footer-links">
+        <div class="footer-column">
+          <h4>Get Started</h4>
+          <a href="app/index.html">Open App</a>
+          <a href="download/index.html">Download / offline</a>
+          <a href="#workflow">How It Works</a>
+          <a href="#capabilities">Capabilities</a>
+        </div>
+        <div class="footer-column">
+          <h4>About</h4>
+          <a href="https://github.com/alvinlanyon-debug/ZKTeco-Offline-Attendance-Generator">View on GitHub</a>
+          <a href="https://github.com/alvinlanyon-debug/ZKTeco-Offline-Attendance-Generator/issues">Report an Issue</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>Made with care for attendance supervisors.</p>
+      <p class="footer-disclaimer"><strong>Not affiliated with or endorsed by Zen Browser or ZKTeco.</strong> Independent design analysis from Design Swatches.</p>
+    </div>
+  </div>
+
+  <!-- Decorative arc graphics (inspired by Zen footer) -->
+  <svg class="footer-decoration" viewBox="0 0 400 400" preserveAspectRatio="xMaxYMax meet">
+    <path d="M 400 400 Q 350 350, 300 350 Q 250 350, 200 400" stroke="var(--ink)" stroke-width="2" fill="none" opacity="0.15"/>
+    <path d="M 400 400 Q 330 330, 260 330 Q 190 330, 120 400" stroke="var(--ink)" stroke-width="2" fill="none" opacity="0.1"/>
+    <path d="M 400 400 Q 310 310, 220 310 Q 130 310, 40 400" stroke="var(--ink)" stroke-width="2" fill="none" opacity="0.05"/>
+  </svg>
+</footer>
 
 </body>
 </html>
