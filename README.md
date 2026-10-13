@@ -1,4 +1,4 @@
-![version](https://img.shields.io/badge/version-v2.1.2-blue)
+![version](https://img.shields.io/badge/version-v2.1.3-blue)
 
 Status: stable — GitHub Pages publishes the online product from `app/`. The local product is packaged under `docs/`. The folder `Toptech_Attendance_Analyzer_updated/` is archived under `archived/Toptech_Attendance_Analyzer_updated/`.
 
@@ -51,9 +51,9 @@ GitHub Pages publishes `app/index.html` as the site homepage at `https://alvinla
 
 This project uses [Semantic Versioning](https://semver.org/):
 
-- `MAJOR.MINOR.PATCH`, for example `2.1.2`.
+- `MAJOR.MINOR.PATCH`, for example `2.1.3`.
 - Increment `PATCH` for compatible fixes, `MINOR` for compatible features, and `MAJOR` for breaking changes.
-- Update `app/app/version.js` and `CHANGELOG.md` together, then run `scripts/package-offline.ps1`, create a matching Git tag such as `v2.1.2`, and publish a GitHub Release.
+- Update `app/app/version.js` and `CHANGELOG.md` together, then run `scripts/package-offline.ps1`, create a matching Git tag such as `v2.1.3`, and publish a GitHub Release.
 
 ## Deployment
 

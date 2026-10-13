@@ -533,63 +533,6 @@ code {
   .feature-tab { transition: none; }
 }
 
-/* ===== BENEFITS ===== */
-.benefits-section {
-  padding-top: var(--section-inset);
-  padding-bottom: var(--section-inset);
-}
-
-.benefits-intro {
-  max-width: 1040px;
-  margin: 0 auto var(--space-lg);
-}
-
-.benefits-intro .body-large {
-  max-width: 680px;
-  margin: 0;
-}
-
-.benefits-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-lg);
-  max-width: 1040px;
-  margin: 0 auto;
-}
-
-.benefit-card {
-  min-width: 0;
-  padding: var(--space-xl);
-  text-align: left;
-  background: var(--surface);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--rounded-md);
-}
-
-.benefit-number {
-  display: inline-block;
-  margin-bottom: var(--space-md);
-  color: var(--accent);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-}
-
-.benefit-card h3 {
-  margin: 0 0 var(--space-sm);
-  color: var(--ink);
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1.25;
-}
-
-.benefit-card p {
-  margin: 0;
-  color: var(--ink-secondary);
-  font-size: 15px;
-  line-height: 1.55;
-}
-
 .capability-tabs {
   display: flex;
   align-items: center;
@@ -705,9 +648,6 @@ code {
 
 /* Keep showcase controls usable on narrow screens. */
 @media (max-width: 640px) {
-  .benefits-intro { margin-bottom: var(--space-md); }
-  .benefits-grid { grid-template-columns: 1fr; gap: var(--space-md); }
-  .benefit-card { padding: var(--space-lg); }
   .capability-selected-description { min-height: 0; }
   .capability-tabs { max-width: 100%; justify-content: flex-start; }
   .capability-tab { padding: 12px 14px; }

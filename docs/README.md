@@ -1,6 +1,6 @@
 # Offline Distribution
 
-`offline/` contains a complete, shareable snapshot of the browser application at the current release version (2.1.2).
+`offline/` contains a complete, shareable snapshot of the browser application at the current release version (2.1.3).
 
 The local entry point is `docs/index.html`. It is generated from `app/app/` and works without connecting to the online marketing homepage. The `docs/offline/` folder is a portable copy of that same application.
 

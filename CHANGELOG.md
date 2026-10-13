@@ -4,6 +4,12 @@ All notable changes to this project are documented here.
 
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [2.1.3] - 2026-10-13
+
+### Removed
+
+- Removed the interim homepage benefits section and its navigation links.
+
 ## [2.1.2] - 2026-10-13
 
 ### Changed
