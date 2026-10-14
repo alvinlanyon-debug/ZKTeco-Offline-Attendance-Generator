@@ -912,3 +912,5 @@ td.warning {
   .badge { padding: 6px 9px; font-size: 11px; white-space: nowrap; }
   .button-primary, .button-secondary { padding: 10px 12px; font-size: 13px; }
 }
+.logo-component { display: inline-flex; align-items: center; vertical-align: middle; }
+.logo-svg { display: block; }

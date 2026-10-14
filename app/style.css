@@ -985,3 +985,5 @@ code {
     justify-content: center;
   }
 }
+.logo-component { display: inline-flex; align-items: center; vertical-align: middle; }
+.logo-svg { display: block; }
