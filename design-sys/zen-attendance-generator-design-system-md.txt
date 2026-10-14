@@ -491,3 +491,19 @@ The complete component spec lives in the `components:` token block above. Refere
 ## Attribution
 
 Independent design analysis from [Design Swatches](https://designmd.santiagoalonso.com) by [Santiago Alonso](https://santiagoalonso.com). Based on publicly observable interface patterns. Not affiliated with or endorsed by Zen Browser. Brand names and trademarks belong to their respective owners.
+
+logo:
+  file: "app/assets/features/Zen Atgen logo.svg"
+  variants:
+    - full: "Complete SVG with radial/purple gradients, pink rectangle, white stroke path"
+    - mark-only: "Logo square mark only (three nested squares for compact use)"
+  sizes:
+    - nav: 28px (desktop) / 24px (mobile, <640px)
+    - footer: 28px
+  colors: "Uses radial gradient (#F2F0E3 → #CBBBE9), pink (#EDBEF6) rectangle, white (#F2F0E3) stroke"
+  clear-space: "Maintain 8px minimum padding around the 28px mark; no bleed into text"
+  usage:
+    - "Always use the SVG file; never rebuild from CSS squares (old logo-square method deprecated)"
+    - "Nav and brand links: inline with text label 'Zen AtGen'"
+    - "Footer: paired with tagline"
+    - "Do not recolor or apply filters; the gradient and mix-blend are part of identity"
