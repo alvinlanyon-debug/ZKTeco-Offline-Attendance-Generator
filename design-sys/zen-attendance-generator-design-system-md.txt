@@ -507,3 +507,14 @@ logo:
     - "Nav and brand links: inline with text label 'Zen AtGen'"
     - "Footer: paired with tagline"
     - "Do not recolor or apply filters; the gradient and mix-blend are part of identity"
+
+## References
+- Lovable: https://lovable.dev/ (visual inspection blocked — 403/auth required; dashboard at https://lovable.dev/dashboard#new)
+- Live site: https://alvinlanyon-debug.github.io/ZKTeco-Offline-Attendance-Generator/
+
+logo-colors (derived from Zen Atgen logo.svg):
+  purple-radial: radial-gradient #F2F0E3 -> #CBBBE9
+  pink-rect: #EDBEF6
+  white-stroke: #F2F0E3 (opacity 0.35 linear overlay)
+
+glass-variant (lovable-inspired, exploratory): backdrop-filter blur(12px) + semi-transparent purple-tinted border + rounded-lg surfaces over gradient backgrounds.
